@@ -19,8 +19,16 @@
 		</p>
 		<p>Attitudes and Behaviour: When he does have a job, he shares a 2004 Ford F150 with his wife as his main form of
 			transportion. If his wife is using the truck he will usually take the city bus to get to work. Sergio does enjoy
-			working in restaurants but as he gets older he finds his diabetes affects him more and more often.</p>
-		<p>Frustrations and Needs:</p>
-		<p>Goals:</p>
+			working in restaurants but as he gets older he finds his diabetes affects him more and more often. He is worried
+			that, sooner rather than later, he will be forced into medical retirement, something he is not prepared for.
+		</p>
+		<p>Frustrations and Needs: As it is, his wife and him are not always able to pay rent on time and are sometimes
+			left without enough money to eat healthy which only compounds his medical condition. They have received financial
+			support from the state in the past but again they are usually not able to afford the more healthy options.
+		</p>
+		<p>Goals: Sergio needs to be able to find other sources of aid, whether financial or subsistence. If possible, he
+			would like to be able to quickly search for available options from his laptop before he leaves his apartment.
+			Since he shares a vehicle with his wife he would like to know exactly where he needs to go so he can complete
+			his tasks in a timely manner.</p>
 	</body>
 </html>
