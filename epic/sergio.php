@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8"/>
-		<title>Brianna Smith Persona</title>
+		<title>Sergio Garcia Persona</title>
 	<body>
 		<h1>Persona</h1>
 		<p>Name: Sergio Garcia</p>
