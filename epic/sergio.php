@@ -13,9 +13,14 @@
 			days when he can't walk due to the pain in his legs and he has to call in sick to work; which in turn, frequently
 			leaves him without gainful employment.
 		</p>
-		<p>Technology:</p>
-		<p>Attitudes and behaviour: </p>
-		<p>Frustrations and needs:</p>
+		<p>Technology: Since Sergio finds himself frequently unemployed, he does not have regular acces to his iPhone 5 but
+			he does own an Dell laptop; it's about five years old. Sergio a regular Facebook user but is usually confined
+			posting without adding any pictures since his iPhone is usually not in service.
+		</p>
+		<p>Attitudes and Behaviour: When he does have a job, he shares a 2004 Ford F150 with his wife as his main form of
+			transportion. If his wife is using the truck he will usually take the city bus to get to work. Sergio does enjoy
+			working in restaurants but as he gets older he finds his diabetes affects him more and more often.</p>
+		<p>Frustrations and Needs:</p>
 		<p>Goals:</p>
 	</body>
 </html>
