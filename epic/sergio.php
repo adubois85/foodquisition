@@ -29,6 +29,7 @@
 		<p>Goals: Sergio needs to be able to find other sources of aid, whether financial or subsistence. If possible, he
 			would like to be able to quickly search for available options from his laptop before he leaves his apartment.
 			Since he shares a vehicle with his wife he would like to know exactly where he needs to go so he can complete
-			his tasks in a timely manner.</p>
+			his tasks in a timely manner.
+		</p>
 	</body>
 </html>
