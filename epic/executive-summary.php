@@ -2,7 +2,6 @@
 <html>
 	<head>Executive Summary</head>
 		<body>
-			<p>Our vision is to create a website that the residents of Albuquerque can search and find</p>
-
+			<p>Our vision is to create a website that connects residents of Albuquerque to services, resources and assitance programs within our community. </p>
 	</body>
 </html>
