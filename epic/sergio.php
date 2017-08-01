@@ -11,7 +11,7 @@
 			specialist. Everyday he answers customer questions about thier medical bills. The questions are generally simple
 			but the answers are not always as simple. For instance, explaining why someone's insurance did not cover all the
 			costs for a specific blood test is not always easy. Many times people become irrate and it is up to Sergio to
-			calm them down.</p>
+			calm them down. He is very good at his job and usually enjoys his time at work.</p>
 		<p>Technology: Since Sergio finds himself frequently unemployed, he does not have regular acces to his iPhone 5 but
 			he does own an Dell laptop; it's about five years old. Sergio a regular Facebook user but is usually confined
 			posting without adding any pictures since his iPhone is usually not in service.
