@@ -5,6 +5,6 @@
 		<title>foodQuisition</title>
 	</head>
 	<body>
-		<p>Main Section just testing my deployment</p>
+		<p>Main Section</p>
 	</body>
 </html>
