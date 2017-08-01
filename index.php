@@ -2,7 +2,7 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
-		<title>¡Ayúdame! ABQ</title>
+		<title>Foodquisition</title>
 	</head>
 	<body>
 		<p>Main Section just testing my deployment</p>
