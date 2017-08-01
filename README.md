@@ -1,2 +1,2 @@
-# ayudame-abq
-A website to assist those looking for various social services in the Albuquerque area
+# foodquisition
+A website to quickly check the most recent health inspection report for a food service establishment in the Albuquerque area.
