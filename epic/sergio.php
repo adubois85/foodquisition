@@ -15,7 +15,7 @@
 		</p>
 		<p>Frustrations and Needs: Sergio remembers when he was a kid living in California that restaurants would post their inspection score on the windows of their store front. He has always liked that model and wishes there was an easy way for him to check the latest inspection results of the restaurants he eats at, especially the new ones.
 		</p>
-		<p>Goals: Sergio is looking to find a place where he cas easily search for health inspection results. His number one concern is ease of use. Most of the time he will be using his laptop but occasionally he will be searching with his iPhone.
+		<p>Goals: Sergio is looking to find a website where he cas easily search for health inspection results. His number one concern is ease of use. Most of the time he will be using his laptop but occasionally he will be searching with his iPhone. While on his phone he would like to find the information he needs and be off of he website as quickly as possible.
 		</p>
 	</body>
 </html>
