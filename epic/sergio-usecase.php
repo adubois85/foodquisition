@@ -10,7 +10,7 @@
 			After a long day of working at Blue Cross/Blue Shield, Sergio has just finished his first Bosque Brewing Scotia Scotch Ale and his stomach is starting to rumble. He is starting to think his plans for the evening and going out  to eat at a restaurant is first on his list. His phone starts to vibrate. It's Joe, one of his best friends. Joe suggests that they try out a place that they have both never been before.
 		</p>
 		<p>
-			After going back and forth with ideas they have decided on a place to go
+			After going back and forth with ideas they have decided on a place to go, Saigon. It is a very popular Vietnamese restaurant. The reviews on Yelp are very good and they are both looking forward to trying a new place. Joe will be at Sergio's apartment in 20 minutes. Before Joe gets there, Sergio would like to search for the latest helath inspection results so he can focus on the food and not worry about how clean or dirty or unsanitary the kitchen is. Sergio goes to foodquisition.com armed with the restaurant name.
 		</p>
 
 	</body>
