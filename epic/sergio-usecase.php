@@ -14,7 +14,7 @@
 		</p>
 		<h2>Interaction Flow</h2>
 		<ol>
-			<li> Sergiio enters the Url of foodQuisition.</li>
+			<li> Sergio enters the Url of foodQuisition.</li>
 			<li> Sergio is brought to the home screen search page with various search fields: genre, zip code, name.</li>
 			<li> Sergio enters restaurant name and presses enter.</li>
 			<li> The website runs the query on the database. </li>
