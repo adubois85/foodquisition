@@ -12,8 +12,8 @@
 		<h2>Interaction Flow</h2>
 		<ul>
 			<li> Brianna enters the Url of foodQuisition. </li>
-			<li> Brianna is brought to the home screen search page with search fields of food type or restaurant name.</li>
-			<li> Brianna enters restaurant name or address and presses enter.</li>
+			<li> Brianna is brought to the home screen search page with search fields of food type, restaurant name and zip code.</li>
+			<li> Brianna enters food type and presses enter.</li>
 			<li> The website will then query the database. </li>
 			<li> The database will then return information based on information Brianna entered.</li>
 			<li>The website will then display a card per matching database entry.</li>
