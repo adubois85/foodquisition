@@ -22,7 +22,6 @@
 			<li> The website will then display a web page a card matching the database entry.</li>
 			<li> Sergio will then be able to click on the card and it would expand giving more in detailed information.</li>
 		</ol>
-
 	</body>
 </html>
 
