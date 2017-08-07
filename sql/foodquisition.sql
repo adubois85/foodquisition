@@ -17,7 +17,11 @@ CREATE TABLE category(
 );
 
 CREATE TABLE violation(
-
+	violationId INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	violationCode VARCHAR(8) NOT NULL,
+	violationCodeDescription VARCHAR(256) NOT NULL,
+	UNIQUE (violationId),
+	PRIMARY KEY (violationCode)
 );
 
 CREATE TABLE restaurantviolation(
