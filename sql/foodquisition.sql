@@ -13,15 +13,20 @@ CREATE TABLE restaurant (
 );
 
 CREATE TABLE category(
-
+	categoryId INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	categoryName VARCHAR(32),
+	UNIQUE (categoryId),
+	PRIMARY KEY (categoryId)
 );
 
 CREATE TABLE violation(
-	violationId INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	violationCategoryId INT UNSIGNED NOT NULL,
 	violationCode VARCHAR(8) NOT NULL,
 	violationCodeDescription VARCHAR(256) NOT NULL,
+	violationId INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	UNIQUE (violationId),
-	PRIMARY KEY (violationCode)
+	FOREIGN KEY (violationCategoryId) REFERENCES category(categoryId),
+	PRIMARY KEY (violationId)
 );
 
 CREATE TABLE restaurantviolation(
