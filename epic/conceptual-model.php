@@ -29,6 +29,7 @@
 			<li>restaurantViolationViolationId(foreignKey)</li>
 			<li>restaurantViolationMemo</li>
 			<li>restaurantViolationResult</li>
+			<li>restaurantViolationDate</li>
 		</ul>
 	</body>
 </html>
