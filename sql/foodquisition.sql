@@ -30,5 +30,14 @@ CREATE TABLE violation(
 );
 
 CREATE TABLE restaurantviolation(
-
+	restaurantViolationDate DATE NOT NULL,
+	restaurantViolationId INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	restaurantViolationMemo VARCHAR(256),
+	restaurantViolationRestaurantId INT UNSIGNED NOT NULL,
+	restaurantViolationResults VARCHAR(32) NOT NULL,
+	restaurantViolationViolationId INT UNSIGNED NOT NULL,
+	UNIQUE (restaurantViolationId),
+	FOREIGN KEY (restaurantViolationRestaurantId) REFERENCES restaurant(restaurantId),
+	FOREIGN KEY (restaurantViolationViolationId) REFERENCES violation(violationId),
+	PRIMARY KEY (restaurantViolationId)
 );
