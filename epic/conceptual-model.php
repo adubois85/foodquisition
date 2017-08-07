@@ -25,8 +25,8 @@
 		<h3>RestaurantViolation</h3>
 		<ul>
 			<li>restaurantViolationId(primaryKey)</li>
-			<li>restaurantViolationRestaurantId</li>
-			<li>restaurantViolationViolationId</li>
+			<li>restaurantViolationRestaurantId(foreignKey)</li>
+			<li>restaurantViolationViolationId(foreignKey)</li>
 			<li>restaurantViolationMemo</li>
 			<li>restaurantViolationResult</li>
 		</ul>
