@@ -1,5 +1,9 @@
 CREATE TABLE restaurant (
-	restaurantAddress VARCHAR(128) NOT NULL,
+	restaurantAddress1 VARCHAR(128) NOT NULL,
+	restaurantAddress2 VARCHAR(128),
+	restaurantCity VARCHAR(64) NOT NULL,
+	restaurantZip VARCHAR(10) NOT NULL,
+	restaurantState CHAR (2) NOT NULL,
 	restaurantFacilityKey CHAR(7) NOT NULL,
 	restaurantGoogleId VARCHAR(128),
 	restaurantId INT UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -8,7 +12,6 @@ CREATE TABLE restaurant (
 	restaurantType VARCHAR(64),
 	UNIQUE (restaurantFacilityKey),
 	UNIQUE (restaurantGoogleId),
-	UNIQUE (restaurantId),
 	PRIMARY KEY (restaurantId)
 );
 
