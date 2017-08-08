@@ -1,3 +1,3 @@
 <?php
-namespace Edu\CNM\Foodquisition
+namespace Edu\CNM\Foodquisition;
 
