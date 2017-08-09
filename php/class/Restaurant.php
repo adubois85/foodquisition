@@ -71,7 +71,7 @@ class Restaurant implements \JsonSerializable {
 
 	/**
 	 * The designation of the type of business (e.g. mobile food unit, school, etc.) given to this facility by the city of Albquerque.
-	 *	Cannot be NULL
+	 *   Cannot be NULL
 	 * @var string $restaurantType
 	 */
 	private $restaurantType;
@@ -99,4 +99,8 @@ class Restaurant implements \JsonSerializable {
 	 * @param string $restaurantZip 5-digit (or 5 + 4-digit) ZIP code for this facility
 	 * @throws [TODO: Alex - enumerate the types of exceptions this can throw]
 	 */
-}	public function __construct (?int $newRestaurantId, string $newRestaurantAddress1, ?string $newRestaurantAddress2, )
+	public function __construct(?int $newRestaurantId, string $newRestaurantAddress1, ?string $newRestaurantAddress2, string $newRestaurantCity, string $newRestaurantFacilityKey, ?string $newRestaurantsGoogleId, string $newRestaurantName, ?string $newRestaurantPhoneNumber, string $newRestaurantState, string $newRestaurantType, string $newRestaurantZip) {
+
+	}
+
+}
