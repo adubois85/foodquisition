@@ -297,10 +297,35 @@ class Violation implements \JsonSerializable {
 				$violation = new Violation($row["profileId"], $row["profileCategoryId"], $row["profileCode"], $row["profileCodeDescription"]);
 				$violation[$violation->key()] = $violation;
 				$violation->next();
-			} catch(\Exception $exception){
-			// if the row could not be converted, rethrow it}
-		}
+			} catch(\Exception $exception) {
+				// if the row could not be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
+		}
+		return($violations);
+	}
+	/**
+	 * gets the Violation by code
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $violationCode violation code to search for
+	 * @return \SplFixedArray SplFixedArray of Violations found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getViolationByViolationCode(\PDO $pdo, string $violationCode) : \SplFixedArray {
+		// sanitize the description before searching
+		$violationCode = trim($violationCode);
+		$violationCode = filter_var($violationCode, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($violationCode) === true) {
+			throw(new \PDOException("violation code is invalid"));
+		}
+		// escape any mySQL wild cards
+		$violationCode = str_replace("_", "\\_", str_replace("%", "\\%", $violationCode));
+
+		// create query template
+		$query = "SELECT violationId"
+	}
 	}
 
 
