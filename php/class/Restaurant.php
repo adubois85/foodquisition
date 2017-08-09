@@ -101,6 +101,106 @@ class Restaurant implements \JsonSerializable {
 	 */
 	public function __construct(?int $newRestaurantId, string $newRestaurantAddress1, ?string $newRestaurantAddress2, string $newRestaurantCity, string $newRestaurantFacilityKey, ?string $newRestaurantsGoogleId, string $newRestaurantName, ?string $newRestaurantPhoneNumber, string $newRestaurantState, string $newRestaurantType, string $newRestaurantZip) {
 
+		// TODO: Alex - add exception checking to this function
+
+		/**
+		 * Accessor method for restaurantId
+		 *
+		 * @return int | null value of restaurantId
+		 */
+		public function getRestaurantId() : int {
+			return($this->restuaruantId);
+		}
+
+		/**
+		 * Accessor method for restaurantAddress1
+		 *
+		 * @return string value of restaurantAddress1
+		 */
+		public function getRestaurantAddress1() : string {
+			return($this->restaurantAddress1);
+		}
+
+		/**
+		 * Accessor method for restaurantAddress2
+		 *
+		 * @return string value of restaurantAddress2
+		 */
+		public function getRestaurantAddress2() : string {
+			return($this->restaurantAddress2);
+		}
+
+		/**
+		 * Accessor method for restaurantCity
+		 *
+		 * @return string value of restaurantCity
+		 */
+		public function getRestaurantCity() : string {
+			return($this->restaurantCity);
+		}
+
+		/**
+		 * Accessor method for restaurantFacilityKey
+		 *
+		 * @return string value of restaurantFacilityKey
+		 */
+		public function getRestaurantFacilityKey() : string {
+			return($this->restaurantFacilityKey);
+		}
+
+		/**
+		 * Accessor method for restaurantGoogleId
+		 *
+		 * @return string value of restaurantGoogleId
+		 */
+		public function getRestaurantGoogleId() : string {
+			return($this->restaurantGoogleId);
+		}
+
+		/**
+		 * Accessor method for restaurantName
+		 *
+		 * @return string value of restaurantName
+		 */
+		public function getRestaurantName() : string {
+			return($this->restaurantName);
+		}
+
+		/**
+		 * Accessor method for restaurantPhoneNumber
+		 *
+		 * @return string value of restaurantPhoneNumber
+		 */
+		public function getRestaurantPhoneNumber() : string {
+			return($this->restaurantPhoneNumber);
+		}
+
+		/**
+		 * Accessor method for restaurantState
+		 *
+		 * @return string value of restaurantState
+		 */
+		public function getRestaurantState() : string {
+			return($this->restaurantState);
+		}
+
+		/**
+		 * Accessor method for restaurantType
+		 *
+		 * @return string value of restaurantType
+		 */
+		public function getRestaurantType() : string {
+			return($this->restaurantType);
+		}
+
+		/**
+		 * Accessor method for restaurantZip
+		 *
+		 * @return string value of restaurantZip
+		 */
+		public function getRestaurantZip() : string {
+			return($this->restaurantZip);
+		}
 	}
 
 }
