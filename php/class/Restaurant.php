@@ -135,11 +135,11 @@ class Restaurant implements \JsonSerializable {
 	 * Mutator method for restaurantId
 	 *
 	 * @param int | null $newRestaurantId new value of restaurantId
-	 * @returnƒ null if $newRestaurantId is already null
+	 * @return void if $newRestaurantId is already null
 	 * @throws \TypeError if $newRestaurantId is not an integer
 	 * @thorws \RangeException if $newRestaurantId is not a positive number
 	 */
-	public function setRestaurantId (?int $newRestaurantId) : string {
+	public function setRestaurantId (?int $newRestaurantId) : void {
 		// the primary key must be null when we initially try to add it to the database or
 		// we'll encounter an infinite loop.  If it is null already, we return it
 		if ($newRestaurantId === null) {
