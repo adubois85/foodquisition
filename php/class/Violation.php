@@ -187,6 +187,7 @@ class Violation implements \JsonSerializable {
 		// update the null violationId with what mySQL just gave us
 		$this->violationId = intval($pdo->lastInsertId());
 	}
+
 	/**
 	 * deletes this Violation from mySQL
 	 *
@@ -195,8 +196,95 @@ class Violation implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 *
 	 **/
+	public function delete(\PDO $pdo): void {
+		//enforce the violationId is not null
+		if($this->violationId === null) {
+			throw(new \PDOException("unable to delete a violation that does not exist"));
+		}
+		// create query template
+		$query = "DELETE FROM violation WHERE violationId = :violationId";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holder in the template
+		$parameters = ["violationId" => $this->violationId];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * updates this Violation in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo): void {
+// enforce the violationId is not null
+		if($this->violationId === null) {
+			throw(new \PDOException("unable to update violation that does not exist"));
+		}
+		// create query template
+		$query = "UPDATE violation SET violationCategoryId = :violationCategoryId, violationCode = :violationCode, violationCodeDescription = :violationCodeDescription";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variable to the place holders in the template
+		$parameters = ["violationCategoryId" => $this->violationCategoryId, "violationCode" => $this->violationCode, "violationCodeDescription" => $this->violationCodeDescription];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * gets the Violation by violationId
+	 *
+	 * @param \PDO $pdo connection object
+	 * @param int $violationId violation id to search for
+	 * @return Violation|null Violation found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 *
+	 **/
+	public static function getViolationByViolationId(\PDO $pdo, int $violationId): ?Violation {
+		// sanitize the violationId before searching
+		if(violationId <= 0) {
+			throw(new \PDOException("violation id is not positive"));
+		}
+		//create query template
+		$query = "SELECT violationId, violationCategoryId, violationCode, violationCodeDescription FROM violation WHERE violationId = :violationId";
+		$statement = $pdo->prepare($query);
+
+		//bind the violation id to the place holder in the template
+		$parameters = ["violationId" => $violationId];
+		$statement->execute($parameters);
+
+		//grab the tweet from mySQL
+		try {
+			$tweet = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$violation = new Violation($row["violationId"], $row["violationCategoryId"], $row["violationCode"], $row[violationCodeDescription]);
+			}
+		} catch(\Exception $exception) {
+			//if the row couldn't be converted, rethrow it
+			throw(new\PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($violation);
+		}
+	/**
+	 * gets the violation by category id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $violationCategoryId violation id to search by
+	 * @return \SplFixedArray SplFixedArray of violations found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getViolationByViolationCategoryId(\PDO $pdo, int $violationCategoryId) : \SplFixedArray {
+		// sanitize the violation id before searching
+		if($violationCategoryId <= 0) {
+			throw(new \RangeException("violation category id must be positive"));
+		}
+
+	}
+	}
 
 
-
-}
 
