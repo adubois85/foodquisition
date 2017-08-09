@@ -132,4 +132,16 @@ class Category implements \JsonSerializable {
 		//update the null category id with what mySQL just gave us
 		$this->categoryId = intval($pdo->lastInsertId());
 	}
+
+	/**
+	 * deletes this category from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws |\TypeError if $pdo is not a PDO connection object
+	 **/
+	public function delete(\PDO $pdo): void {
+		//enforce the categoryId is not null (i.e., don't delete a category that does not exist)
+		if($this->categoryId === null)
+	}
 }
