@@ -483,4 +483,14 @@ class Restaurant implements \JsonSerializable {
 		}
 		$this->restaurantZip = $newRestaurantZip;
 	}
+
+	/**
+	 * Formats the state variables for JSON serialization
+	 *
+	 * @return array containing state variables to serialize
+	 */
+	public function jsonSerialize() {
+		$jsonObject = get_object_vars($this);
+		return($jsonObject);
+	}
 }
