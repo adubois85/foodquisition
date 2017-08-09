@@ -47,5 +47,64 @@ class Category implements \JsonSerializable {
 	 *
 	 * @return int|null value fo category id
 	 **/
-	
+
+	public function getCategoryId(): int {
+		return ($this->categoryId);
+	}
+
+	/**
+	 * mutator method for category id
+	 *
+	 * @param int|null $newCategoryId value of new category id
+	 * @throws \RangeException is $newCategoryId is not positive
+	 * @throws |\TypeError is $newCategoryId is not an integer
+	 **/
+
+	public function setCategoryId(?int $newCategoryId): void {
+		if($newCategoryId === null){
+			$this->categoryId = null;
+			return;
+		}
+		// verify the category id is positive
+		if($newCategoryId <= 0) {
+			throw(new \RangeException("category id is not positive"));
+		}
+		//convert and store the category id
+		$this->categoryId = $newCategoryId;
+	}
+
+	/**
+	 * accessor method for category name
+	 *
+	 * @return string value of category name
+	 **/
+
+	public function getCategoryName(): string {
+		return ($this->categoryName);
+	}
+
+	/**
+	 * mutator method for category name
+	 *
+	 * @param string $newCategoryName new value of category name
+	 * @throws \InvalidArgumentException if $newCategoryName is not a string or insecure
+	 * @throws \RangeException is $newCategoryName is > 32 characters
+	 * @throws \TypeError if $newCategoryName is not a string
+	 **/
+	public function setCategoryName(string $newCategoryName) : void {
+		// verify that the category name is secure
+		$newCategoryName = trim($newCategoryName);
+		$newCategoryName = filter_var($newCategoryName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newCategoryName) === true) {
+			throw(new \InvalidArgumentException("category name is empty or insecure"));
+		}
+
+		//verify the category name will fit in the database
+		if(strlen($newCategoryName) > 32) {
+			throw(new \RangeException("category name is too large"));
+		}
+
+		// store the category name
+		$this->categoryName = $newCategoryName;
+	}
 }
