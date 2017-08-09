@@ -412,6 +412,28 @@ class Restaurant implements \JsonSerializable {
 		public function getRestaurantType() : string {
 			return($this->restaurantType);
 		}
+		/**
+		 * Mutator method for restaurantType
+		 *
+		 * @param string $newRestaurantType new value of restaurantType
+		 * @throws \TypeError if the entered value isn't a string
+		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+		 * @throws \RangeException if the entered value is longer than 64 characters
+		 */
+		public function setRestaurantType(string $newRestaurantType) {
+			// prep the variable for sanitization, then sanitize it
+			$newRestaurantType = trim($newRestaurantType);
+			$newRestaurantType = filter_var($newRestaurantType, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+			// check if the resultant variable is still valid, then set
+			if(empty($newRestaurantType) === true) {
+				throw(new \InvalidArgumentException("There are no valid characters in the entered restaurant type."));
+			}
+			if(strlen($newRestaurantType) > 64) {
+				throw(new \RangeException("The entered restaurant type is too long."));
+			}
+			$this->restaurantType = $newRestaurantType;
+		}
 
 		/**
 		 * Accessor method for restaurantZip
@@ -422,5 +444,4 @@ class Restaurant implements \JsonSerializable {
 			return($this->restaurantZip);
 		}
 	}
-
 }
