@@ -154,7 +154,7 @@ class Restaurant implements \JsonSerializable {
 		public function setRestaurantAddress1(string $newRestaurantAddress1) {
 			// prep the variable for sanitization, then sanitize it
 			$newRestaurantAddress1 = trim($newRestaurantAddress1);
-			$newRestaurantAddress1 = filter_var($newRestaurantAddress1, FILTER_SANITIZE_STRING);
+			$newRestaurantAddress1 = filter_var($newRestaurantAddress1, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 			// check if the resultant variable is still valid, then set
 			if(empty($newRestaurantAddress1) === true) {
@@ -191,7 +191,7 @@ class Restaurant implements \JsonSerializable {
 			}
 			// prep the variable for sanitization, then sanitize it
 			$newRestaurantAddress2 = trim($newRestaurantAddress2);
-			$newRestaurantAddress2 = filter_var($newRestaurantAddress2, FILTER_SANITIZE_STRING);
+			$newRestaurantAddress2 = filter_var($newRestaurantAddress2, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 			// check if the resultant variable is still valid, then set
 			if(empty($newRestaurantAddress2) === true) {
