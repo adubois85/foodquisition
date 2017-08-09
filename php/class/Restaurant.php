@@ -97,7 +97,7 @@ class Restaurant implements \JsonSerializable {
 	 * @param string $restaurantState 2-digit abbreviation of state where this facility is located
 	 * @param string $restaurantType designation given to this facility by the city regarding kind of business (e.g. school)
 	 * @param string $restaurantZip 5-digit (or 5 + 4-digit) ZIP code for this facility
-	 * @throws [TODO: Alex - enumerate the types of exceptions this can throw]
+	 * @throws [TODO: Alex - enumerate the types of exceptions the constructor can throw]
 	 */
 	public function __construct(?int $newRestaurantId, string $newRestaurantAddress1, ?string $newRestaurantAddress2, string $newRestaurantCity, string $newRestaurantFacilityKey, ?string $newRestaurantsGoogleId, string $newRestaurantName, ?string $newRestaurantPhoneNumber, string $newRestaurantState, string $newRestaurantType, string $newRestaurantZip) {
 
@@ -110,6 +110,28 @@ class Restaurant implements \JsonSerializable {
 		 */
 		public function getRestaurantId() : int {
 			return($this->restuaruantId);
+		}
+
+		/**
+		 * Mutator method for restaurantId
+		 *
+		 * @param int | null #newRestaurantId new value of restaurantId
+		 * @throws \TypeError if $newRestaurantId is not an integer
+		 * @thorws \RangeException if $newRestaurantId is not a positive number
+		 */
+		public function getRestaurantId (?int $newRestaurantId) : string {
+			// the primary key must be null when we initially try to add it to the database or
+			// we'll encounter an infinite loop.  If it is null already, we return it
+			if ($newRestaurantId === null) {
+				$this->restuaruantId = null;
+				return;
+			}
+			// the restaurantId must be a positive number; check that here
+			if ($newRestaurantId < 1) {
+				throw(new \RangeException("The entered restaurant ID is not a positive number."));
+			}
+			// now we can set the corresponding state variable to the entered value
+			$this->restuaruantId = $newRestaurantId;
 		}
 
 		/**
