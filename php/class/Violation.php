@@ -254,7 +254,7 @@ class Violation implements \JsonSerializable {
 		$parameters = ["violationId" => $violationId];
 		$statement->execute($parameters);
 
-		//grab the tweet from mySQL
+		//grab the violation from mySQL
 		try {
 			$tweet = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -266,8 +266,9 @@ class Violation implements \JsonSerializable {
 			//if the row couldn't be converted, rethrow it
 			throw(new\PDOException($exception->getMessage(), 0, $exception));
 		}
-		return($violation);
-		}
+		return ($violation);
+	}
+
 	/**
 	 * gets the violation by category id
 	 *
@@ -277,13 +278,29 @@ class Violation implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getViolationByViolationCategoryId(\PDO $pdo, int $violationCategoryId) : \SplFixedArray {
+	public static function getViolationByViolationCategoryId(\PDO $pdo, int $violationCategoryId): \SplFixedArray {
 		// sanitize the violation id before searching
 		if($violationCategoryId <= 0) {
 			throw(new \RangeException("violation category id must be positive"));
 		}
-
-	}
+// create query template
+		$query = "SELECT violationId, violationCategoryId, violationCode, violationCodeDescription FROM violation WHERE violationCategoryId = :violationCategoryId";
+		$statement = $pdo->prepare($query);
+		// bind the violation category id to the place holder in the template
+		$parameters = ["violationCategoryId" => $violationCategoryId];
+		$statement->execute($parameters);
+		// build an array of violations
+		$violations = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$violation = new Violation($row["profileId"], $row["profileCategoryId"], $row["profileCode"], $row["profileCodeDescription"]);
+				$violation[$violation->key()] = $violation;
+				$violation->next();
+			} catch(\Exception $exception){
+			// if the row could not be converted, rethrow it}
+		}
+			}
 	}
 
 
