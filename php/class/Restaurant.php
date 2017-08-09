@@ -333,6 +333,7 @@ class Restaurant implements \JsonSerializable {
 			}
 			$this->restaurantName = $newRestaurantName;
 		}
+
 		/**
 		 * Accessor method for restaurantPhoneNumber
 		 *
@@ -340,6 +341,33 @@ class Restaurant implements \JsonSerializable {
 		 */
 		public function getRestaurantPhoneNumber() : string {
 			return($this->restaurantPhoneNumber);
+		}
+		/**
+		 * Mutator method for restaurantPhoneNumber
+		 *
+		 * @param string | null $newRestaurantPhoneNumber new value of restaurantPhoneNumber
+		 * @throws \TypeError if the entered value isn't a string
+		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+		 * @throws \RangeException if the entered value is longer than 32 characters
+		 */
+		public function setRestaurantPhoneNumber(string $newRestaurantPhoneNumber) {
+			// since this is optional, check if anything was entered, return if null
+			if ($newRestaurantPhoneNumber === null) {
+				$this->restaurantPhoneNumber = null;
+				return;
+
+			// prep the variable for sanitization, then sanitize it
+			$newRestaurantPhoneNumber = trim($newRestaurantPhoneNumber);
+			$newRestaurantPhoneNumber = filter_var($newRestaurantPhoneNumber, FILTER_SANITIZE_NUMBER_INT);
+
+			// check if the resultant variable is still valid, then set
+			if(empty($newRestaurantPhoneNumber) === true) {
+				throw(new \InvalidArgumentException("There are no valid characters in the entered phone number."));
+			}
+			if(strlen($newRestaurantPhoneNumber) > 32) {
+				throw(new \RangeException("The entered phone number is too long."));
+			}
+			$this->restaurantPhoneNumber = $newRestaurantPhoneNumber;
 		}
 
 		/**
