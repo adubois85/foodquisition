@@ -242,6 +242,29 @@ class Restaurant implements \JsonSerializable {
 		public function getRestaurantFacilityKey() : string {
 			return($this->restaurantFacilityKey);
 		}
+		/**
+		 * Mutator method for restaurantFacilityKey
+		 *
+		 * @param string $newRestaurantFacilityKey new value of restaurantFacilityKey
+		 * @throws \TypeError if the entered value isn't a string
+		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+		 * @throws \RangeException if the entered value is not exactly 7 characters long
+		 */
+		public function setRestaurantFacilityKey(string $newRestaurantFacilityKey) {
+			// prep the variable for sanitization, then sanitize it
+			$newRestaurantFacilityKey = trim($newRestaurantFacilityKey);
+			$newRestaurantFacilityKey = filter_var($newRestaurantFacilityKey, FILTER_SANITIZE_NUMBER_INT,);
+
+			// check if the resultant variable is still valid, then set
+			if(empty($newRestaurantFacilityKey) === true) {
+				throw(new \InvalidArgumentException("There are no valid characters in the entered Facility key."));
+			}
+			if(strlen($newRestaurantCity) !== 7) {
+				throw(new \RangeException("The entered Facility key is not the right length."));
+			}
+			$this->restaurantFacilityKey = $newRestaurantFacilityKey;
+		}
+
 
 		/**
 		 * Accessor method for restaurantGoogleId
