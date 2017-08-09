@@ -211,6 +211,28 @@ class Restaurant implements \JsonSerializable {
 		public function getRestaurantCity() : string {
 			return($this->restaurantCity);
 		}
+		/**
+		 * Mutator method for restaurantCity
+		 *
+		 * @param string $newRestaurantCity new value of restaurantCity
+		 * @throws \TypeError if the entered value isn't a string
+		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+		 * @throws \RangeException if the entered value is longer than 64 characters
+		 */
+		public function setRestaurantCity(string $newRestaurantCity) {
+			// prep the variable for sanitization, then sanitize it
+			$newRestaurantCity = trim($newRestaurantCity);
+			$newRestaurantCity = filter_var($newRestaurantCity, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+			// check if the resultant variable is still valid, then set
+			if(empty($newRestaurantCity) === true) {
+				throw(new \InvalidArgumentException("There are no valid characters in the entered City name."));
+			}
+			if(strlen($newRestaurantCity) > 64) {
+				throw(new \RangeException("The entered City name is too long."));
+			}
+			$this->restaurantCity = $newRestaurantCity;
+		}
 
 		/**
 		 * Accessor method for restaurantFacilityKey
