@@ -67,14 +67,14 @@ class Restaurant implements \JsonSerializable {
 	 * Cannot be NULL
 	 * @var string $restaurantState
 	 */
-	private	$restaurantState
+	private $restaurantState;
 
 	/**
 	 * The designation of the type of business (e.g. mobile food unit, school, etc.) given to this facility by the city of Albquerque.
 	 *	Cannot be NULL
 	 * @var string $restaurantType
 	 */
-	private restaurantType;
+	private $restaurantType;
 
 	/**
 	 * the 5-digit (or 5 + 4-digit) ZIP code for this facility.
