@@ -12,7 +12,7 @@ require_once("autoloader.php");
  * @author Dannielle Bojorquz <dbojorquez@cnm.edu>
  * @version 1.0.0
  **/
-class RestaurantViolation implements \JsonSerializable {
+class RestaurantViolation implements \JsonSerializable{
 	/**
 	 * id for this RestaurantViolation;this is the primary key
 	 * @var int $restaurantViolation
