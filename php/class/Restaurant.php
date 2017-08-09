@@ -86,7 +86,7 @@ class Restaurant implements \JsonSerializable {
 	private $restaurantZip;
 
 	/**
-	 * Constructro function fro this facility
+	 * Constructor function for this facility
 	 *
 	 * @param int | null restaurantId ID number for this facility, NULL if new
 	 * @param string $restaurantAddress1 primary address line for this facility
@@ -99,12 +99,30 @@ class Restaurant implements \JsonSerializable {
 	 * @param string $restaurantState 2-digit abbreviation of state where this facility is located
 	 * @param string $restaurantType designation given to this facility by the city regarding kind of business (e.g. school)
 	 * @param string $restaurantZip 5-digit (or 5 + 4-digit) ZIP code for this facility
-	 * @throws [TODO: Alex - enumerate the types of exceptions the constructor can throw]
+	 * @throws \TypeError if the entered data types are not of the correct type per type hints
+	 * @throws \InvalidArgumentException if the entered the data types are not valid after sanitization
+	 * @throws \RangeException if the entered data types are out of bounds for each function (e.g. not a positive integer, string too long, etc.)
+	 * @throws \Exception for any other type of error not otherwise caught
 	 */
 	public function __construct(?int $newRestaurantId, string $newRestaurantAddress1, ?string $newRestaurantAddress2, string $newRestaurantCity, string $newRestaurantFacilityKey, ?string $newRestaurantsGoogleId, string $newRestaurantName, ?string $newRestaurantPhoneNumber, string $newRestaurantState, string $newRestaurantType, string $newRestaurantZip) {
 
-		// TODO: Alex - add exception checking to this function
-
+		try {
+			$this->setRestaurantId($newRestaurantId);
+			$this->setRestaurantAddress1($newRestaurantAddress1);
+			$this->setRestaurantAddress2($newRestaurantAddress2);
+			$this->setRestaurantCity($newRestaurantCity);
+			$this->setRestaurantFacilityKey($newRestaurantFacilityKey);
+			$this->setRestaurantGoogleId($newRestaurantsGoogleId);
+			$this->setRestaurantName($newRestaurantName);
+			$this->setRestaurantPhoneNumber($newRestaurantPhoneNumber);
+			$this->setRestaurantState($newRestaurantState);
+			$this->setRestaurantType($newRestaurantType);
+			$this->setRestaurantZip($newRestaurantZip);
+		}
+		catch(\RangeException | \InvalidArgumentException | \TypeError | \Exception $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
 		/**
 		 * Accessor method for restaurantId
 		 *
@@ -121,7 +139,7 @@ class Restaurant implements \JsonSerializable {
 		 * @throws \TypeError if $newRestaurantId is not an integer
 		 * @thorws \RangeException if $newRestaurantId is not a positive number
 		 */
-		public function getRestaurantId (?int $newRestaurantId) : string {
+		public function setRestaurantId (?int $newRestaurantId) : string {
 			// the primary key must be null when we initially try to add it to the database or
 			// we'll encounter an infinite loop.  If it is null already, we return it
 			if ($newRestaurantId === null) {
