@@ -255,6 +255,8 @@ class Restaurant implements \JsonSerializable {
 			$newRestaurantFacilityKey = trim($newRestaurantFacilityKey);
 			$newRestaurantFacilityKey = filter_var($newRestaurantFacilityKey, FILTER_SANITIZE_NUMBER_INT,);
 
+			// TODO: Alex - ask about standardizing string length
+
 			// check if the resultant variable is still valid, then set
 			if(empty($newRestaurantFacilityKey) === true) {
 				throw(new \InvalidArgumentException("There are no valid characters in the entered facility key."));
@@ -265,7 +267,6 @@ class Restaurant implements \JsonSerializable {
 			$this->restaurantFacilityKey = $newRestaurantFacilityKey;
 		}
 
-
 		/**
 		 * Accessor method for restaurantGoogleId
 		 *
@@ -273,6 +274,33 @@ class Restaurant implements \JsonSerializable {
 		 */
 		public function getRestaurantGoogleId() : string {
 			return($this->restaurantGoogleId);
+		}
+		/**
+		 * Mutator method for restaurantGoogleId
+		 *
+		 * @param string | null $newRestaurantGoogleId new value of restaurantGoogleId
+		 * @throws \TypeError if the entered value isn't a string
+		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+		 * @throws \RangeException if the entered value is longer than 128 characters
+		 */
+		public function setRestaurantGoogleId(?string $newRestaurantGoogleId) {
+			// since this is optional, check if anything was entered, return if null
+			if ($newRestaurantGoogleId === null) {
+				$this->restaurantGoogleId = null;
+				return;
+			}
+			// prep the variable for sanitization, then sanitize it
+			$newRestaurantGoogleId = trim($newRestaurantGoogleId);
+			$newRestaurantGoogleId = filter_var($newRestaurantGoogleId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+			// check if the resultant variable is still valid, then set
+			if(empty($newRestaurantGoogleId) === true) {
+				throw(new \InvalidArgumentException("There are no valid characters in the entered Google ID."));
+			}
+			if(strlen($newRestaurantGoogleId) > 128) {
+				throw(new \RangeException("The entered Google ID is too long."));
+			}
+			$this->restaurantGoogleId = $newRestaurantGoogleId;
 		}
 
 		/**
