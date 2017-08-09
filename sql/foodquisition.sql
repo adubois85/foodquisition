@@ -8,7 +8,7 @@ CREATE TABLE restaurant (
 	restaurantName VARCHAR(64) NOT NULL,
 	restaurantPhoneNumber VARCHAR(32),
 	restaurantState CHAR (2) NOT NULL,
-	restaurantType VARCHAR(64),
+	restaurantType VARCHAR(64) NOT NULL,
 	restaurantZip VARCHAR(10) NOT NULL,
 	UNIQUE (restaurantFacilityKey),
 	INDEX (restaurantGoogleId),
