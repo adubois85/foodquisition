@@ -352,7 +352,7 @@ class Restaurant implements \JsonSerializable {
 		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
 		 * @throws \RangeException if the entered value is longer than 32 characters
 		 */
-		public function setRestaurantPhoneNumber(string $newRestaurantPhoneNumber) {
+		public function setRestaurantPhoneNumber(?string $newRestaurantPhoneNumber) {
 			// since this is optional, check if anything was entered, return if null
 			if ($newRestaurantPhoneNumber === null) {
 				$this->restaurantPhoneNumber = null;
