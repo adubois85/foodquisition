@@ -381,6 +381,28 @@ class Restaurant implements \JsonSerializable {
 		public function getRestaurantState() : string {
 			return($this->restaurantState);
 		}
+		/**
+		 * Mutator method for restaurantState
+		 *
+		 * @param string $newRestaurantState new value of restaurantState
+		 * @throws \TypeError if the entered value isn't a string
+		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+		 * @throws \RangeException if the entered value is not exactly 2 characters long
+		 */
+		public function setRestaurantState(string $newRestaurantState) {
+			// prep the variable for sanitization, then sanitize it
+			$newRestaurantState = trim($newRestaurantState);
+			$newRestaurantState = filter_var($newRestaurantState, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES | FILTER_FLAG_STRIP_BACKTICK);
+
+			// check if the resultant variable is still valid, then set
+			if(empty($newRestaurantState) === true) {
+				throw(new \InvalidArgumentException("There are no valid characters in the entered state abbreviation."));
+			}
+			if(strlen($newRestaurantState) !== 2) {
+				throw(new \RangeException("The entered state abbreviation is not the correct length."));
+			}
+			$this->restaurantState = $newRestaurantState;
+		}
 
 		/**
 		 * Accessor method for restaurantType
