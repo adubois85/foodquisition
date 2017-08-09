@@ -253,7 +253,7 @@ class Restaurant implements \JsonSerializable {
 		public function setRestaurantFacilityKey(string $newRestaurantFacilityKey) {
 			// prep the variable for sanitization, then sanitize it
 			$newRestaurantFacilityKey = trim($newRestaurantFacilityKey);
-			$newRestaurantFacilityKey = filter_var($newRestaurantFacilityKey, FILTER_SANITIZE_NUMBER_INT,);
+			$newRestaurantFacilityKey = filter_var($newRestaurantFacilityKey, FILTER_SANITIZE_NUMBER_INT);
 
 			// TODO: Alex - ask about standardizing string length
 
@@ -311,7 +311,28 @@ class Restaurant implements \JsonSerializable {
 		public function getRestaurantName() : string {
 			return($this->restaurantName);
 		}
+		/**
+		 * Mutator method for restaurantName
+		 *
+		 * @param string $newRestaurantName new value of restaurantName
+		 * @throws \TypeError if the entered value isn't a string
+		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+		 * @throws \RangeException if the entered value is longer than 64 characters
+		 */
+		public function setRestaurantName(string $newRestaurantName) {
+			// prep the variable for sanitization, then sanitize it
+			$newRestaurantName = trim($newRestaurantName);
+			$newRestaurantName = filter_var($newRestaurantName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
+			// check if the resultant variable is still valid, then set
+			if(empty($newRestaurantName) === true) {
+				throw(new \InvalidArgumentException("There are no valid characters in the entered restaurant name."));
+			}
+			if(strlen($newRestaurantName) > 64) {
+				throw(new \RangeException("The entered restaurant name is too long."));
+			}
+			$this->restaurantName = $newRestaurantName;
+		}
 		/**
 		 * Accessor method for restaurantPhoneNumber
 		 *
