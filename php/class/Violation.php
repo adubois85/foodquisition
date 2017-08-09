@@ -55,6 +55,31 @@ class Violation implements \JsonSerializable {
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 	}
-
+	/**
+	 * accessor method for violation id
+	 *
+	 * @return int|null value of violation id
+	 **/
+	public function getViolationId() : int {
+		return($this->violationId);
+	}
+	/**
+	 * mutator method for violation id
+	 *
+	 * @param int|null $ViolationId new value of violation id
+	 * @throws \RangeException if $newViolationId is not positive
+	 * @throws \TypeError if $newViolationId is not an integer
+	 **/
+	public function setViolationId(?int $newViolationId) : void {
+		//if violation id is null immediately return it
+		if($newViolationId === null) {
+			$this->violationId = null;
+			return;
+		}
+		// verify the violation id is positive
+		if($newViolationId <= 0) {
+			throw(new \RangeException("violation id is not positive"));
+		}
+}
 }
 
