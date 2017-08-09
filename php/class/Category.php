@@ -142,6 +142,53 @@ class Category implements \JsonSerializable {
 	 **/
 	public function delete(\PDO $pdo): void {
 		//enforce the categoryId is not null (i.e., don't delete a category that does not exist)
-		if($this->categoryId === null)
+		if($this->categoryId === null) {
+			throw(new \PDOException("unable to delete a category that does not exist"));
+		}
+
+		//create query template
+		$query = "DELETE FROM category WHERE categoryId = :categoryId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["categoryId" => $this->categoryId];
+		$statement->execute($parameters);
+	}
+	/**
+	 * updates this Category in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function update(\PDO $pdo): void {
+		// enforce the categoryId is not null (i.e., don't update a profile that does not exist)
+		if($this->categoryId === null) {
+			throw(new \PDOException("unable to delete a category that does not exist"));
+		}
+
+		//create query template
+		$query = "UPDATE category SET categoryName = :categoryName WHERE categoryId = :categoryId";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables to the place holders in the template
+		$parameters = ["categoryName" => $this->categoryName];
+		$statement->execute($parameters);
+	}
+
+	/**
+	 * gets category by category id
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $categoryId category id to search for
+	 * @return Category|null Category found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws |\TypeError when variables are not the correct data type
+	 **/
+	public static function getCategoryByCategoryId(\PDO $pdo, int $categoryId): ?Category{
+		// sanitize the category id before searching
+		if($categoryId <= 0) {
+			throw
+		}
 	}
 }
