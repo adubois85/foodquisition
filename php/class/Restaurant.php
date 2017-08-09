@@ -158,10 +158,10 @@ class Restaurant implements \JsonSerializable {
 
 			// check if the resultant variable is still valid, then set
 			if(empty($newRestaurantAddress1) === true) {
-				throw(new \InvalidArgumentException("There are no valid characters in the entered Address line 1."));
+				throw(new \InvalidArgumentException("There are no valid characters in the entered address line 1."));
 			}
 			if(strlen($newRestaurantAddress1) > 128) {
-				throw(new \RangeException("The entered Address line 1 is too long."));
+				throw(new \RangeException("The entered address line 1 is too long."));
 			}
 			$this->restaurantAddress1 = $newRestaurantAddress1;
 		}
@@ -195,10 +195,10 @@ class Restaurant implements \JsonSerializable {
 
 			// check if the resultant variable is still valid, then set
 			if(empty($newRestaurantAddress2) === true) {
-				throw(new \InvalidArgumentException("There are no valid characters in the entered Address line 2."));
+				throw(new \InvalidArgumentException("There are no valid characters in the entered address line 2."));
 			}
 			if(strlen($newRestaurantAddress2) > 128) {
-				throw(new \RangeException("The entered Address line 2 is too long."));
+				throw(new \RangeException("The entered address line 2 is too long."));
 			}
 			$this->restaurantAddress2 = $newRestaurantAddress2;
 		}
@@ -226,10 +226,10 @@ class Restaurant implements \JsonSerializable {
 
 			// check if the resultant variable is still valid, then set
 			if(empty($newRestaurantCity) === true) {
-				throw(new \InvalidArgumentException("There are no valid characters in the entered City name."));
+				throw(new \InvalidArgumentException("There are no valid characters in the entered city name."));
 			}
 			if(strlen($newRestaurantCity) > 64) {
-				throw(new \RangeException("The entered City name is too long."));
+				throw(new \RangeException("The entered city name is too long."));
 			}
 			$this->restaurantCity = $newRestaurantCity;
 		}
@@ -257,10 +257,10 @@ class Restaurant implements \JsonSerializable {
 
 			// check if the resultant variable is still valid, then set
 			if(empty($newRestaurantFacilityKey) === true) {
-				throw(new \InvalidArgumentException("There are no valid characters in the entered Facility key."));
+				throw(new \InvalidArgumentException("There are no valid characters in the entered facility key."));
 			}
 			if(strlen($newRestaurantCity) !== 7) {
-				throw(new \RangeException("The entered Facility key is not the right length."));
+				throw(new \RangeException("The entered facility key is not the correct length."));
 			}
 			$this->restaurantFacilityKey = $newRestaurantFacilityKey;
 		}
