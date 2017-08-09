@@ -11,9 +11,10 @@ require_once("autoload.php");
  * @version 4.0.1
  **/
 class Violation implements \JsonSerializable {
-	use ValidateDate;
 	/**
 	 * id for this Violation; this is the primary key
-	 * @var int $ViolationId
+	 * will be auto-incrementing
+	 *
+	 * private $ViolationId
 	 **/
-
+}
