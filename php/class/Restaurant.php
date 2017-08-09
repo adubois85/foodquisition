@@ -83,4 +83,20 @@ class Restaurant implements \JsonSerializable {
 	 */
 	private $restaurantZip;
 
-}
+	/**
+	 * Constructro function fro this facility
+	 *
+	 * @param int | null restaurantId ID number for this facility, NULL if new
+	 * @param string $restaurantAddress1 primary address line for this facility
+	 * @param string | null $restaurantAddress2 optional secondary address line for this facility
+	 * @param string $restaurantCity name of the city where this facility is located
+	 * @param string $restaurantFaciltyKey unique 7-digit number given to the facility by the city
+	 * @param string | null $restaurantGoogleId ID given by google to this facility for pulling data from Google APIs
+	 * @param string $restaurantName name of this facility
+	 * @param string | null $restaurantPhoneNumber phone number for this facility
+	 * @param string $restaurantState 2-digit abbreviation of state where this facility is located
+	 * @param string $restaurantType designation given to this facility by the city regarding kind of business (e.g. school)
+	 * @param string $restaurantZip 5-digit (or 5 + 4-digit) ZIP code for this facility
+	 * @throws [TODO: Alex - enumerate the types of exceptions this can throw]
+	 */
+}	public function __construct (?int $newRestaurantId, string $newRestaurantAddress1, ?string $newRestaurantAddress2, )
