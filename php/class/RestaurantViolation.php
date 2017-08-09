@@ -38,10 +38,12 @@ class RestaurantViolation implements \JsonSerializable{
 	 * memo content of the violation
 	 * @var string $restaurantViolationMemo
 	 **/
-	private $restaurantViolationMemo
+	private $restaurantViolationMemo;
 	/**
-	 *
+	 *results of the violation
+	 * @var string $restaurantViolationResults
 	 **/
+	private	$restaurantViolationResaults;
 
 
 }
