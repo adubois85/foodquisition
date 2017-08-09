@@ -188,7 +188,47 @@ class Category implements \JsonSerializable {
 	public static function getCategoryByCategoryId(\PDO $pdo, int $categoryId): ?Category{
 		// sanitize the category id before searching
 		if($categoryId <= 0) {
-			throw
+			throw(new \PDOException("profile id is not positive"));
 		}
+
+		// create query template
+		$query = "SELECT categoryId, categoryName FROM category WHERE categoryId = :categoryId";
+		$statement = $pdo->prepare($query);
+
+		// bind the category id to the place holder in the template
+		$parameters = ["categoryId" => $categoryId];
+		$statement->execute($parameters);
+
+		// grab the category from mySQL
+		try {
+			$category = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$category = new Category($row["categoryId"], $row["categoryName"]);
+			}
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($category);
 	}
+
+	/**
+	 * gets the Category by category name
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of Categories found or null if not found
+	 * @throws \PDOException when mqSQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAllCategories(\PDO $pdo) : \SplFixedArray {
+		//create query template
+		$query = "SELECT categoryId, categoryName FROM category";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+
+	}
+
 }
