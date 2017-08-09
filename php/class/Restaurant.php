@@ -16,7 +16,6 @@ class Restaurant implements \JsonSerializable {
 	 */
 	private $restuaruantId;
 
-
 	/**
 	 * Per USPS standards, the address 1 line of the address (street number, name, direction, etc.) for this facility.
 	 * Cannot be NULL
@@ -118,370 +117,369 @@ class Restaurant implements \JsonSerializable {
 			$this->setRestaurantState($newRestaurantState);
 			$this->setRestaurantType($newRestaurantType);
 			$this->setRestaurantZip($newRestaurantZip);
-		}
-		catch(\RangeException | \InvalidArgumentException | \TypeError | \Exception $exception) {
+		} catch(\RangeException | \InvalidArgumentException | \TypeError | \Exception $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
-		/**
-		 * Accessor method for restaurantId
-		 *
-		 * @return int | null value of restaurantId
-		 */
-		public function getRestaurantId() : int {
-			return($this->restuaruantId);
+	}
+	/**
+	 * Accessor method for restaurantId
+	 *
+	 * @return int | null value of restaurantId
+	 */
+	public function getRestaurantId() : int {
+		return($this->restuaruantId);
+	}
+
+	/**
+	 * Mutator method for restaurantId
+	 *
+	 * @param int | null $newRestaurantId new value of restaurantId
+	 * @throws \TypeError if $newRestaurantId is not an integer
+	 * @thorws \RangeException if $newRestaurantId is not a positive number
+	 */
+	public function setRestaurantId (?int $newRestaurantId) : string {
+		// the primary key must be null when we initially try to add it to the database or
+		// we'll encounter an infinite loop.  If it is null already, we return it
+		if ($newRestaurantId === null) {
+			$this->restuaruantId = null;
+			return;
+		}
+		// the restaurantId must be a positive number; check that here
+		if ($newRestaurantId < 1) {
+			throw(new \RangeException("The entered restaurant ID is not a positive number."));
+		}
+		// now we can set the corresponding state variable to the entered value
+		$this->restuaruantId = $newRestaurantId;
+	}
+
+	/**
+	 * Accessor method for restaurantAddress1
+	 *
+	 * @return string value of restaurantAddress1
+	 */
+	public function getRestaurantAddress1() : string {
+		return($this->restaurantAddress1);
+	}
+
+	/**
+	 * Mutator method for restaurantAddress1
+	 *
+	 * @param string $newRestaurantAddress1 new value of restaurantAddress1
+	 * @throws \TypeError if the entered value isn't a string
+	 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+	 * @throws \RangeException if the entered value is longer than 128 characters
+	 */
+	public function setRestaurantAddress1(string $newRestaurantAddress1) {
+		// prep the variable for sanitization, then sanitize it
+		$newRestaurantAddress1 = trim($newRestaurantAddress1);
+		$newRestaurantAddress1 = filter_var($newRestaurantAddress1, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+		// check if the resultant variable is still valid, then set
+		if(empty($newRestaurantAddress1) === true) {
+			throw(new \InvalidArgumentException("There are no valid characters in the entered address line 1."));
+		}
+		if(strlen($newRestaurantAddress1) > 128) {
+			throw(new \RangeException("The entered address line 1 is too long."));
+		}
+		$this->restaurantAddress1 = $newRestaurantAddress1;
+	}
+
+	/**
+	 * Accessor method for restaurantAddress2
+	 *
+	 * @return string value of restaurantAddress2
+	 */
+	public function getRestaurantAddress2() : string {
+		return($this->restaurantAddress2);
+	}
+
+	/**
+	 * Mutator method for restaurantAddress2
+	 *
+	 * @param string | null $newRestaurantAddress2 new value of restaurantAddress2
+	 * @throws \TypeError if the entered value isn't a string
+	 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+	 * @throws \RangeException if the entered value is longer than 128 characters
+	 */
+	public function setRestaurantAddress2(?string $newRestaurantAddress2) {
+		// since this is optional, check if anything was entered, return if null
+		if ($newRestaurantAddress2 === null) {
+			$this->restaurantAddress2 = null;
+			return;
+		}
+		// prep the variable for sanitization, then sanitize it
+		$newRestaurantAddress2 = trim($newRestaurantAddress2);
+		$newRestaurantAddress2 = filter_var($newRestaurantAddress2, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+		// check if the resultant variable is still valid, then set
+		if(empty($newRestaurantAddress2) === true) {
+			throw(new \InvalidArgumentException("There are no valid characters in the entered address line 2."));
+		}
+		if(strlen($newRestaurantAddress2) > 128) {
+			throw(new \RangeException("The entered address line 2 is too long."));
+		}
+		$this->restaurantAddress2 = $newRestaurantAddress2;
+	}
+
+	/**
+	 * Accessor method for restaurantCity
+	 *
+	 * @return string value of restaurantCity
+	 */
+	public function getRestaurantCity() : string {
+		return($this->restaurantCity);
+	}
+	/**
+	 * Mutator method for restaurantCity
+	 *
+	 * @param string $newRestaurantCity new value of restaurantCity
+	 * @throws \TypeError if the entered value isn't a string
+	 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+	 * @throws \RangeException if the entered value is longer than 64 characters
+	 */
+	public function setRestaurantCity(string $newRestaurantCity) {
+		// prep the variable for sanitization, then sanitize it
+		$newRestaurantCity = trim($newRestaurantCity);
+		$newRestaurantCity = filter_var($newRestaurantCity, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+		// check if the resultant variable is still valid, then set
+		if(empty($newRestaurantCity) === true) {
+			throw(new \InvalidArgumentException("There are no valid characters in the entered city name."));
+		}
+		if(strlen($newRestaurantCity) > 64) {
+			throw(new \RangeException("The entered city name is too long."));
+		}
+		$this->restaurantCity = $newRestaurantCity;
+	}
+
+	/**
+	 * Accessor method for restaurantFacilityKey
+	 *
+	 * @return string value of restaurantFacilityKey
+	 */
+	public function getRestaurantFacilityKey() : string {
+		return($this->restaurantFacilityKey);
+	}
+	/**
+	 * Mutator method for restaurantFacilityKey
+	 *
+	 * @param string $newRestaurantFacilityKey new value of restaurantFacilityKey
+	 * @throws \TypeError if the entered value isn't a string
+	 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+	 * @throws \RangeException if the entered value is not exactly 7 characters long
+	 */
+	public function setRestaurantFacilityKey(string $newRestaurantFacilityKey) {
+		// prep the variable for sanitization, then sanitize it
+		$newRestaurantFacilityKey = trim($newRestaurantFacilityKey);
+		$newRestaurantFacilityKey = filter_var($newRestaurantFacilityKey, FILTER_SANITIZE_NUMBER_INT);
+
+		// TODO: Alex - ask about standardizing string length
+
+		// check if the resultant variable is still valid, then set
+		if(empty($newRestaurantFacilityKey) === true) {
+			throw(new \InvalidArgumentException("There are no valid characters in the entered facility key."));
+		}
+		if(strlen($newRestaurantFacilityKey) !== 7) {
+			throw(new \RangeException("The entered facility key is not the correct length."));
+		}
+		$this->restaurantFacilityKey = $newRestaurantFacilityKey;
+	}
+
+	/**
+	 * Accessor method for restaurantGoogleId
+	 *
+	 * @return string value of restaurantGoogleId
+	 */
+	public function getRestaurantGoogleId() : string {
+		return($this->restaurantGoogleId);
+	}
+	/**
+	 * Mutator method for restaurantGoogleId
+	 *
+	 * @param string | null $newRestaurantGoogleId new value of restaurantGoogleId
+	 * @throws \TypeError if the entered value isn't a string
+	 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+	 * @throws \RangeException if the entered value is longer than 128 characters
+	 */
+	public function setRestaurantGoogleId(?string $newRestaurantGoogleId) {
+		// since this is optional, check if anything was entered, return if null
+		if ($newRestaurantGoogleId === null) {
+			$this->restaurantGoogleId = null;
+			return;
+		}
+		// prep the variable for sanitization, then sanitize it
+		$newRestaurantGoogleId = trim($newRestaurantGoogleId);
+		$newRestaurantGoogleId = filter_var($newRestaurantGoogleId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+		// check if the resultant variable is still valid, then set
+		if(empty($newRestaurantGoogleId) === true) {
+			throw(new \InvalidArgumentException("There are no valid characters in the entered Google ID."));
+		}
+		if(strlen($newRestaurantGoogleId) > 128) {
+			throw(new \RangeException("The entered Google ID is too long."));
+		}
+		$this->restaurantGoogleId = $newRestaurantGoogleId;
+	}
+
+	/**
+	 * Accessor method for restaurantName
+	 *
+	 * @return string value of restaurantName
+	 */
+	public function getRestaurantName() : string {
+		return($this->restaurantName);
+	}
+	/**
+	 * Mutator method for restaurantName
+	 *
+	 * @param string $newRestaurantName new value of restaurantName
+	 * @throws \TypeError if the entered value isn't a string
+	 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+	 * @throws \RangeException if the entered value is longer than 64 characters
+	 */
+	public function setRestaurantName(string $newRestaurantName) {
+		// prep the variable for sanitization, then sanitize it
+		$newRestaurantName = trim($newRestaurantName);
+		$newRestaurantName = filter_var($newRestaurantName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
+		// check if the resultant variable is still valid, then set
+		if(empty($newRestaurantName) === true) {
+			throw(new \InvalidArgumentException("There are no valid characters in the entered restaurant name."));
+		}
+		if(strlen($newRestaurantName) > 64) {
+			throw(new \RangeException("The entered restaurant name is too long."));
+		}
+		$this->restaurantName = $newRestaurantName;
+	}
+
+	/**
+	 * Accessor method for restaurantPhoneNumber
+	 *
+	 * @return string value of restaurantPhoneNumber
+	 */
+	public function getRestaurantPhoneNumber() : string {
+		return($this->restaurantPhoneNumber);
+	}
+	/**
+	 * Mutator method for restaurantPhoneNumber
+	 *
+	 * @param string | null $newRestaurantPhoneNumber new value of restaurantPhoneNumber
+	 * @throws \TypeError if the entered value isn't a string
+	 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+	 * @throws \RangeException if the entered value is longer than 32 characters
+	 */
+	public function setRestaurantPhoneNumber(?string $newRestaurantPhoneNumber) {
+		// since this is optional, check if anything was entered, return if null
+		if ($newRestaurantPhoneNumber === null) {
+			$this->restaurantPhoneNumber = null;
+			return;
 		}
 
-		/**
-		 * Mutator method for restaurantId
-		 *
-		 * @param int | null $newRestaurantId new value of restaurantId
-		 * @throws \TypeError if $newRestaurantId is not an integer
-		 * @thorws \RangeException if $newRestaurantId is not a positive number
-		 */
-		public function setRestaurantId (?int $newRestaurantId) : string {
-			// the primary key must be null when we initially try to add it to the database or
-			// we'll encounter an infinite loop.  If it is null already, we return it
-			if ($newRestaurantId === null) {
-				$this->restuaruantId = null;
-				return;
-			}
-			// the restaurantId must be a positive number; check that here
-			if ($newRestaurantId < 1) {
-				throw(new \RangeException("The entered restaurant ID is not a positive number."));
-			}
-			// now we can set the corresponding state variable to the entered value
-			$this->restuaruantId = $newRestaurantId;
+		// prep the variable for sanitization, then sanitize it
+		$newRestaurantPhoneNumber = trim($newRestaurantPhoneNumber);
+		$newRestaurantPhoneNumber = filter_var($newRestaurantPhoneNumber, FILTER_SANITIZE_NUMBER_INT);
+
+		// check if the resultant variable is still valid, then set
+		if(empty($newRestaurantPhoneNumber) === true) {
+			throw(new \InvalidArgumentException("There are no valid characters in the entered phone number."));
 		}
-
-		/**
-		 * Accessor method for restaurantAddress1
-		 *
-		 * @return string value of restaurantAddress1
-		 */
-		public function getRestaurantAddress1() : string {
-			return($this->restaurantAddress1);
+		if(strlen($newRestaurantPhoneNumber) > 32) {
+			throw(new \RangeException("The entered phone number is too long."));
 		}
+		$this->restaurantPhoneNumber = $newRestaurantPhoneNumber;
+	}
 
-		/**
-		 * Mutator method for restaurantAddress1
-		 *
-		 * @param string $newRestaurantAddress1 new value of restaurantAddress1
-		 * @throws \TypeError if the entered value isn't a string
-		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
-		 * @throws \RangeException if the entered value is longer than 128 characters
-		 */
-		public function setRestaurantAddress1(string $newRestaurantAddress1) {
-			// prep the variable for sanitization, then sanitize it
-			$newRestaurantAddress1 = trim($newRestaurantAddress1);
-			$newRestaurantAddress1 = filter_var($newRestaurantAddress1, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	/**
+	 * Accessor method for restaurantState
+	 *
+	 * @return string value of restaurantState
+	 */
+	public function getRestaurantState() : string {
+		return($this->restaurantState);
+	}
+	/**
+	 * Mutator method for restaurantState
+	 *
+	 * @param string $newRestaurantState new value of restaurantState
+	 * @throws \TypeError if the entered value isn't a string
+	 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+	 * @throws \RangeException if the entered value is not exactly 2 characters long
+	 */
+	public function setRestaurantState(string $newRestaurantState) {
+		// prep the variable for sanitization, then sanitize it
+		$newRestaurantState = trim($newRestaurantState);
+		$newRestaurantState = filter_var($newRestaurantState, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES | FILTER_FLAG_STRIP_BACKTICK);
 
-			// check if the resultant variable is still valid, then set
-			if(empty($newRestaurantAddress1) === true) {
-				throw(new \InvalidArgumentException("There are no valid characters in the entered address line 1."));
-			}
-			if(strlen($newRestaurantAddress1) > 128) {
-				throw(new \RangeException("The entered address line 1 is too long."));
-			}
-			$this->restaurantAddress1 = $newRestaurantAddress1;
+		// check if the resultant variable is still valid, then set
+		if(empty($newRestaurantState) === true) {
+			throw(new \InvalidArgumentException("There are no valid characters in the entered state abbreviation."));
 		}
-
-		/**
-		 * Accessor method for restaurantAddress2
-		 *
-		 * @return string value of restaurantAddress2
-		 */
-		public function getRestaurantAddress2() : string {
-			return($this->restaurantAddress2);
+		if(strlen($newRestaurantState) !== 2) {
+			throw(new \RangeException("The entered state abbreviation is not the correct length."));
 		}
+		$this->restaurantState = $newRestaurantState;
+	}
 
-		/**
-		 * Mutator method for restaurantAddress2
-		 *
-		 * @param string | null $newRestaurantAddress2 new value of restaurantAddress2
-		 * @throws \TypeError if the entered value isn't a string
-		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
-		 * @throws \RangeException if the entered value is longer than 128 characters
-		 */
-		public function setRestaurantAddress2(?string $newRestaurantAddress2) {
-			// since this is optional, check if anything was entered, return if null
-			if ($newRestaurantAddress2 === null) {
-				$this->restaurantAddress2 = null;
-				return;
-			}
-			// prep the variable for sanitization, then sanitize it
-			$newRestaurantAddress2 = trim($newRestaurantAddress2);
-			$newRestaurantAddress2 = filter_var($newRestaurantAddress2, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	/**
+	 * Accessor method for restaurantType
+	 *
+	 * @return string value of restaurantType
+	 */
+	public function getRestaurantType() : string {
+		return($this->restaurantType);
+	}
+	/**
+	 * Mutator method for restaurantType
+	 *
+	 * @param string $newRestaurantType new value of restaurantType
+	 * @throws \TypeError if the entered value isn't a string
+	 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+	 * @throws \RangeException if the entered value is longer than 64 characters
+	 */
+	public function setRestaurantType(string $newRestaurantType) {
+		// prep the variable for sanitization, then sanitize it
+		$newRestaurantType = trim($newRestaurantType);
+		$newRestaurantType = filter_var($newRestaurantType, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
-			// check if the resultant variable is still valid, then set
-			if(empty($newRestaurantAddress2) === true) {
-				throw(new \InvalidArgumentException("There are no valid characters in the entered address line 2."));
-			}
-			if(strlen($newRestaurantAddress2) > 128) {
-				throw(new \RangeException("The entered address line 2 is too long."));
-			}
-			$this->restaurantAddress2 = $newRestaurantAddress2;
+		// check if the resultant variable is still valid, then set
+		if(empty($newRestaurantType) === true) {
+			throw(new \InvalidArgumentException("There are no valid characters in the entered restaurant type."));
 		}
-
-		/**
-		 * Accessor method for restaurantCity
-		 *
-		 * @return string value of restaurantCity
-		 */
-		public function getRestaurantCity() : string {
-			return($this->restaurantCity);
+		if(strlen($newRestaurantType) > 64) {
+			throw(new \RangeException("The entered restaurant type is too long."));
 		}
-		/**
-		 * Mutator method for restaurantCity
-		 *
-		 * @param string $newRestaurantCity new value of restaurantCity
-		 * @throws \TypeError if the entered value isn't a string
-		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
-		 * @throws \RangeException if the entered value is longer than 64 characters
-		 */
-		public function setRestaurantCity(string $newRestaurantCity) {
-			// prep the variable for sanitization, then sanitize it
-			$newRestaurantCity = trim($newRestaurantCity);
-			$newRestaurantCity = filter_var($newRestaurantCity, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		$this->restaurantType = $newRestaurantType;
+	}
 
-			// check if the resultant variable is still valid, then set
-			if(empty($newRestaurantCity) === true) {
-				throw(new \InvalidArgumentException("There are no valid characters in the entered city name."));
-			}
-			if(strlen($newRestaurantCity) > 64) {
-				throw(new \RangeException("The entered city name is too long."));
-			}
-			$this->restaurantCity = $newRestaurantCity;
+	/**
+	 * Accessor method for restaurantZip
+	 *
+	 * @return string value of restaurantZip
+	 */
+	public function getRestaurantZip() : string {
+		return($this->restaurantZip);
+	}
+	/**
+	 * Mutator method for restaurantZip
+	 *
+	 * @param string $newRestaurantZip new value of restaurantZip
+	 * @throws \TypeError if the entered value isn't a string
+	 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+	 * @throws \RangeException if the entered value is shorter than 5 or longer than 10 characters
+	 */
+	public function setRestaurantZip(string $newRestaurantZip) {
+		// prep the variable for sanitization, then sanitize it
+		$newRestaurantZip = trim($newRestaurantZip);
+		$newRestaurantZip = filter_var($newRestaurantZip, FILTER_SANITIZE_NUMBER_INT);
+
+		// check if the resultant variable is still valid, then set
+		if(empty($newRestaurantZip) === true) {
+			throw(new \InvalidArgumentException("There are no valid characters in the entered ZIP code."));
 		}
-
-		/**
-		 * Accessor method for restaurantFacilityKey
-		 *
-		 * @return string value of restaurantFacilityKey
-		 */
-		public function getRestaurantFacilityKey() : string {
-			return($this->restaurantFacilityKey);
+		if(strlen($newRestaurantZip) < 5 || strlen($newRestaurantZip) > 10) {
+			throw(new \RangeException("The entered ZIP code is too either too short or long."));
 		}
-		/**
-		 * Mutator method for restaurantFacilityKey
-		 *
-		 * @param string $newRestaurantFacilityKey new value of restaurantFacilityKey
-		 * @throws \TypeError if the entered value isn't a string
-		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
-		 * @throws \RangeException if the entered value is not exactly 7 characters long
-		 */
-		public function setRestaurantFacilityKey(string $newRestaurantFacilityKey) {
-			// prep the variable for sanitization, then sanitize it
-			$newRestaurantFacilityKey = trim($newRestaurantFacilityKey);
-			$newRestaurantFacilityKey = filter_var($newRestaurantFacilityKey, FILTER_SANITIZE_NUMBER_INT);
-
-			// TODO: Alex - ask about standardizing string length
-
-			// check if the resultant variable is still valid, then set
-			if(empty($newRestaurantFacilityKey) === true) {
-				throw(new \InvalidArgumentException("There are no valid characters in the entered facility key."));
-			}
-			if(strlen($newRestaurantCity) !== 7) {
-				throw(new \RangeException("The entered facility key is not the correct length."));
-			}
-			$this->restaurantFacilityKey = $newRestaurantFacilityKey;
-		}
-
-		/**
-		 * Accessor method for restaurantGoogleId
-		 *
-		 * @return string value of restaurantGoogleId
-		 */
-		public function getRestaurantGoogleId() : string {
-			return($this->restaurantGoogleId);
-		}
-		/**
-		 * Mutator method for restaurantGoogleId
-		 *
-		 * @param string | null $newRestaurantGoogleId new value of restaurantGoogleId
-		 * @throws \TypeError if the entered value isn't a string
-		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
-		 * @throws \RangeException if the entered value is longer than 128 characters
-		 */
-		public function setRestaurantGoogleId(?string $newRestaurantGoogleId) {
-			// since this is optional, check if anything was entered, return if null
-			if ($newRestaurantGoogleId === null) {
-				$this->restaurantGoogleId = null;
-				return;
-			}
-			// prep the variable for sanitization, then sanitize it
-			$newRestaurantGoogleId = trim($newRestaurantGoogleId);
-			$newRestaurantGoogleId = filter_var($newRestaurantGoogleId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-
-			// check if the resultant variable is still valid, then set
-			if(empty($newRestaurantGoogleId) === true) {
-				throw(new \InvalidArgumentException("There are no valid characters in the entered Google ID."));
-			}
-			if(strlen($newRestaurantGoogleId) > 128) {
-				throw(new \RangeException("The entered Google ID is too long."));
-			}
-			$this->restaurantGoogleId = $newRestaurantGoogleId;
-		}
-
-		/**
-		 * Accessor method for restaurantName
-		 *
-		 * @return string value of restaurantName
-		 */
-		public function getRestaurantName() : string {
-			return($this->restaurantName);
-		}
-		/**
-		 * Mutator method for restaurantName
-		 *
-		 * @param string $newRestaurantName new value of restaurantName
-		 * @throws \TypeError if the entered value isn't a string
-		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
-		 * @throws \RangeException if the entered value is longer than 64 characters
-		 */
-		public function setRestaurantName(string $newRestaurantName) {
-			// prep the variable for sanitization, then sanitize it
-			$newRestaurantName = trim($newRestaurantName);
-			$newRestaurantName = filter_var($newRestaurantName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-
-			// check if the resultant variable is still valid, then set
-			if(empty($newRestaurantName) === true) {
-				throw(new \InvalidArgumentException("There are no valid characters in the entered restaurant name."));
-			}
-			if(strlen($newRestaurantName) > 64) {
-				throw(new \RangeException("The entered restaurant name is too long."));
-			}
-			$this->restaurantName = $newRestaurantName;
-		}
-
-		/**
-		 * Accessor method for restaurantPhoneNumber
-		 *
-		 * @return string value of restaurantPhoneNumber
-		 */
-		public function getRestaurantPhoneNumber() : string {
-			return($this->restaurantPhoneNumber);
-		}
-		/**
-		 * Mutator method for restaurantPhoneNumber
-		 *
-		 * @param string | null $newRestaurantPhoneNumber new value of restaurantPhoneNumber
-		 * @throws \TypeError if the entered value isn't a string
-		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
-		 * @throws \RangeException if the entered value is longer than 32 characters
-		 */
-		public function setRestaurantPhoneNumber(?string $newRestaurantPhoneNumber) {
-			// since this is optional, check if anything was entered, return if null
-			if ($newRestaurantPhoneNumber === null) {
-				$this->restaurantPhoneNumber = null;
-				return;
-			}
-
-			// prep the variable for sanitization, then sanitize it
-			$newRestaurantPhoneNumber = trim($newRestaurantPhoneNumber);
-			$newRestaurantPhoneNumber = filter_var($newRestaurantPhoneNumber, FILTER_SANITIZE_NUMBER_INT);
-
-			// check if the resultant variable is still valid, then set
-			if(empty($newRestaurantPhoneNumber) === true) {
-				throw(new \InvalidArgumentException("There are no valid characters in the entered phone number."));
-			}
-			if(strlen($newRestaurantPhoneNumber) > 32) {
-				throw(new \RangeException("The entered phone number is too long."));
-			}
-			$this->restaurantPhoneNumber = $newRestaurantPhoneNumber;
-		}
-
-		/**
-		 * Accessor method for restaurantState
-		 *
-		 * @return string value of restaurantState
-		 */
-		public function getRestaurantState() : string {
-			return($this->restaurantState);
-		}
-		/**
-		 * Mutator method for restaurantState
-		 *
-		 * @param string $newRestaurantState new value of restaurantState
-		 * @throws \TypeError if the entered value isn't a string
-		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
-		 * @throws \RangeException if the entered value is not exactly 2 characters long
-		 */
-		public function setRestaurantState(string $newRestaurantState) {
-			// prep the variable for sanitization, then sanitize it
-			$newRestaurantState = trim($newRestaurantState);
-			$newRestaurantState = filter_var($newRestaurantState, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES | FILTER_FLAG_STRIP_BACKTICK);
-
-			// check if the resultant variable is still valid, then set
-			if(empty($newRestaurantState) === true) {
-				throw(new \InvalidArgumentException("There are no valid characters in the entered state abbreviation."));
-			}
-			if(strlen($newRestaurantState) !== 2) {
-				throw(new \RangeException("The entered state abbreviation is not the correct length."));
-			}
-			$this->restaurantState = $newRestaurantState;
-		}
-
-		/**
-		 * Accessor method for restaurantType
-		 *
-		 * @return string value of restaurantType
-		 */
-		public function getRestaurantType() : string {
-			return($this->restaurantType);
-		}
-		/**
-		 * Mutator method for restaurantType
-		 *
-		 * @param string $newRestaurantType new value of restaurantType
-		 * @throws \TypeError if the entered value isn't a string
-		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
-		 * @throws \RangeException if the entered value is longer than 64 characters
-		 */
-		public function setRestaurantType(string $newRestaurantType) {
-			// prep the variable for sanitization, then sanitize it
-			$newRestaurantType = trim($newRestaurantType);
-			$newRestaurantType = filter_var($newRestaurantType, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-
-			// check if the resultant variable is still valid, then set
-			if(empty($newRestaurantType) === true) {
-				throw(new \InvalidArgumentException("There are no valid characters in the entered restaurant type."));
-			}
-			if(strlen($newRestaurantType) > 64) {
-				throw(new \RangeException("The entered restaurant type is too long."));
-			}
-			$this->restaurantType = $newRestaurantType;
-		}
-
-		/**
-		 * Accessor method for restaurantZip
-		 *
-		 * @return string value of restaurantZip
-		 */
-		public function getRestaurantZip() : string {
-			return($this->restaurantZip);
-		}
-		/**
-		 * Mutator method for restaurantZip
-		 *
-		 * @param string $newRestaurantZip new value of restaurantZip
-		 * @throws \TypeError if the entered value isn't a string
-		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
-		 * @throws \RangeException if the entered value is shorter than 5 or longer than 10 characters
-		 */
-		public function setRestaurantZip(string $newRestaurantZip) {
-			// prep the variable for sanitization, then sanitize it
-			$newRestaurantZip = trim($newRestaurantZip);
-			$newRestaurantZip = filter_var($newRestaurantZip, FILTER_SANITIZE_NUMBER_INT);
-
-			// check if the resultant variable is still valid, then set
-			if(empty($newRestaurantZip) === true) {
-				throw(new \InvalidArgumentException("There are no valid characters in the entered ZIP code."));
-			}
-			if(strlen($newRestaurantZip) < 5 || strlen($newRestaurantZip) > 10) {
-				throw(new \RangeException("The entered ZIP code is too either too short or long."));
-			}
-			$this->restaurantZip = $newRestaurantZip;
-		}
+		$this->restaurantZip = $newRestaurantZip;
 	}
 }
