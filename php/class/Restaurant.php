@@ -443,5 +443,27 @@ class Restaurant implements \JsonSerializable {
 		public function getRestaurantZip() : string {
 			return($this->restaurantZip);
 		}
+		/**
+		 * Mutator method for restaurantZip
+		 *
+		 * @param string $newRestaurantZip new value of restaurantZip
+		 * @throws \TypeError if the entered value isn't a string
+		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+		 * @throws \RangeException if the entered value is shorter than 5 or longer than 10 characters
+		 */
+		public function setRestaurantZip(string $newRestaurantZip) {
+			// prep the variable for sanitization, then sanitize it
+			$newRestaurantZip = trim($newRestaurantZip);
+			$newRestaurantZip = filter_var($newRestaurantZip, FILTER_SANITIZE_NUMBER_INT);
+
+			// check if the resultant variable is still valid, then set
+			if(empty($newRestaurantZip) === true) {
+				throw(new \InvalidArgumentException("There are no valid characters in the entered ZIP code."));
+			}
+			if(strlen($newRestaurantZip) < 5 || strlen($newRestaurantZip) > 10) {
+				throw(new \RangeException("The entered ZIP code is too either too short or long."));
+			}
+			$this->restaurantZip = $newRestaurantZip;
+		}
 	}
 }
