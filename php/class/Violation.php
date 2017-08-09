@@ -126,5 +126,36 @@ class Violation implements \JsonSerialize {
 		$this->violationCode = $newViolationCode;
 
 	}
+	/**
+	 * accessor method for violation code description
+	 *
+	 * @param return string value of violation code description
+	 *
+	 **/
+	public function getViolationCodeDescription() :string {
+		return($this->violationCodeDescription);
+	}
+	/**
+	 * mutator method for violation code description
+	 *
+	 * @param string $newViolationCodeDescription new violation code description
+	 * @throws \InvalidArgumentException if $newViolationCodeDescription is not a string or insecure
+	 * @throws \RangeException if $newViolationCodeDescription is > 255 characters
+	 * @throws \TypeError if $newViolationCodeDescription is not a string
+	 **/
+	public function setViolationCodeDescription(string $newViolationCodeDescription) :void {
+		// verify the violation code description is secure
+		$newViolationCodeDescription = trim($newViolationCodeDescription);
+		$newViolationCodeDescription = filter_var($newViolationCodeDescription, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newViolationCodeDescription) === true ) {
+			throw(new \InvalidArgumentException("violation code description too long"));
+		}
+		//verify the violation code description will fit into the database
+		if(strlen($newViolationCodeDescription) > 255 ) {
+			throw(new \RangeException("violation code description is too large"));
+		}
+		//store the violation code description
+		$this->violationCodeDescription = $newViolationCodeDescription;
+	}
 }
 
