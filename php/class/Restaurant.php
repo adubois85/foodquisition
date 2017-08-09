@@ -87,23 +87,23 @@ class Restaurant implements \JsonSerializable {
 	/**
 	 * Constructor function for this facility
 	 *
-	 * @param int | null restaurantId ID number for this facility, NULL if new
-	 * @param string $restaurantAddress1 primary address line for this facility
-	 * @param string | null $restaurantAddress2 optional secondary address line for this facility
-	 * @param string $restaurantCity name of the city where this facility is located
-	 * @param string $restaurantFaciltyKey unique 7-digit number given to the facility by the city
-	 * @param string | null $restaurantGoogleId ID given by google to this facility for pulling data from Google APIs
-	 * @param string $restaurantName name of this facility
-	 * @param string | null $restaurantPhoneNumber phone number for this facility
-	 * @param string $restaurantState 2-digit abbreviation of state where this facility is located
-	 * @param string $restaurantType designation given to this facility by the city regarding kind of business (e.g. school)
-	 * @param string $restaurantZip 5-digit (or 5 + 4-digit) ZIP code for this facility
+	 * @param int | null $newRestaurantId ID number for this facility, NULL if new
+	 * @param string $newRestaurantAddress1 primary address line for this facility
+	 * @param string | null $newRestaurantAddress2 optional secondary address line for this facility
+	 * @param string $newRestaurantCity name of the city where this facility is located
+	 * @param string $newRestaurantFacilityKey unique 7-digit number given to the facility by the city
+	 * @param string | null $newRestaurantGoogleId ID given by google to this facility for pulling data from Google APIs
+	 * @param string $newRestaurantName name of this facility
+	 * @param string | null $newRestaurantPhoneNumber phone number for this facility
+	 * @param string $newRestaurantState 2-digit abbreviation of state where this facility is located
+	 * @param string $newRestaurantType designation given to this facility by the city regarding kind of business (e.g. school)
+	 * @param string $newRestaurantZip 5-digit (or 5 + 4-digit) ZIP code for this facility
 	 * @throws \TypeError if the entered data types are not of the correct type per type hints
 	 * @throws \InvalidArgumentException if the entered the data types are not valid after sanitization
 	 * @throws \RangeException if the entered data types are out of bounds for each function (e.g. not a positive integer, string too long, etc.)
 	 * @throws \Exception for any other type of error not otherwise caught
 	 */
-	public function __construct(?int $newRestaurantId, string $newRestaurantAddress1, ?string $newRestaurantAddress2, string $newRestaurantCity, string $newRestaurantFacilityKey, ?string $newRestaurantsGoogleId, string $newRestaurantName, ?string $newRestaurantPhoneNumber, string $newRestaurantState, string $newRestaurantType, string $newRestaurantZip) {
+	public function __construct(?int $newRestaurantId, string $newRestaurantAddress1, ?string $newRestaurantAddress2, string $newRestaurantCity, string $newRestaurantFacilityKey, ?string $newRestaurantGoogleId, string $newRestaurantName, ?string $newRestaurantPhoneNumber, string $newRestaurantState, string $newRestaurantType, string $newRestaurantZip) {
 
 		try {
 			$this->setRestaurantId($newRestaurantId);
@@ -111,7 +111,7 @@ class Restaurant implements \JsonSerializable {
 			$this->setRestaurantAddress2($newRestaurantAddress2);
 			$this->setRestaurantCity($newRestaurantCity);
 			$this->setRestaurantFacilityKey($newRestaurantFacilityKey);
-			$this->setRestaurantGoogleId($newRestaurantsGoogleId);
+			$this->setRestaurantGoogleId($newRestaurantGoogleId);
 			$this->setRestaurantName($newRestaurantName);
 			$this->setRestaurantPhoneNumber($newRestaurantPhoneNumber);
 			$this->setRestaurantState($newRestaurantState);
@@ -135,7 +135,7 @@ class Restaurant implements \JsonSerializable {
 	 * Mutator method for restaurantId
 	 *
 	 * @param int | null $newRestaurantId new value of restaurantId
-	 * @return null if $newRestaurantId is already null
+	 * @returnƒ null if $newRestaurantId is already null
 	 * @throws \TypeError if $newRestaurantId is not an integer
 	 * @thorws \RangeException if $newRestaurantId is not a positive number
 	 */
