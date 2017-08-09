@@ -9,9 +9,9 @@ require_once("autoload.php");
  * @author Danielle Branch <dbranch82@gmail.com>
  * @version 1.0
  **/
-class Violation implements \JsonSerialize {
+class Violation implements \JsonSerializable {
 
-	 private $violationId;
+	private $violationId;
 	/**
 	 * id for this Violation; this is the primary key
 	 * will be auto-incrementing
@@ -23,13 +23,14 @@ class Violation implements \JsonSerialize {
 	 *
 	 * @var string $violationCode
 	 *
- 	*/
+	 */
 	private $violationCode;
 	/**
 	 *
 	 * @var string $violationCodeDescription
 	 */
 	private $violationCodeDescription;
+
 	/**
 	 * Constructor for Violation
 	 * @param int|null $newViolationId id of this Violation or null if a new Violation
@@ -40,7 +41,7 @@ class Violation implements \JsonSerialize {
 	 * @throws \RangeException if data values are out of bounds
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
-	 *
+	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 */
 	public function __construct(?int $newViolationId, int $newViolationCategoryId, string $newViolationCode, string $newViolationCodeDescription) {
 		try {
@@ -48,21 +49,22 @@ class Violation implements \JsonSerialize {
 			$this->setViolationCategoryId($newViolationCategoryId);
 			$this->setViolationCode($newViolationCode);
 			$this->setViolationCodeDescription($newViolationCodeDescription);
-		}
-			//determine what exception type was thrown
+		} //determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 	}
+
 	/**
 	 * accessor method for violation id
 	 *
 	 * @return int|null value of violation id
 	 **/
-	public function getViolationId() : int {
-		return($this->violationId);
+	public function getViolationId(): int {
+		return ($this->violationId);
 	}
+
 	/**
 	 * mutator method for violation id
 	 *
@@ -70,7 +72,7 @@ class Violation implements \JsonSerialize {
 	 * @throws \RangeException if $newViolationId is not positive
 	 * @throws \TypeError if $newViolationId is not an integer
 	 **/
-	public function setViolationId(?int $newViolationId) : void {
+	public function setViolationId(?int $newViolationId): void {
 		//if violation id is null immediately return it
 		if($newViolationId === null) {
 			$this->violationId = null;
@@ -83,13 +85,14 @@ class Violation implements \JsonSerialize {
 		// convert and store the violation id
 		$this->violationId = $newViolationId;
 	}
+
 	/**
 	 * accessor method for violation category id
 	 *
 	 * @return int value of violation category id
 	 **/
-	public function getViolationCategoryId() : int{
-		return($this->violationCategoryId);
+	public function getViolationCategoryId(): int {
+		return ($this->violationCategoryId);
 	}
 	/**
 	 * mutator method for violation category id
@@ -104,6 +107,7 @@ class Violation implements \JsonSerialize {
 	public function getViolationCode(): string {
 		return $this->violationCode;
 	}
+
 	/**
 	 * mutator method for violation code
 	 * @param string $newViolationCode new violation code
@@ -126,15 +130,17 @@ class Violation implements \JsonSerialize {
 		$this->violationCode = $newViolationCode;
 
 	}
+
 	/**
 	 * accessor method for violation code description
 	 *
 	 * @param return string value of violation code description
 	 *
 	 **/
-	public function getViolationCodeDescription() :string {
-		return($this->violationCodeDescription);
+	public function getViolationCodeDescription(): string {
+		return ($this->violationCodeDescription);
 	}
+
 	/**
 	 * mutator method for violation code description
 	 *
@@ -143,20 +149,21 @@ class Violation implements \JsonSerialize {
 	 * @throws \RangeException if $newViolationCodeDescription is > 255 characters
 	 * @throws \TypeError if $newViolationCodeDescription is not a string
 	 **/
-	public function setViolationCodeDescription(string $newViolationCodeDescription) :void {
+	public function setViolationCodeDescription(string $newViolationCodeDescription): void {
 		// verify the violation code description is secure
 		$newViolationCodeDescription = trim($newViolationCodeDescription);
 		$newViolationCodeDescription = filter_var($newViolationCodeDescription, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newViolationCodeDescription) === true ) {
+		if(empty($newViolationCodeDescription) === true) {
 			throw(new \InvalidArgumentException("violation code description too long"));
 		}
 		//verify the violation code description will fit into the database
-		if(strlen($newViolationCodeDescription) > 255 ) {
+		if(strlen($newViolationCodeDescription) > 255) {
 			throw(new \RangeException("violation code description is too large"));
 		}
 		//store the violation code description
 		$this->violationCodeDescription = $newViolationCodeDescription;
 	}
+
 	/**
 	 * Inserts this Profile into mySQL
 	 *
@@ -164,11 +171,32 @@ class Violation implements \JsonSerialize {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 */
-	public function insert(\PDO $pdo) :void {
+	public function insert(\PDO $pdo): void {
 		// enforce the violationId is null
 		if($this->violationId !== null) {
-
+			throw(new \PDOException("not a new tweet"));
 		}
+		// create query template
+		$query = "INSERT INTO violation(violationId, violationCategoryId, violationCode, violationCodeDescription) VALUES(:violationId, :violationCategoryId, :violationCode, :violationCodeDescription)";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the place holders in the template
+		$parameters = ["violationCategoryId" => $this->violationCategoryId, "violationCode" => $this->violationCode, "violationCodeDescription" => $this->violationCodeDescription];
+		$statement->execute($parameters);
+
+		// update the null violationId with what mySQL just gave us
+		$this->violationId = intval($pdo->lastInsertId());
 	}
+	/**
+	 * deletes this Violation from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 *
+	 **/
+
+
+
 }
 
