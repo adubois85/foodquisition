@@ -115,7 +115,7 @@ class Restaurant implements \JsonSerializable {
 		/**
 		 * Mutator method for restaurantId
 		 *
-		 * @param int | null #newRestaurantId new value of restaurantId
+		 * @param int | null $newRestaurantId new value of restaurantId
 		 * @throws \TypeError if $newRestaurantId is not an integer
 		 * @thorws \RangeException if $newRestaurantId is not a positive number
 		 */
@@ -141,6 +141,29 @@ class Restaurant implements \JsonSerializable {
 		 */
 		public function getRestaurantAddress1() : string {
 			return($this->restaurantAddress1);
+		}
+
+		/**
+		 * Mutator method for restaurantAddress1
+		 *
+		 * @param string $newRestaurantAddress1 new value of restaurantAddress1
+		 * @throws \TypeError if the entered value isn't a string
+		 * @throws \InvalidArgumentException if the entered value is empty for any reason after sanitizing
+		 * @throws \RangeException if the entered value is longer than 128 characters
+		 */
+		public function setRestaurantAddress1(string $newRestaurantAddress1) {
+			// prep the variable for sanitization, then sanitize it
+			$newRestaurantAddress1 = trim($newRestaurantAddress1);
+			$newRestaurantAddress1 = filter_var($newRestaurantAddress1, FILTER_SANITIZE_STRING);
+
+			// check if the resultant variable is still valid, then set
+			if(empty($newRestaurantAddress1) === true) {
+				throw(new \InvalidArgumentException("There are no valid characters in the entered Address line 1."));
+			}
+			if(strlen($newRestaurantAddress1) > 128) {
+				throw(new \RangeException("The entered Address line 1 is too long."));
+			}
+			$this->restaurantAddress1 = $newRestaurantAddress1;
 		}
 
 		/**
