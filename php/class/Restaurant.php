@@ -43,7 +43,7 @@ class Restaurant implements \JsonSerializable {
 	private $restaurantFacilityKey;
 
 	/**
-	 * The ID number given by Google for this restaurant to facilitate pulling information from Google APIs.  In theory it should be unique, but that's not guaranteed.
+	 * The ID number given by Google for this facility to allow for pulling information from Google APIs.  In theory it should be unique, but that's not guaranteed.
 	 * Cannot be NULL
 	 * @var string $restaurantGoogleId
 	 */
@@ -56,3 +56,31 @@ class Restaurant implements \JsonSerializable {
 	 */
 	private $restaurantName;
 
+	/**
+	 * The phone number for this facility
+	 * @var string $restaurantPhoneNumber
+	 */
+	private $restaurantPhoneNumber;
+
+	/**
+	 * The 2-digit abbreviation for the state in which this facility is located.
+	 * Cannot be NULL
+	 * @var string $restaurantState
+	 */
+	private	$restaurantState
+
+	/**
+	 * The designation of the type of business (e.g. mobile food unit, school, etc.) given to this facility by the city of Albquerque.
+	 *	Cannot be NULL
+	 * @var string $restaurantType
+	 */
+	private restaurantType;
+
+	/**
+	 * the 5-digit (or 5 + 4-digit) ZIP code for this facility.
+	 * Cannot be NULL
+	 * @var string $restaurantZip
+	 */
+	private $restaurantZip;
+
+}
