@@ -9,7 +9,7 @@ require_once("autoload.php");
  * @author Danielle Branch <dbranch82@gmail.com>
  * @version 1.0
  **/
-class Violation implements \JsonSerializable {
+class Violation implements \JsonSerialize {
 
 	 private $violationId;
 	/**
@@ -98,5 +98,33 @@ class Violation implements \JsonSerializable {
 	 * @throws \RangeException if $newViolationCategoryId is not positive
 	 * @throws \TypeError if $newViolationCategoryId is not an integer
 	 **/
+	/**
+	 * @return string
+	 */
+	public function getViolationCode(): string {
+		return $this->violationCode;
+	}
+	/**
+	 * mutator method for violation code
+	 * @param string $newViolationCode new violation code
+	 * @throws \InvalidArgumentException if $newViolationCode in not a string or insecure
+	 * @throws \RangeException if $newViolationCode is > 8 characters
+	 * @throws \TypeError if $newViolationCode is not a string
+	 **/
+	public function setViolationCode(string $newViolationCode) {
+		//verify the Violation code is secure
+		$newViolationCode = trim($newViolationCode);
+		$newViolationCode = filter_var($newViolationCode, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newViolationCode) === true) {
+			throw(new \InvalidArgumentException("violation code is empty or insecure"));
+		}
+		// verify the violation code will fit in database
+		if(strlen($newViolationCode) > 8) {
+			throw(new \RangeException("violation code too large"));
+		}
+		//store the violation code content
+		$this->violationCode = $newViolationCode;
+
+	}
 }
 
