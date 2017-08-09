@@ -14,7 +14,7 @@ class Restaurant implements \JsonSerializable {
 	 * This is the primary key.
 	 * @var int $restaurantId
 	 */
-	private $restuaruantId;
+	private $restaurantId;
 
 	/**
 	 * Per USPS standards, the address 1 line of the address (street number, name, direction, etc.) for this facility.
@@ -128,13 +128,14 @@ class Restaurant implements \JsonSerializable {
 	 * @return int | null value of restaurantId
 	 */
 	public function getRestaurantId() : int {
-		return($this->restuaruantId);
+		return($this->restaurantId);
 	}
 
 	/**
 	 * Mutator method for restaurantId
 	 *
 	 * @param int | null $newRestaurantId new value of restaurantId
+	 * @return null if $newRestaurantId is already null
 	 * @throws \TypeError if $newRestaurantId is not an integer
 	 * @thorws \RangeException if $newRestaurantId is not a positive number
 	 */
@@ -142,7 +143,7 @@ class Restaurant implements \JsonSerializable {
 		// the primary key must be null when we initially try to add it to the database or
 		// we'll encounter an infinite loop.  If it is null already, we return it
 		if ($newRestaurantId === null) {
-			$this->restuaruantId = null;
+			$this->restaurantId = null;
 			return;
 		}
 		// the restaurantId must be a positive number; check that here
@@ -150,7 +151,7 @@ class Restaurant implements \JsonSerializable {
 			throw(new \RangeException("The entered restaurant ID is not a positive number."));
 		}
 		// now we can set the corresponding state variable to the entered value
-		$this->restuaruantId = $newRestaurantId;
+		$this->restaurantId = $newRestaurantId;
 	}
 
 	/**
