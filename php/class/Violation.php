@@ -157,5 +157,18 @@ class Violation implements \JsonSerialize {
 		//store the violation code description
 		$this->violationCodeDescription = $newViolationCodeDescription;
 	}
+	/**
+	 * Inserts this Profile into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 */
+	public function insert(\PDO $pdo) :void {
+		// enforce the violationId is null
+		if($this->violationId !== null) {
+
+		}
+	}
 }
 
