@@ -43,8 +43,25 @@ class RestaurantViolation implements \JsonSerializable{
 	 *results of the violation
 	 * @var string $restaurantViolationResults
 	 **/
-	private	$restaurantViolationResaults;
+	private	$restaurantViolationResults;
 
-
+/**
+ * constructor for this RestaurantId
+ *
+ * @param int|null $newRestaurantViolationId id of the restaurant with the violation or null if a new
+ * @param int $newRestaurantViolationRestaurantId id of the restaurant with violations
+ * @param int $newRestaurantViolationViolationId id of the violation
+ * @param string $newRestaurantViolationMemo string containing notes from inspector
+ * @param \Date|string|null $newRestaurantViolationDate date violation was recorded
+ * @param string $newRestaurantViolationResults string containing results from inspection
+ * @throws \InvalidArgumentException if data types are not valid
+ * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
+ * @throws \TypeError if data types violate type hints
+ * @throws \Exception if some other exception occurs
+ * @Documentation https://php.net/manual/en/language.oop5.decon.php
+ **/
+/**
+ * public function _construct(?int $newRestaurantViolationId,int $newRestaurantViolationRestaurantId, int $newrestaurantViolationViolationId, string $newRestaurantViolationMemo, $newRestaurantViolationDate = null, string $newrestaurantViolationResults, )
+ */
 }
 
