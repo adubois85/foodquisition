@@ -12,6 +12,7 @@ CREATE TABLE restaurant (
 	restaurantZip VARCHAR(10) NOT NULL,
 	UNIQUE (restaurantFacilityKey),
 	INDEX (restaurantGoogleId),
+	INDEX (restaurantName),
 	PRIMARY KEY (restaurantId)
 );
 
