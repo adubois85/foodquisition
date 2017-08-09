@@ -1,6 +1,8 @@
 <?php
 namespace Edu\Cnm\Foodquisition;
 
+require_once ("autoload.php");
+
 /**
  * @author Alexander DuBois <adubois@alumni.uci.edu>
  * @version 0.1
@@ -355,6 +357,7 @@ class Restaurant implements \JsonSerializable {
 			if ($newRestaurantPhoneNumber === null) {
 				$this->restaurantPhoneNumber = null;
 				return;
+			}
 
 			// prep the variable for sanitization, then sanitize it
 			$newRestaurantPhoneNumber = trim($newRestaurantPhoneNumber);
