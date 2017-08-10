@@ -104,6 +104,19 @@ class Violation implements \JsonSerializable {
 	/**
 	 * @return string
 	 */
+	public function setViolationCategoryId(?int $newViolationCategoryId): void {
+		//if violation id is null immediately return it
+		if($newViolationCategoryId === null) {
+			$this->violationCategoryId = null;
+			return;
+		}
+		// verify the violation category id is positive
+		if($newViolationCategoryId <= 0) {
+			throw(new \RangeException("violation category id is not positive"));
+		}
+		// convert and store the violation id
+		$this->violationId = $newViolationCategoryId;
+	}
 
 	public function getViolationCode(): string {
 		return $this->violationCode;
