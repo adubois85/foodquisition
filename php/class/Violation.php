@@ -256,11 +256,11 @@ class Violation implements \JsonSerializable {
 
 		//grab the violation from mySQL
 		try {
-			$tweet = null;
+			$violation = null;
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$violation = new Violation($row["violationId"], $row["violationCategoryId"], $row["violationCode"], $row[violationCodeDescription]);
+				$violation = new Violation($row["violationId"], $row["violationCategoryId"], $row["violationCode"], $row["violationCodeDescription"]);
 			}
 		} catch(\Exception $exception) {
 			//if the row couldn't be converted, rethrow it
@@ -295,8 +295,8 @@ class Violation implements \JsonSerializable {
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$violation = new Violation($row["profileId"], $row["profileCategoryId"], $row["profileCode"], $row["profileCodeDescription"]);
-				$violation[$violation->key()] = $violation;
-				$violation->next();
+				$violations[$violations->key()] = $violation;
+				$violations->next();
 			} catch(\Exception $exception) {
 				// if the row could not be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
@@ -339,15 +339,16 @@ class Violation implements \JsonSerializable {
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$violation = new Violation($row["violationId"], $row["violationCategoryId"], $row["violationCode"], $row["violationCodeDescription"]);
-				$violation[$violation->key()] = $violation;
-				$violation->next();
+				$violations[$violations->key()] = $violation;
+				$violations->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-	return ($violations);
+		return ($violations);
 	}
+
 	/**
 	 * gets the Violation by code description
 	 *
@@ -382,15 +383,16 @@ class Violation implements \JsonSerializable {
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$violation = new Violation($row["violationId"], $row["violationCategoryId"], $row["violationCode"], $row["violationCodeDescription"]);
-				$violation[$violation->key()] = $violation;
-				$violation->next();
+				$violations[$violations->key()] = $violation;
+				$violations->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-	return ($violation);
+		return ($violations);
 	}
+
 	/**
 	 * gets all Violations
 	 *
@@ -400,26 +402,26 @@ class Violation implements \JsonSerializable {
 	 * @throws \TypeError when variables are not the correct data type
 	 *
 	 **/
-	public static function getAllViolations(\PDO $pdo) : \SPLFixedArray {
+	public static function getAllViolations(\PDO $pdo): \SPLFixedArray {
 		// create query template
 		$query = "SELECT violationId, violationCategoryId, violationCode, violationCodeDescription FROM violation";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
 		// build an array of violations
-		$violation = new \SplFixedArray($statement->rowCount());
+		$violations = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$violation = new Violation($row["violationId"], $row["violationCategoryId"], $row["violationCode"], $row["violationCodeDescription"]);
-				$violation[$violation->key()] = $violation;
-				$violation->next();
+				$violations[$violations->key()] = $violation;
+				$violations->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($violation);
+		return ($violations);
 	}
 
 	/**
@@ -431,7 +433,6 @@ class Violation implements \JsonSerializable {
 		$fields = get_object_vars($this);
 	}
 }
-
 
 
 
