@@ -302,8 +302,9 @@ class Violation implements \JsonSerializable {
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($violations);
+		return ($violations);
 	}
+
 	/**
 	 * gets the Violation by code
 	 *
@@ -313,7 +314,7 @@ class Violation implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getViolationByViolationCode(\PDO $pdo, string $violationCode) : \SplFixedArray {
+	public static function getViolationByViolationCode(\PDO $pdo, string $violationCode): \SplFixedArray {
 		// sanitize the description before searching
 		$violationCode = trim($violationCode);
 		$violationCode = filter_var($violationCode, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -324,9 +325,113 @@ class Violation implements \JsonSerializable {
 		$violationCode = str_replace("_", "\\_", str_replace("%", "\\%", $violationCode));
 
 		// create query template
-		$query = "SELECT violationId"
+		$query = "SELECT violationId, violationCategoryId, violationCode, violationCodeDescription FROM violation WHERE violationCode LIKE :violationCode";
+		$statement = $pdo->prepare($query);
+
+		//bind the violation content to the place holder in the template
+		$violationCode = "%$violationCode%";
+		$parameters = ["violationCode" => $violationCode];
+		$statement->execute($parameters);
+
+		//build an array of violations
+		$violations = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$violation = new Violation($row["violationId"], $row["violationCategoryId"], $row["violationCode"], $row["violationCodeDescription"]);
+				$violation[$violation->key()] = $violation;
+				$violation->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+	return ($violations);
 	}
+	/**
+	 * gets the Violation by code description
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $violationCodeDescription violation code description to search for
+	 * @return \SplFixedArray SplFixedArray of Violations found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getViolationByViolationCodeDescripyion(\PDO $pdo, string $violationCodeDescription): \SplFixedArray {
+		// sanitize the description before searching
+		$violationCodeDescription = trim($violationCodeDescription);
+		$violationCodeDescription = filter_var($violationCodeDescription, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($violationCodeDescription) === true) {
+			throw(new \PDOException("violation code description is invalid"));
+		}
+		// escape any mySQL wild cards
+		$violationCodeDescription = str_replace("_", "\\_", str_replace("%", "\\%", $violationCodeDescription));
+
+		// create query template
+		$query = "SELECT violationId, violationCategoryId, violationCode, violationCodeDescription FROM violation WHERE violationCodeDescription LIKE :violationCode";
+		$statement = $pdo->prepare($query);
+
+		//bind the violation content to the place holder in the template
+		$violationCode = "%$violationCodeDescription%";
+		$parameters = ["violationCodeDescription" => $violationCodeDescription];
+		$statement->execute($parameters);
+
+		//build an array of violations
+		$violations = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$violation = new Violation($row["violationId"], $row["violationCategoryId"], $row["violationCode"], $row["violationCodeDescription"]);
+				$violation[$violation->key()] = $violation;
+				$violation->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+	return ($violation);
 	}
+	/**
+	 * gets all Violations
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray SplFixedArray of Tweets found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 *
+	 **/
+	public static function getAllViolations(\PDO $pdo) : \SPLFixedArray {
+		// create query template
+		$query = "SELECT violationId, violationCategoryId, violationCode, violationCodeDescription FROM violation";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// build an array of violations
+		$violation = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$violation = new Violation($row["violationId"], $row["violationCategoryId"], $row["violationCode"], $row["violationCodeDescription"]);
+				$violation[$violation->key()] = $violation;
+				$violation->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($violation);
+	}
+
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+	}
+}
+
 
 
 
