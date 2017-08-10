@@ -104,6 +104,7 @@ class Violation implements \JsonSerializable {
 	/**
 	 * @return string
 	 */
+
 	public function getViolationCode(): string {
 		return $this->violationCode;
 	}
