@@ -19,45 +19,34 @@ require_once(dirname(_DIR_) . "/autoload.php");
 class ViolationTest extends FoodquisitionTest {
 	/**
 	 * Category that created the Violation; this is for foreign key relations
-	 * @var
+	 * @var $VALID_VIOLATIONCATEGORYID
 	 *
 	 */
-	protected $category = null;
-
+	protected $VALID_VIOLATIONCATEGORYID;
 	/**
-	 * valid category hash to create the profile object to own the test
-	 * @var $VALID_HASH;
-
-	/**
-	 * @var string
-	 *
-	 * content of violation
-	 * @var string $VALID_VIOLATIONCONTENT
-	 *
+	 * Valid Violation Code
+	 * @var $VALID_VIOLATIONCODE
 	 */
-
-	protected $VALID_PROFILE_HASH;
-
+	protected $VALID_VIOLATIONCODE;
 	/**
-	 * valid salt to use to create the profile object to own the test
-	 * @var string $VALID_SALT
-	 *
+	 * valid violation code description
+	 * @var $VALID_VIOLATIONCODESCRIPTION
 	 */
-	protected $VALID_PROFILE_SALT;
-
-	protected $VALID_VIOLATIONCONTENT = "PHPUnit test passing";
-
+	protected $VALID_VIOLATIONCODESCRIPTION;
 	/**
-	 * content of the updated Violation
-	 * @var string $VALID_VIOLATONCONTENT2
-	 *
+	 * test inserting a valid Violation and verify  that the actual mySQL data matches
 	 */
-	protected $VALID_VIOLATIONCONTENT2 = "PHPUnit test still passing";
+	public function testInsertValidViolation() : void {
+		// count the number of the rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("violation");
 
-	/**
-	 *
-	 *
-	 *
-	 *
-	 */
+		//create a new Violation and insert to mySQL
+		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCATEGORYID, $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODESCRIPTION);
+		$violation->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoViolation = Violation::getViolationByViolationId($this->getPDO(), $violation->getViolationId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("violation"));
+		$this->assertEquals($)
+	}
 }
