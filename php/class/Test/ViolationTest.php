@@ -30,7 +30,7 @@ class ViolationTest extends FoodquisitionTest {
 	protected $VALID_VIOLATIONCODE;
 	/**
 	 * valid violation code description
-	 * @var $VALID_VIOLATIONCODESCRIPTION
+	 * @var $VALID_VIOLATIONCODEDESCRIPTION
 	 */
 	protected $VALID_VIOLATIONCODESCRIPTION;
 	/**
@@ -41,12 +41,14 @@ class ViolationTest extends FoodquisitionTest {
 		$numRows = $this->getConnection()->getRowCount("violation");
 
 		//create a new Violation and insert to mySQL
-		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCATEGORYID, $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODESCRIPTION);
+		$violation = new Violation(null, $this->Violation->getViolationId(), $this->VALID_VIOLATIONCATEGORYID, $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
 		$violation->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoViolation = Violation::getViolationByViolationId($this->getPDO(), $violation->getViolationId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("violation"));
-		$this->assertEquals($)
+		$this->assertEquals($pdoViolation->getViolationCategoryId(), $this->getViolationCategoryId());
+		$this->assertEquals($pdoViolation->getViolationCode(), $this->getViolationCode);
+		$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->get)
 	}
 }
