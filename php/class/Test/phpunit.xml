@@ -1,6 +1,6 @@
 <phpunit>
 	<testsuites>
-		<testsuite name="Foodquisition">
+		<testsuite name="Foodquisition\">
 			<file>RestaurantTest.php</file>
 			<file>CategoryTest.php</file>
 			<file>ViolationTest.php</file>
