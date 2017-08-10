@@ -259,13 +259,13 @@ public function getRestaurantViolationId() : int{ return($this->restaurantViolat
  * @throws \TypeError if $pdo is not a PDO connection object
  **/
 	public function insert(\PDO $pdo) : void {
-	// enforce the tweetId is null (i.e., don't insert a tweet that already exists)
-	if($this->tweetId !== null) {
-		throw(new \PDOException("not a new tweet"));
+	// enforce the restaurantViolationId is null (i.e., don't insert a restaurant violation that already exists)
+	if($this->restaurantViolationId !== null) {
+		throw(new \PDOException("not a new restaurantViolationId"));
 	}
 
 	// create query template
-	$query = "INSERT INTO tweet(tweetProfileId, tweetContent, tweetDate) VALUES(:tweetProfileId, :tweetContent, :tweetDate)";
+	$query = "INSERT INTO restaurantViolation(restaurantViolationId, resturantViolationrestaurant, tweetDate) VALUES(:tweetProfileId, :tweetContent, :tweetDate)";
 	$statement = $pdo->prepare($query);
 
 	// bind the member variables to the place holders in the template
