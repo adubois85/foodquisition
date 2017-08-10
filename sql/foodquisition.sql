@@ -1,9 +1,9 @@
 
 -- these statements will drop the tables re-add them
-DROP TABLE IF EXISTS 'restaurantViolation';
-DROP TABLE IF EXISTS 'violation';
-DROP TABLE IF EXISTS 'category';
-DROP TABLE IF EXISTS 'restaurant';
+DROP TABLE IF EXISTS restaurantViolation;
+DROP TABLE IF EXISTS violation;
+DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS restaurant;
 
 --  these statements will create the tables
 CREATE TABLE restaurant (
