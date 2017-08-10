@@ -1,0 +1,15 @@
+<phpunit>
+	<testsuites>
+		<testsuite name="Creepy Octo Meow">
+			<file>RestaurantTest.php</file>
+			<file>CategoryTest.php</file>
+			<file>ViolationTest.php</file>
+			<file>RestaurantViolationTest.php</file>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">..</directory>
+		</whitelist>
+	</filter>
+</phpunit>
