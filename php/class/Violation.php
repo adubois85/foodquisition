@@ -255,9 +255,9 @@ class Violation implements \JsonSerializable {
 	 * @throws \TypeError when variables are not the correct data type
 	 *
 	 **/
-	public static function getViolationByViolationId(\PDO $pdo, int $violationId): ?Violation {
-		// sanitize the violationId before searching
-		if(violationId <= 0) {
+	public static function getViolationByViolationId(\PDO $pdo, int $violationId):? Violation{
+		// sanitize the violation id before searching
+		if($violationId <= 0) {
 			throw(new \PDOException("violation id is not positive"));
 		}
 		//create query template
@@ -372,7 +372,7 @@ class Violation implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getViolationByViolationCodeDescripyion(\PDO $pdo, string $violationCodeDescription): \SplFixedArray {
+	public static function getViolationByViolationCodeDescription(\PDO $pdo, string $violationCodeDescription): \SplFixedArray {
 		// sanitize the description before searching
 		$violationCodeDescription = trim($violationCodeDescription);
 		$violationCodeDescription = filter_var($violationCodeDescription, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -386,9 +386,9 @@ class Violation implements \JsonSerializable {
 		$query = "SELECT violationId, violationCategoryId, violationCode, violationCodeDescription FROM violation WHERE violationCodeDescription LIKE :violationCode";
 		$statement = $pdo->prepare($query);
 
-		//bind the violation content to the place holder in the template
-		$violationCode = "%$violationCodeDescription%";
-		$parameters = ["violationCodeDescription" => $violationCodeDescription];
+		//bind the violation id to the place holder in the template
+		$violationCodeDescription = "%$violationCodeDescription%";
+		$parameters = ["violationId" => $violationCodeDescription];
 		$statement->execute($parameters);
 
 		//build an array of violations
@@ -445,8 +445,10 @@ class Violation implements \JsonSerializable {
 	 **/
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
+		return($fields);
 	}
 }
+
 
 
 
