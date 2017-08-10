@@ -233,8 +233,8 @@ class Category implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$catagory = new Category($row["catagoryId"], $row["catagoryName"]);
-				$categories [$categories->key()] = $catagory;
+				$category = new Category($row["categoryId"], $row["categoryName"]);
+				$categories [$categories->key()] = $category;
 				$categories->next();
 			} catch(\Exception $exception) {
 				//if the row couldn't be converted rethrow it
