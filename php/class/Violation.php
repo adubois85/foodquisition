@@ -68,7 +68,7 @@ class Violation implements \JsonSerializable {
 	/**
 	 * mutator method for violation id
 	 *
-	 * @param int|null $ViolationId new value of violation id
+	 * @param int|null $newViolationId new value of violation id
 	 * @throws \RangeException if $newViolationId is not positive
 	 * @throws \TypeError if $newViolationId is not an integer
 	 **/
@@ -101,9 +101,6 @@ class Violation implements \JsonSerializable {
 	 * @throws \RangeException if $newViolationCategoryId is not positive
 	 * @throws \TypeError if $newViolationCategoryId is not an integer
 	 **/
-	/**
-	 * @return string
-	 */
 	public function setViolationCategoryId(?int $newViolationCategoryId): void {
 		//if violation id is null immediately return it
 		if($newViolationCategoryId === null) {
@@ -148,7 +145,7 @@ class Violation implements \JsonSerializable {
 	/**
 	 * accessor method for violation code description
 	 *
-	 * @param return string value of violation code description
+	 * @return string value of violation code description
 	 *
 	 **/
 	public function getViolationCodeDescription(): string {
