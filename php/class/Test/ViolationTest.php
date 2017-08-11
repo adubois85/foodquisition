@@ -19,18 +19,25 @@ require_once(dirname(_DIR_) . "/autoload.php");
 class ViolationTest extends FoodquisitionTest {
 	/**
 	 * Category that created the Violation; this is for foreign key relations
-	 * @var $VALID_VIOLATIONCATEGORYID
+	 * @var Category category
+	 *
+	 */
+	protected $category = null;
+
+	/**
+	 *
+	 * @var int $VALID_VIOLATIONCATEGORYID
 	 *
 	 */
 	protected $VALID_VIOLATIONCATEGORYID;
 	/**
 	 * Valid Violation Code
-	 * @var $VALID_VIOLATIONCODE
+	 * @var string $VALID_VIOLATIONCODE
 	 */
 	protected $VALID_VIOLATIONCODE;
 	/**
 	 * valid violation code description
-	 * @var $VALID_VIOLATIONCODEDESCRIPTION
+	 * @var string $VALID_VIOLATIONCODEDESCRIPTION
 	 */
 	protected $VALID_VIOLATIONCODESCRIPTION;
 	/**
@@ -39,6 +46,14 @@ class ViolationTest extends FoodquisitionTest {
 	public function testInsertValidViolation() : void {
 		// count the number of the rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("violation");
+		/**
+		 *create dependent objects before running each test
+		 **/
+		public final function setUP() : void {
+			//run the default setUp() method first
+			parent::setUp();
+			$this->category = new Category(null, null,)
+		}
 
 		//create a new Violation and insert to mySQL
 		$violation = new Violation(null, $this->Violation->getViolationId(), $this->VALID_VIOLATIONCATEGORYID, $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
@@ -49,6 +64,6 @@ class ViolationTest extends FoodquisitionTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("violation"));
 		$this->assertEquals($pdoViolation->getViolationCategoryId(), $this->getViolationCategoryId());
 		$this->assertEquals($pdoViolation->getViolationCode(), $this->getViolationCode);
-		$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->get)
+		$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->get);
 	}
 }

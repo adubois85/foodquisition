@@ -289,7 +289,7 @@ class Violation implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getViolationByViolationCategoryId(\PDO $pdo, int $violationCategoryId): \SplFixedArray {
+	public static function getViolationsByViolationCategoryId(\PDO $pdo, int $violationCategoryId): \SplFixedArray {
 		// sanitize the violation id before searching
 		if($violationCategoryId <= 0) {
 			throw(new \RangeException("violation category id must be positive"));
