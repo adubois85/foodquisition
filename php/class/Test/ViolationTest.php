@@ -74,7 +74,11 @@ class ViolationTest extends FoodquisitionTest {
 		/**
 		 * test inserting a Violation that already exists
 		 *
-		 *
+		 * @expectedException \PDOException
 		 */
+		public function testInsertInvalidViolation() : void {
+			//create a Violation with a non null violation id and watch it fail
+			$violation = new Violation(FoodquisitionTest::INVALID_KEY, $this->category->getCategoryId())
+
 	}
 }
