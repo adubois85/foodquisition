@@ -267,5 +267,52 @@ public function testGetInvalidViolationByViolation() : void {
 	/**
 	 * test grabbing a valid Violation by Violation code description
 	 */
+	public function testGetValidViolationByViolationCodeDescription() : void {
+		// count number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("violation");
+
+		//create a new Violation and insert into mySQL
+		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODESCRIPTION);
+		$violation->insert($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match our expectations
+		$results = Violation::getViolationByViolationCodeDescription($this->getPDO(), $violation->getViolationCodeDescription());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("violation"));
+		$this->assertCount(1, $results);
+
+		//enforce no other objects are bleeding into the test
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Foodquisition\\Violation", $results);
+
+		//grab the result from the array and validate it
+		$pdoViolation = $results[0];
+		$this->assertEquals($pdoViolation->getViolationCategoryId(), $this->category->getCategoryId());
+		$this->assertEquals($pdoViolation->getViolationCode(), $this->VALID_VIOLATIONCODE);
+		$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODESCRIPTION);
+	}
+	/**
+	 *
+	 * test grabbing all Violations
+	 *
+	 */
+	public function testGetAllValidViolations() : void {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("violation");
+
+		// create a new Violation and insert to mySQL
+		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODESCRIPTION);
+		$violation->insert($this->getPDO());
+
+		//grab the data from mySQL and enforce the fields match our expectations
+		$results = Violation::getAllViolations($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("violation"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Foodquisition\\Violation", $results);
+
+		//grab the result from the array and validate it
+		$pdoViolation = $results[0];
+		$this->assertEquals($pdoViolation->getViolationCategoryId(), $this->category->getCategoryId());
+		$this->assertEquals($pdoViolation->getViolationCode(), $this->VALID_VIOLATIONCODE);
+		$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODESCRIPTION);
+	}
 
 }
