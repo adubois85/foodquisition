@@ -25,7 +25,7 @@ class ViolationTest extends FoodquisitionTest {
 	protected $category = null;
 
 	/**
-	 *
+	 *valid profile category Id
 	 * @var int $VALID_VIOLATIONCATEGORYID
 	 *
 	 */
@@ -39,12 +39,12 @@ class ViolationTest extends FoodquisitionTest {
 	 * valid violation code description
 	 * @var string $VALID_VIOLATIONCODEDESCRIPTION
 	 */
-	protected $VALID_VIOLATIONCODESCRIPTION;
+	protected $VALID_VIOLATIONCODEDESCRIPTION;
 
 	/**
 	 *create dependent objects before running each test
 	 **/
-	public final function setUp(): void {
+	public final function setUp() : void {
 		//run the default setUp() method first
 		parent::setUp();
 		$this->category = new Category(null, "name");
@@ -68,7 +68,7 @@ class ViolationTest extends FoodquisitionTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("violation"));
 		$this->assertEquals($pdoViolation->getViolationCategoryId(), $this->category->getCategoryId());
 		$this->assertEquals($pdoViolation->getViolationCode(), $this->VALID_VIOLATIONCODE);
-		$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODESCRIPTION);
+		$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODEDESCRIPTION);
 	}
 
 	/**
@@ -76,9 +76,9 @@ class ViolationTest extends FoodquisitionTest {
 	 *
 	 * @expectedException \PDOException
 	 */
-	public function testInsertInvalidViolation(): void {
+	public function testInsertInvalidViolation() : void {
 		//create a Violation with a non null violation id and watch it fail
-		$violation = new Violation(FoodquisitionTest::INVALID_KEY, $this->category->getCategoryId(), $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODESCRIPTION);
+		$violation = new Violation(FoodquisitionTest::INVALID_KEY, $this->category->getCategoryId(), $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
 		$violation->insert($this->getPDO());
 	}
 
@@ -86,12 +86,12 @@ class ViolationTest extends FoodquisitionTest {
 	 * test inserting a Violation, editing it, and then updating it
 	 *
 	 */
-	public function testUpdateValidViolation(): void {
-		//count the number of rows and save it for later
+	public function testUpdateValidViolation() : void {
+		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("violation");
 
-		//create a new Violation and insert to into mySQL
-		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODESCRIPTION);
+		// create a new Violation and insert to into mySQL
+		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
 		$violation->insert($this->getPDO());
 
 		// edit the Violation and update it in mySQL
@@ -103,26 +103,28 @@ class ViolationTest extends FoodquisitionTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("violation"));
 		$this->assertEquals($pdoViolation->getViolationCategoryId(), $this->category->getCategoryId());
 		$this->assertEquals($pdoViolation->getViolationCode(), $this->VALID_VIOLATIONCODE);
-		$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODESCRIPTION);
+		$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODEDESCRIPTION);
 	}
 
 	/**
 	 * test updating a Violation that already exist
 	 *
-	 * @rxpectedException \PDOException
+	 * @expectedException \PDOException
 	 *
 	 */
-	public function testUpdateInvalidViolation(): void {
+
+	public function testUpdateInvalidViolation() : void {
 		// create a Violation with a non null violation id and watch it fail
-		$violation = new Violation(FoodquisitionTest::INVALID_KEY, $this->category->getCategoryId(), $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODESCRIPTION);
+		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
 		$violation->update($this->getPDO());
 	}
+
 	/**
 	 * test creating a Violation and then deleting it
 	 */
-publc function testDeleteValidViolation(): void {
-	//count the number of rows and save it for later
-	$numrows = $this->getConnection()->getRowCount("violation");
+publc function testDeleteValidViolation() : void {
+	// count the number of rows and save it for later
+	$numRows = $this->getConnection()->getRowCount("violation");
 
 	//create a new Violation and insert it into mySQL
 	$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCATEGORYID, $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
@@ -163,7 +165,7 @@ public function testGetValidViolationByViolationId() : void {
 	$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("violation"));
 	$this->assertEquals($pdoViolation->getViolationCategoryId(), $this->category->getCategoryId());
 	$this->assertEquals($pdoViolation->getViolationCode(), $this->VALID_VIOLATIONCODE);
-	$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODESCRIPTION);
+	$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODEDESCRIPTION);
 }
 /**
  * test grabbing a Violation that does not exist
@@ -195,59 +197,28 @@ public function testGetValidViolationByViolationCategoryId() {
 	$pdoViolation = $results[0];
 	$this->assertEquals($pdoViolation->getViolationCategoryId(), $this->category->getCategoryId());
 	$this->assertEquals($pdoViolation->getViolationCode(), $this->VALID_VIOLATIONCODE);
-	$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODESCRIPTION);
+	$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODEDESCRIPTION);
 }
 /**
  *
  *test grabbing a Violation that does not exist
  */
-public function testGetInvalidViolationByViolation() : void {
+public function testGetInvalidViolationByViolationCategoryId() : void {
 	// grab a category id that exceeds the maximum allowable profile id
 	$violation = Violation::getViolationByViolationId($this->getPDO(), FoodquisitionTest::INVALID_KEY);
 	$this->assertNull($violation);
 }
 /**
- * test inserting a Violation and regrabbing it from mySQL
+ * test inserting a Violation by violation code
  *
  */
-	public function testGetValidViolationByViolationCategoryId() {
-		//count the number of rows and save for later
-		$numRows = $this->getConnection()->getRowCount("violation");
 
-		//create a new Violation and insert into mySQL
-		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODESCRIPTION);
-		$violation->insert($this->getPDO());
-
-		//grab the data from mySQL and enforce the fields match our expectations
-		$results = Violation::getViolationsByViolationCategoryId($this->getPDO(), $violation->getViolationCategoryId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("violation"));
-		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Foodquisition\\Violation", $results);
-
-		//grab the result from the array and validate it
-		$pdoViolation = $results[0];
-		$this->assertEquals($pdoViolation->getViolationCategoryId(), $this->category->getCategoryId());
-		$this->assertEquals($pdoViolation->getViolationCode(), $this->VALID_VIOLATIONCODE);
-		$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODESCRIPTION);
-	}
-	/**
-	 * test grabbing a Violation that does not exist
-	 */
-	public function testGetValidViolationByViolationCode() : void {
-		//grab a category id that excedds the maximum allowable category if
-		$violation = Violation::getViolationsByViolationCategoryId($this-$this->getPDO(), FoodquisitionTest::INVALID_KEY);
-		$this->assertCount(0, $violation);
-	}
-	/**
-	 * test grabbing a Violation by violation code
-	 *
-	 */
 	public function testGetValidViolationByViolationCode() : void {
 		// count number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("violation");
 
 		//create a new Violation and insert into mySQL
-		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODESCRIPTION);
+		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
 		$violation->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
@@ -262,8 +233,19 @@ public function testGetInvalidViolationByViolation() : void {
 		$pdoViolation = $results[0];
 		$this->assertEquals($pdoViolation->getViolationCategoryId(), $this->category->getCategoryId());
 		$this->assertEquals($pdoViolation->getViolationCode(), $this->VALID_VIOLATIONCODE);
-		$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODESCRIPTION);
+		$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODEDESCRIPTION);
 	}
+
+	/**
+	 * test grabbing a Violation by code that does not exist
+	 *
+	 */
+	public function testGetInValidViolationByViolationCode() : void {
+		//grab a category id that excedds the maximum allowable category if
+		$violation = Violation::getViolationsByViolationCategoryId($this->getPDO(), FoodquisitionTest::INVALID_KEY);
+		$this->assertCount(0, $violation);
+	}
+
 	/**
 	 * test grabbing a valid Violation by Violation code description
 	 */
@@ -272,7 +254,7 @@ public function testGetInvalidViolationByViolation() : void {
 		$numRows = $this->getConnection()->getRowCount("violation");
 
 		//create a new Violation and insert into mySQL
-		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODESCRIPTION);
+		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
 		$violation->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
@@ -287,7 +269,7 @@ public function testGetInvalidViolationByViolation() : void {
 		$pdoViolation = $results[0];
 		$this->assertEquals($pdoViolation->getViolationCategoryId(), $this->category->getCategoryId());
 		$this->assertEquals($pdoViolation->getViolationCode(), $this->VALID_VIOLATIONCODE);
-		$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODESCRIPTION);
+		$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODEDESCRIPTION);
 	}
 	/**
 	 *
@@ -299,7 +281,7 @@ public function testGetInvalidViolationByViolation() : void {
 		$numRows = $this->getConnection()->getRowCount("violation");
 
 		// create a new Violation and insert to mySQL
-		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODESCRIPTION);
+		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
 		$violation->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
@@ -312,7 +294,7 @@ public function testGetInvalidViolationByViolation() : void {
 		$pdoViolation = $results[0];
 		$this->assertEquals($pdoViolation->getViolationCategoryId(), $this->category->getCategoryId());
 		$this->assertEquals($pdoViolation->getViolationCode(), $this->VALID_VIOLATIONCODE);
-		$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODESCRIPTION);
+		$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODEDESCRIPTION);
 	}
 
 }
