@@ -196,7 +196,7 @@ public function testDeleteValidViolation(): void {
 		$violation->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
-		$results = Violation::getViolationByViolationId($this->getPDO(), $violation->getViolationCategoryId());
+		$results = Violation::getViolationByViolationCategoryId($this->getPDO(), $violation->getViolationCategoryId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("violation"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Foodquisition\\Violation", $results);
