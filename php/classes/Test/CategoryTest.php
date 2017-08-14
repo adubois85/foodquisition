@@ -23,4 +23,17 @@ class CategoryTest extends FoodquisitionTest {
 	 * @var string $VALID_CATEGORYNAME
 	**/
 	protected $VALID_CATEGORYNAME = "Fuzzies In Kitchen";
+
+	/**
+	 * test inserting a valid category andd verify that the actual mySQL data matches
+	 **/
+
+	public function testInsertValidCategory() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("category");
+
+		//create a new Category and insert into mqSQL
+		$category = new Category(null, $this->VALID_CATEGORYNAME);
+
+	}
 }
