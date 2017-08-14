@@ -64,7 +64,7 @@ class ViolationTest extends FoodquisitionTest {
 		$numRows = $this->getConnection()->getRowCount("violation");
 
 		//create a new Violation and insert to into mySQL
-		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCATEGORYID, $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
+		$violation = new Violation(null, $this->category->getCategoryId(),  $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
 		$violation->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -131,7 +131,7 @@ public function testDeleteValidViolation(): void {
 	$numRows = $this->getConnection()->getRowCount("violation");
 
 	//create a new Violation and insert it into mySQL
-	$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCATEGORYID, $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
+	$violation = new Violation(null, $this->category->getCategoryId(),  $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
 	$violation->insert($this->getPDO());
 
 	// delete the Violation from mySQL
@@ -151,7 +151,7 @@ public function testDeleteValidViolation(): void {
 	 */
 	public function testDeleteInvalidViolation(): void {
 		// create a Violation and try to delete it without actually inserting it
-		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCATEGORYID, $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
+		$violation = new Violation(null, $this->category->getCategoryId(),  $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
 		$violation->delete($this->getPDO());
 	}
 
@@ -163,7 +163,7 @@ public function testDeleteValidViolation(): void {
 		$numRows = $this->getConnection()->getRowCount("violation");
 
 		//create a new Violation and insert into mySQL
-		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCATEGORYID, $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
+		$violation = new Violation(null, $this->category->getCategoryId(),  $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
 		$violation->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
@@ -192,7 +192,7 @@ public function testDeleteValidViolation(): void {
 		$numRows = $this->getConnection()->getRowCount("violation");
 
 		//create a new Violation and insert it into mySQL
-		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCATEGORYID, $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
+		$violation = new Violation(null, $this->category->getCategoryId(),  $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
 		$violation->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
