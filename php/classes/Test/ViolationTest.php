@@ -126,7 +126,7 @@ class ViolationTest extends FoodquisitionTest {
 	/**
 	 * test creating a Violation and then deleting it
 	 */
-publc function testDeleteValidViolation(): void {
+public function testDeleteValidViolation(): void {
 	// count the number of rows and save it for later
 	$numRows = $this->getConnection()->getRowCount("violation");
 
