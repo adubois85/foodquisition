@@ -485,7 +485,7 @@ class Restaurant implements \JsonSerializable {
 	}
 
 	/**
-	 * Function to insert this restaurant into the database
+	 * Method to insert this restaurant into the database
 	 *
 	 * @param \PDO $pdoInsert the PDO connection object
 	 * @throws \PDOException due to mySQL related issues
@@ -509,6 +509,29 @@ class Restaurant implements \JsonSerializable {
 		$this->restaurantId = intval($pdoInsert->lastInsertId());
 	}
 
+	/**
+	 * Method for getting a restaurant entity by its restaurantId (primary key)
+	 *
+	 * @param \PDO $pdoGetById the PDO connection object
+	 * @param int $restaurantId the restaurantId that we are searching by
+	 * @return Restaurant | null Restaurant entity if found, null if not
+	 * @throws \PDOException for mySQL related errors
+	 * @throws \TypeError if the entered variables are not of the correct data type
+	 * @throws \Exception for other kinds of errors not otherwise caught
+	 */
+	public static function getRestaurantByRestaurantId(\PDO $pdoGetByRestaurantId, int $restaurantId) : ?Restaurant {
+		// first check that the entered restaurantId is a positive number
+		if ($restaurantId < 1 ) {
+			throw (new \PDOException("The entered restaurant ID is not a positive integer."));
+		}
+
+		// we create a template for our SELECT statement
+		$queryRestaurantId = "SELECT restaurantId, restaurantAddress1, restaurantAddress2, restaurantCity, restaurantFacilityKey, restaurantGoogleId, restaurantName, restaurantPhoneNumber, restaurantState, restaurantType, restaurantZip FROM restaurant WHERE restaurantId = :restaurantId";
+		$preppedGetByRestaurantId = $pdoGetByRestaurantId->prepare($queryRestaurantId);
+
+		// sub out the placeholder value for restaurantId we previously set
+		$parameters = [""]
+	}
 	/**
 	 * Formats the state variables for JSON serialization
 	 *
