@@ -74,4 +74,71 @@ class CategoryTest extends FoodquisitionTest {
 		$this->assertEquals($pdoCategory->getCategoryName(), $this->VALID_CATEGORYNAME);
 	}
 
+	/**
+	 * test updating a Category that does not exist
+	 *
+	 * @expectedException \PDOException
+	 **/
+	public function testUpdateInvalidCategory() {
+		// create a Category and try to update it without actually inserting it
+		$category = new Category(null, $this->VALID_CATEGORYNAME);
+		$category->update($this->getPDO());
+	}
+
+	/**
+	 * test creating a Category and then deleting it
+	 **/
+	public function testDeleteValidProfile() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("category");
+
+		// create a new Category and insert into mySQL
+		$category = new Category(null, $this->VALID_CATEGORYNAME);
+		$category->insert($this->getPDO());
+
+		// delete the Category from mySQL
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("category"));
+		$category->delete($this->getPDO());
+
+		// grab the data from mySQL and enforce the Category does not exist
+		$pdoCategory = Category::getCategoryByCategoryId($this->getPDO(), $category->getCategoryId());
+		$this->assertNull($pdoCategory);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("category"));
+	}
+
+	/**
+	 * test deleting a Category that does not exist
+	 *
+	 * @expectedException \PDOException
+	 **/
+	public function testDeleteInvalidCategory() : void {
+		//create a Category and try to delete it without actually inserting it
+		$category = new Category(null, $this->VALID_CATEGORYNAME);
+		$category->delete($this->getPDO());
+	}
+
+	/**
+	 * test inserting a Category and regrabbing it from mySQL
+	 **/
+	public function testGetValidCategoryByCategoryId() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("category");
+
+		// create a new Category and insert into mySQL
+		$category = new Category(null, $this->VALID_CATEGORYNAME);
+		$category->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$pdoCategory = Category::getCategoryByCategoryId($this->getPDO(), $category->getCategoryId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("category"));
+		$this->assertEquals($pdoCategory->getCategoryName(), $this->VALID_CATEGORYNAME);
+	}
+	/**
+	 * test grabbing a Category that does not exist
+	 **/
+	public function testGetInvalidCategoryByCategoryId() : void {
+		// grab a category id that exceeds the maximum allowable category id
+		$category = Category::getCategoryByCategoryId($this->getPDO(), FoodquisitionTest::INVALID_KEY);
+		$this->assertNull($category);
+	}
 }
