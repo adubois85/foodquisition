@@ -43,9 +43,12 @@ CREATE TABLE restaurantViolation(
 	restaurantViolationId INT UNSIGNED NOT NULL AUTO_INCREMENT,
 	restaurantViolationRestaurantId INT UNSIGNED NOT NULL,
 	restaurantViolationViolationId INT UNSIGNED NOT NULL,
+	restaurantViolationCompliance VARCHAR(17),
 	restaurantViolationDate DATE NOT NULL,
 	restaurantViolationMemo VARCHAR(255),
 	restaurantViolationResults VARCHAR(32) NOT NULL,
+	INDEX (restaurantViolationRestaurantId),
+	INDEX (restaurantViolationViolationId),
 	FOREIGN KEY (restaurantViolationRestaurantId) REFERENCES restaurant(restaurantId),
 	FOREIGN KEY (restaurantViolationViolationId) REFERENCES violation(violationId),
 	PRIMARY KEY (restaurantViolationId)
