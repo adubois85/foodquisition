@@ -51,7 +51,7 @@ class RestaurantViolation implements \JsonSerializable {
 	 *
 	 * @param int|null $newRestaurantViolationId of this restaurantViolation or null if a new restaurantViolation
 	 * @param int $newRestaurantViolationRestaurantId of the restaurantId that caused the restaurant violation
-	 * @param int $newRestaurantViolationViolation of the restaurant violation violation
+	 * @param int $newRestaurantViolationViolationId of the restaurant violation violation
 	 * @param \DateTime|string|null $newRestaurantViolationDate date and time restaurant violation was sent or null if set to current date and time
 	 * @param string $newRestaurantViolationMemo string containing inspector notes
 	 * @param string $newRestaurantViolationResults sting containing results of inspection
@@ -68,6 +68,7 @@ class RestaurantViolation implements \JsonSerializable {
 			$this->setRestaurantViolationViolationId($newRestaurantViolationViolationId);
 			$this->setRestaurantViolationDate($newRestaurantViolationDate);
 			$this->setRestaurantViolationMemo($newRestaurantViolationMemo);
+			$this->setRestaurantViolationResults($newRestaurantViolationResults);
 		} //determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
@@ -126,6 +127,30 @@ class RestaurantViolation implements \JsonSerializable {
 		//convert and store the restaurant violation restaurant id
 		$this->restaurantViolationRestaurantId = $newRestaurantViolationRestaurantId;
 	}
-
+	/**
+	 * accessor method for restaurant violation violation id
+	 *
+	 * @return int value of restaurant violation violation id
+	 **/
+	public function getRestaurantViolationViolationId() : int{
+		return($this->restaurantViolationViolationId);
+	}
+	/**
+	 * mutator method for restaurant violation violation id
+	 * @param int $newRestaurantViolationViolationId new value of restaurant violation violation id
+	 * @throws \RangeException if $newRestaurantViolationViolationId is not positive
+	 * @throws \TypeError if $newRestaurantViolationViolationId is not an integer
+	 **/
+	public function setRestaurantViolationViolationId(int $newRestaurantViolationViolationId) : void {
+		//verify the restaurant violation violation id is positive
+		if($newRestaurantViolationViolationId <= 0) {
+			throw(new \RangeException("restaurant violation violation id is not positive"));
+		}
+		//convert and store the restaurant violation violation id
+		$this->restaurantViolationViolationId = $newRestaurantViolationViolationId;
+	}
+/**
+ *
+ **/
 }
 
