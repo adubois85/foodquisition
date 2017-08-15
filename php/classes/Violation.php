@@ -188,7 +188,7 @@ class Violation implements \JsonSerializable {
 	public function insert(\PDO $pdo): void {
 		// enforce the violationId is null
 		if($this->violationId !== null) {
-			throw(new \PDOException("not a new tweet"));
+			throw(new \PDOException("not a new violation"));
 		}
 		// create query template
 		$query = "INSERT INTO violation(violationId, violationCategoryId, violationCode, violationCodeDescription) VALUES(:violationId, :violationCategoryId, :violationCode, :violationCodeDescription)";
