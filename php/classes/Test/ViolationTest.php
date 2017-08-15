@@ -40,6 +40,12 @@ class ViolationTest extends FoodquisitionTest {
 	 */
 	protected $VALID_VIOLATIONCODE = "S42";
 	/**
+	 * valid violation code 2
+	 *  @var string $VALID_VIOLATIONCODE2
+	 *
+	 */
+	protected $VALID_VIOLATIONCODE2 = "s43";
+	/**
 	 * valid violation code description
 	 * @var string $VALID_VIOLATIONCODEDESCRIPTION
 	 */
@@ -64,7 +70,7 @@ class ViolationTest extends FoodquisitionTest {
 		$numRows = $this->getConnection()->getRowCount("violation");
 
 		//create a new Violation and insert to into mySQL
-		$violation = new Violation(null, $this->category->getCategoryId(),  $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
+		$violation = new Violation(null, $this->category->getCategoryId(), $this->VALID_VIOLATIONCODE, $this->VALID_VIOLATIONCODEDESCRIPTION);
 		$violation->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
@@ -99,14 +105,14 @@ class ViolationTest extends FoodquisitionTest {
 		$violation->insert($this->getPDO());
 
 		// edit the Violation and update it in mySQL
-		$violation->setViolationId($this->VALID_VIOLATIONCATEGORYID);
+		$violation->setViolationCode($this->VALID_VIOLATIONCODE2);
 		$violation->update($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
 		$pdoViolation = Violation::getViolationByViolationId($this->getPDO(), $violation->getViolationId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("violation"));
 		$this->assertEquals($pdoViolation->getViolationCategoryId(), $this->category->getCategoryId());
-		$this->assertEquals($pdoViolation->getViolationCode(), $this->VALID_VIOLATIONCODE);
+		$this->assertEquals($pdoViolation->getViolationCode(), $this->VALID_VIOLATIONCODE2);
 		$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODEDESCRIPTION);
 	}
 
@@ -196,7 +202,7 @@ public function testDeleteValidViolation(): void {
 		$violation->insert($this->getPDO());
 
 		//grab the data from mySQL and enforce the fields match our expectations
-		$results = Violation::getViolationByViolationCategoryId($this->getPDO(), $violation->getViolationCategoryId());
+		$results = Violation::getViolationsByViolationCategoryId($this->getPDO(), $violation->getViolationCategoryId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("violation"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Foodquisition\\Violation", $results);

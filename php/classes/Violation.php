@@ -45,20 +45,8 @@ class Violation implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
-	 */
-	public function __construct(?int $newViolationId, int $newViolationCategoryId, string $newViolationCode, string $newViolationCodeDescription) {
-		try {
-			$this->setViolationId($newViolationId);
-			$this->setViolationCategoryId($newViolationCategoryId);
-			$this->setViolationCode($newViolationCode);
-			$this->setViolationCodeDescription($newViolationCodeDescription);
-		} //determine what exception type was thrown
-		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
-			$exceptionType = get_class($exception);
-			throw(new $exceptionType($exception->getMessage(), 0, $exception));
-		}
-	}
 
+	 */
 	/**
 	 * accessor method for violation id
 	 *
@@ -75,6 +63,19 @@ class Violation implements \JsonSerializable {
 	 * @throws \RangeException if $newViolationId is not positive
 	 * @throws \TypeError if $newViolationId is not an integer
 	 **/
+	public function __construct(?int $newViolationId, int $newViolationCategoryId, string $newViolationCode, string $newViolationCodeDescription) {
+		try {
+			$this->setViolationId($newViolationId);
+			$this->setViolationCategoryId($newViolationCategoryId);
+			$this->setViolationCode($newViolationCode);
+			$this->setViolationCodeDescription($newViolationCodeDescription);
+		} //determine what exception type was thrown
+		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+
+	}
 	public function setViolationId(?int $newViolationId): void {
 		//if violation id is null immediately return it
 		if($newViolationId === null) {
@@ -115,7 +116,7 @@ class Violation implements \JsonSerializable {
 			throw(new \RangeException("violation category id is not positive"));
 		}
 		// convert and store the violation id
-		$this->violationId = $newViolationCategoryId;
+		$this->violationCategoryId = $newViolationCategoryId;
 	}
 
 	public function getViolationCode(): string {
@@ -191,7 +192,7 @@ class Violation implements \JsonSerializable {
 			throw(new \PDOException("not a new violation"));
 		}
 		// create query template
-		$query = "INSERT INTO violation(violationId, violationCategoryId, violationCode, violationCodeDescription) VALUES(:violationId, :violationCategoryId, :violationCode, :violationCodeDescription)";
+		$query = "INSERT INTO violation(violationCategoryId, violationCode, violationCodeDescription) VALUES(:violationCategoryId, :violationCode, :violationCodeDescription)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the place holders in the template
@@ -308,7 +309,7 @@ class Violation implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$violation = new Violation($row["profileId"], $row["profileCategoryId"], $row["profileCode"], $row["profileCodeDescription"]);
+				$violation = new Violation($row["violationId"], $row["violationCategoryId"], $row["violationCode"], $row["violationCodeDescription"]);
 				$violations[$violations->key()] = $violation;
 				$violations->next();
 			} catch(\Exception $exception) {
@@ -383,12 +384,12 @@ class Violation implements \JsonSerializable {
 		$violationCodeDescription = str_replace("_", "\\_", str_replace("%", "\\%", $violationCodeDescription));
 
 		// create query template
-		$query = "SELECT violationId, violationCategoryId, violationCode, violationCodeDescription FROM violation WHERE violationCodeDescription LIKE :violationCode";
+		$query = "SELECT violationId, violationCategoryId, violationCode, violationCodeDescription FROM violation WHERE violationCodeDescription LIKE :violationCodeDescription";
 		$statement = $pdo->prepare($query);
 
 		//bind the violation id to the place holder in the template
 		$violationCodeDescription = "%$violationCodeDescription%";
-		$parameters = ["violationId" => $violationCodeDescription];
+		$parameters = ["violationCodeDescription" => $violationCodeDescription];
 		$statement->execute($parameters);
 
 		//build an array of violations
