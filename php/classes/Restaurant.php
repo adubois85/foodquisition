@@ -542,3 +542,4 @@ class Restaurant implements \JsonSerializable {
 		return($jsonObject);
 	}
 }
+ 

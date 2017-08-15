@@ -173,8 +173,9 @@ class CategoryTest extends FoodquisitionTest {
 	/**
 	 * test grabbing all categories
 	 **/
-	// count number of rows and save for later
+
 	public function testGetAllCategories() {
+		// count number of rows and save for later
 		$numRows = $this->getConnection()->getRowCount("category");
 
 		//create new category and insert
