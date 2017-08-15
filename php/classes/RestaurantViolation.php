@@ -67,7 +67,7 @@ class RestaurantViolation implements \JsonSerializable {
 			$this->setRestaurantViolationRestaurantId($newRestaurantViolationRestaurantId);
 			$this->setRestaurantViolationViolationId($newRestaurantViolationViolationId);
 			$this->setRestaurantViolationDate($newRestaurantViolationDate);
-			$this->setRrestaurantViolationMemo($newRestaurantViolationMemo);
+			$this->setRestaurantViolationMemo($newRestaurantViolationMemo);
 		} //determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
