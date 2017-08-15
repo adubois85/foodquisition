@@ -247,5 +247,29 @@ public function setRestaurantViolationMemo(string $newRestaurantViolationMemo) :
 		// store the restaurant violation results
 		$this->restaurantViolationResults = $newRestaurantViolationResults;
 	}
-}
+	/**
+	 * inserts this restaurant violation into mySQL
+	 *
+	 * @param \pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo) : void {
+		// enforce the restaurantViolationId is null (i.e., don't insert a restaurantViolationId that already exists)
+		if($this->restaurantViolationId !== null) {
+			throw(new \PDOException("not a new restaurant violation id"));
+		}
+		// create query template
+		$query = "INSERT INTO restaurantViolation(restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults) VALUES(:restaurantViolationId, :restaurantViolationResturantId, :returantViolationViolationId, :restaurantViolationDate, :restaurnatViolationMemo, :restaurantViolationResults)";
+		$statement = $pdo->prepare($query);
+
+		// bind the member variables in the place holder template
+		$formattedDate = $this->restaurantViolationDate->format("Y-m-d");
+		$parameters = ["restaurantViolationId" => $this->restaurantViolationId, "restaurantViolationRestaurantId" => $this->restaurantViolationRestaurantId, "restaurantViolationViolationId" => $this->restaurantViolationViolationId, "restaurantViolationDate" => $formattedDate, "restaurantViolationMemo" => $this->restaurantViolationMemo, "restaurantViolationResults" => $this->restaurantViolationResults];
+		$statement->execute($parameters);
+		// update the null restaurantViolationId with what mySQL just gave us
+		$this->restaurantViolationId = intval($pdo->lastInsertId());
+	}
+
+} /**this is the class end bracket**/
 
