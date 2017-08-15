@@ -187,6 +187,8 @@ class RestaurantViolation implements \JsonSerializable {
 		}
 		$this->restaurantViolationDate = $newRestaurantViolationDate;
 	}
-
+/**
+ *
+ **/
 }
 
