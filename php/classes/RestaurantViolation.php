@@ -61,23 +61,26 @@ class RestaurantViolation implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct(?int $newRestaurantViolationId, int $newRestaurantViolationRestaurantId, int $restaurantViolationViolationId, $newRestaurantiViolationDate = null, string $newRestaurantViolationMemo, string $newRestaurantViolationResults) {
+	public function __construct(?int $newRestaurantViolationId, int $newRestaurantViolationRestaurantId, int $newRestaurantViolationViolationId, $newRestaurantViolationDate = null, string $newRestaurantViolationMemo, string $newRestaurantViolationResults) {
 		try {
 			$this->setRestaurantViolationId($newRestaurantViolationId);
 			$this->setRestaurantViolationRestaurantId($newRestaurantViolationRestaurantId);
 			$this->setRestaurantViolationViolationId($newRestaurantViolationViolationId);
-			$this->setRestaurantViolationDate($newRestaurantiViolationDate);
+			$this->setRestaurantViolationDate($newRestaurantViolationDate);
 			$this->setRrestaurantViolationMemo($newRestaurantViolationMemo);
 		} //determine what exception type was thrown
 		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
+	}
 		/**
 		 *
 		 * accessor method for restaurant violation Id
-		 * @return int|null valur of restuarant violation Id
+		 * @return int|null value of restaurant violation Id
 		 */
-		public function get
+		public function get(){
+			{}
+		}
 	}
-}
+
