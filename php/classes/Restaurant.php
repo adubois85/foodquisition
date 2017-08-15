@@ -512,32 +512,32 @@ class Restaurant implements \JsonSerializable {
 	/**
 	 * Method for getting a restaurant entity by its restaurantId (primary key)
 	 *
-	 * @param \PDO $pdoGetByRestaurantId the PDO connection object
+	 * @param \PDO $pdo the PDO connection object
 	 * @param int $restaurantId the restaurantId that we are searching by
 	 * @return Restaurant | null Restaurant entity if found, null if not
 	 * @throws \PDOException for mySQL related errors
 	 * @throws \TypeError if the entered variables are not of the correct data type
 	 * @throws \Exception for other kinds of errors not otherwise caught
 	 */
-	public static function getRestaurantByRestaurantId(\PDO $pdoGetByRestaurantId, int $restaurantId) : ?Restaurant {
+	public static function getRestaurantByRestaurantId(\PDO $pdo, int $restaurantId) : ?Restaurant {
 		// first check that the entered restaurantId is a positive number
 		if ($restaurantId < 1 ) {
 			throw (new \PDOException("The entered restaurant ID is not a positive integer."));
 		}
 
 		// we create a template for our SELECT statement
-		$queryRestaurantId = "SELECT restaurantId, restaurantAddress1, restaurantAddress2, restaurantCity, restaurantFacilityKey, restaurantGoogleId, restaurantName, restaurantPhoneNumber, restaurantState, restaurantType, restaurantZip FROM restaurant WHERE restaurantId = :restaurantId";
-		$preppedGetByRestaurantId = $pdoGetByRestaurantId->prepare($queryRestaurantId);
+		$query = "SELECT restaurantId, restaurantAddress1, restaurantAddress2, restaurantCity, restaurantFacilityKey, restaurantGoogleId, restaurantName, restaurantPhoneNumber, restaurantState, restaurantType, restaurantZip FROM restaurant WHERE restaurantId = :restaurantId";
+		$statement = $pdo->prepare($query);
 
 		// sub out the placeholder value for restaurantId we previously set
 		$parameters = ["restaurantId" => $restaurantId];
-		$preppedGetByRestaurantId->execute($parameters);
+		$statement->execute($parameters);
 
 		// Build and array to store the fetched data in
 		try {
 			$restaurantArray = null;
-			$preppedGetByRestaurantId->setFetchMode(\PDO::FETCH_ASSOC);
-			$row = $preppedGetByRestaurantId->fetch();
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
 			if($row !== false) {
 				$restaurantArray = new Restaurant($row["restaurantId"], $row["restaurantAddress1"], $row["restaurantAddress2"], $row["restaurantCity"], $row["restaurantFacilityKey"], $row["restaurantGoogleId"], $row["restaurantName"], $row["restaurantPhoneNumber"], $row["restaurantState"], $row["restaurantType"], $row["restaurantZip"]);
 			}
