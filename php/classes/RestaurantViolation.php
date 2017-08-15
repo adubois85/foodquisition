@@ -218,6 +218,34 @@ public function setRestaurantViolationMemo(string $newRestaurantViolationMemo) :
 	//store the restaurant violation memo
 	$this->restaurantViolationMemo = $newRestaurantViolationMemo;
 }
-
+/**
+ *
+ * accessor method for restaurant violation results
+ * @return string value of restaurant violation results
+ **/
+	public function getRestaurantViolationResults() :string {
+		return($this->restaurantViolationResults);
+	}
+	/**
+	 * mutator method for restaurant violation results
+	 * @param string $newRestaurantViolationResults new value of results
+	 * @throws \InvalidArgumentException if $newRestaurantViolationResults is not a string or insecure
+	 * @throws \RangeException if $newRestaurantViolationResults is > 32 characters
+	 * @throws \TypeError if $newRestaurantViolationMemo is not a string
+	 **/
+	public function setRestaurantViolationResults(string $newRestaurantViolationResults) : void {
+		// verify the restaurant violation results are secure
+		$newRestaurantViolationResults = trim($newRestaurantViolationResults);
+		$newRestaurantViolationResults = filter_var($newRestaurantViolationResults, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newRestaurantViolationResults) === true) {
+			throw(new \InvalidArgumentException("restaurant violation results is empty or insecure"));
+		}
+		// verify the restaurant violation results will fit in the database
+		if(strlen($newRestaurantViolationResults) > 32) {
+			throw(new \RangeException("restaurant violation results too large"));
+		}
+		// store the restaurant violation results
+		$this->restaurantViolationResults = $newRestaurantViolationResults;
+	}
 }
 
