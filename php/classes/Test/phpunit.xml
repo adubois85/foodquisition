@@ -3,7 +3,7 @@
 		<testsuite name="Foodquisition">
 			<file>RestaurantTest.php</file>
 			<file>CategoryTest.php</file>
-			<file>ViolationTest.php</file>
+			<file>ViolationTest.php</file> -->
 			<file>RestaurantViolationTest.php</file>
 		</testsuite>
 	</testsuites>

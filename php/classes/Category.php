@@ -172,7 +172,7 @@ class Category implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables to the place holders in the template
-		$parameters = ["categoryName" => $this->categoryName];
+		$parameters = ["categoryId"=> $this->categoryId, "categoryName" => $this->categoryName];
 		$statement->execute($parameters);
 	}
 
