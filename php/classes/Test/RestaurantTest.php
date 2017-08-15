@@ -52,7 +52,7 @@ class RestaurantTest extends FoodquisitionTest{
 	 * valid restaurant name for the test restaurant entity
 	 * @var $VALID_RESTAURANT_NAME
 	 */
-	protected $VALID_RESTAURANT_NAME = "Fuzzy Wuzzy's Furry Food";
+	protected $VALID_RESTAURANT_NAME = "Fuzzy Wuzzy's Furry Food Emporium";
 
 	/**
 	 * valid restaurant phone number for the test restaurant entity
