@@ -78,6 +78,19 @@ class RestaurantTest extends FoodquisitionTest{
 	 */
 	protected $VALID_RESTAURANT_ZIP = "87114-4411";
 
+	/**
+	 * A test that inserts a valid new restaurant entity into the database, then verify that
+	 * the returned mySQL data matches
+	 */
+	public function testInsertValidRestaurant() : void {
+		// count and store the number of rows for later
+		$numRows = $this->getConnection()->getRowCount("restaurant");
+
+		// create our new dummy entity and insert into mySQL
+		$restaurant = new Restaurant(null, $this->VALID_RESTAURANT_ADDRESS1, $this->VALID_RESTAURANT_ADDRESS2, $this->VALID_RESTAURANT_CITY, $this->VALID_RESTAURANT_FACILITY_KEY, $this->VALID_RESTAURANT_GOOGLE_ID, $this->VALID_RESTAURANT_NAME, $this->VALID_RESTAURANT_PHONE_NUMBER, $this->VALID_RESTAURANT_STATE, $this->VALID_RESTAURANT_TYPE, $this->VALID_RESTAURANT_ZIP);
+		$restaurant->insert($this->getPDO());
 
 
+
+	}
 }
