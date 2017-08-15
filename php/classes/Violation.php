@@ -10,25 +10,29 @@ require_once("autoload.php");
  * @version 1.0
  **/
 class Violation implements \JsonSerializable {
-
-	private $violationId;
 	/**
 	 * id for this Violation; this is the primary key
 	 * will be auto-incrementing
-	 * @var int $violationCategoryId
+	 * @var int $violationId
 	 *
 	 **/
+
+	private $violationId;
+	/**
+	 * @var int $violationCategoryId
+	 **/
+
 	private $violationCategoryId;
 	/**
 	 *
 	 * @var string $violationCode
 	 *
-	 */
+	 **/
 	private $violationCode;
 	/**
 	 *
 	 * @var string $violationCodeDescription
-	 */
+	 **/
 	private $violationCodeDescription;
 
 	/**
