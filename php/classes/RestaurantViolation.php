@@ -42,7 +42,7 @@ class RestaurantViolation implements \JsonSerializable {
 	/**
 	 *
 	 * Results for restaurant violation
-	 * @varchar string $restaurant
+	 * @varchar string $restaurantViolationResults
 	 */
 	private $restaurantViolationResults;
 
@@ -51,15 +51,33 @@ class RestaurantViolation implements \JsonSerializable {
 	 *
 	 * @param int|null $newRestaurantViolationId of this restaurantViolation or null if a new restaurantViolation
 	 * @param int $newRestaurantViolationRestaurantId of the restaurantId that caused the restaurant violation
-	 * @param int $restaurantViolationViolation of the restaurant violation violation
+	 * @param int $newRestaurantViolationViolation of the restaurant violation violation
 	 * @param \DateTime|string|null $newRestaurantViolationDate date and time restaurant violation was sent or null if set to current date and time
-	 * @param string $restaurantViolationMemo string containing inspector notes
-	 * @param string $restaurantViolationResults sting containing results of inspection
+	 * @param string $newRestaurantViolationMemo string containing inspector notes
+	 * @param string $newRestaurantViolationResults sting containing results of inspection
 	 * @throws \InvalidArgumentException if data types are not valid
 	 * @throws \RangeException if data values are out of bounds (e.g., strings too long, negative integers)
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-
+	public function __construct(?int $newRestaurantViolationId, int $newRestaurantViolationRestaurantId, int $restaurantViolationViolationId, $newRestaurantiViolationDate = null, string $newRestaurantViolationMemo, string $newRestaurantViolationResults) {
+		try {
+			$this->setRestaurantViolationId($newRestaurantViolationId);
+			$this->setRestaurantViolationRestaurantId($newRestaurantViolationRestaurantId);
+			$this->setRestaurantViolationViolationId($newRestaurantViolationViolationId);
+			$this->setRestaurantViolationDate($newRestaurantiViolationDate);
+			$this->setRrestaurantViolationMemo($newRestaurantViolationMemo);
+		} //determine what exception type was thrown
+		catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+		/**
+		 *
+		 * accessor method for restaurant violation Id
+		 * @return int|null valur of restuarant violation Id
+		 */
+		public function get
+	}
 }
