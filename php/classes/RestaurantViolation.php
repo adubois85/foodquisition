@@ -289,6 +289,26 @@ public function delete(\PDO $pdo) : void {
 	$parameters = ["restaurantViolationId" => $this->restaurantViolationId];
 	$statement->execute($parameters);
 }
+/**
+ * updates this restaurantViolation in mySQL
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+ **/
+public function update(\PDO $pdo) : void {
+	//enforcethe restaurantViolationId is not null (i.e., don't update a violationId that has not been inserted)
+	if($this->restaurantViolationId === null){
+		throw(new \PDOException("unable to update a restaurantViolationId that does not exist"));
+	}
+	// create a query template
+	$query = "UPDATE restaurantViolation SET restaurantViolationRestaurantId = :restaurantViolationRestaurantId, restaurantViolationViolationId = :restaurantViolationViolationId, restaurantViolationDate = :restaurantViolationDate, restaurantViolationMemo = :restaurantViolationMemo, restaurantViolationResults = :restaurantViolationResults WHERE restaurantViolationId = :restaurantViolationId";
+	$statement = $pdo->prepare($query);
+
+	// bind the member variables to the place holders in the template
+	$formattedDate = $this->restaurantViolationDate->format("Y-m-d");
+	$parameters = ["restaurantViolationId" => $this->restaurantViolationId, "restaurantViolationRestaurantId" => $this->restaurantViolationRestaurantId, "restaurantViolationViolationId" => $this->restaurantViolationViolationId, "restaurantViolationDate" => $formattedDate, "restaurantViolationMemo" => $this->restaurantViolationMemo, "restaurantViolationResults" => $this->restaurantViolationResults];
+	$statement->execute($parameters);
+}
 
 } /**this is the class end bracket**/
 
