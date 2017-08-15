@@ -534,18 +534,16 @@ class Restaurant implements \JsonSerializable {
 		$preppedGetByRestaurantId->execute($parameters);
 
 		// Build and array to store the fetched data in
-$restaurantArray = new \SplFixedArray($preppedGetByRestaurantId->rowCount());
-$preppedGetByRestaurantId->setFetchMode(\PDO::FETCH_ASSOC);
-	// !== false not strictly necessary, just being verbose
-while(($row = $preppedGetByRestaurantId->fetch()) !== false){
-try {
-$restaurantKeys = new Restaurant($row["restaurantId"], $row["restaurantAddress1"], $row["restaurantAddress2"], $row["restaurantCity"], $row["restaurantFacilityKey"], $row["restaurantGoogleId"], $row["restaurantName"], $row["restaurantPhoneNumber"], $row["restaurantState"], $row["restaurantType"], $row["restaurantZip"]);
-$restaurantArray[$restaurantArray->key()] = $restaurantKeys;
-$restaurantArray->next();
-} catch(\Exception $exception) {
-	throw(new \PDOException($exception->getMessage(), 0, $exception));
-}
-		}
+		try {
+			$restaurantArray = null;
+			$preppedGetByRestaurantId->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $preppedGetByRestaurantId->fetch();
+			if($row !== false) {
+				$restaurantArray = new Restaurant($row["restaurantId"], $row["restaurantAddress1"], $row["restaurantAddress2"], $row["restaurantCity"], $row["restaurantFacilityKey"], $row["restaurantGoogleId"], $row["restaurantName"], $row["restaurantPhoneNumber"], $row["restaurantState"], $row["restaurantType"], $row["restaurantZip"]);
+			}
+		} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
 		return($restaurantArray);
 	}
 
