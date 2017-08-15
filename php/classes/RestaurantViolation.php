@@ -150,7 +150,43 @@ class RestaurantViolation implements \JsonSerializable {
 		$this->restaurantViolationViolationId = $newRestaurantViolationViolationId;
 	}
 /**
+ * accessor method for restaurant violation date
  *
+ * @return \DateTime value of restaurant violation date
  **/
+	/**
+	 * @return \DateTime
+	 */
+	public function getRestaurantViolationDate() : \DateTime {
+		return($this->restaurantViolationDate);
+	}
+	/**
+	 * mutator method for restaurant violation date
+	 *
+	 * @param \DateTime|string|null $newRestaurantViolationDate
+	 * restaurant violation date as a DateTime object or string (or null to load the current time)
+	 *
+	 * @throws \InvalidArgumentException if $newRestaurantViolationDate is not a valid object or string
+	 * @throws \RangeException if $newRestaurantViolationDate is a date that does not exist
+	 **/
+	/**
+	 * @param \DateTime $restaurantViolationDate
+	 */
+	public function setRestaurantViolationDate($newRestaurantViolationDate = null) : void {
+		//base case: if the date is null, use the current date and time
+		if($newRestaurantViolationDate === null) {
+			$this->restaurantViolationDate = new \DateTime();
+			return;
+		}
+		// store the like date using the ValidateDate trait
+		try{
+			$newRestaurantViolationDate = self::validateDateTime($newRestaurantViolationDate);
+		} catch(\InvalidArgumentException | \RangeException $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+		$this->restaurantViolationDate = $newRestaurantViolationDate;
+	}
+
 }
 
