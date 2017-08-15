@@ -126,5 +126,6 @@ class RestaurantViolation implements \JsonSerializable {
 		//convert and store the restaurant violation restaurant id
 		$this->restaurantViolationRestaurantId = $newRestaurantViolationRestaurantId;
 	}
+
 }
 
