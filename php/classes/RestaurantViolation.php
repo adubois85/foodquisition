@@ -309,6 +309,42 @@ public function update(\PDO $pdo) : void {
 	$parameters = ["restaurantViolationId" => $this->restaurantViolationId, "restaurantViolationRestaurantId" => $this->restaurantViolationRestaurantId, "restaurantViolationViolationId" => $this->restaurantViolationViolationId, "restaurantViolationDate" => $formattedDate, "restaurantViolationMemo" => $this->restaurantViolationMemo, "restaurantViolationResults" => $this->restaurantViolationResults];
 	$statement->execute($parameters);
 }
+/**
+ * gets the restaurantViolation by restaurantViolationId
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param  int $restaurantViolationId restaurant Violation Id to search for
+ * @return restaurantViolation|null restaurantViolation found or null if not found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when variables are not the correct data type
+ **/
+public static function getRestaurantViolationByRestaurantViolationId(\PDO $pdo, int $restaurantViolationId) : ?RestaurantViolation {
+	// sanitize the restaurantViolationId before searching
+	if($restaurantViolationId <= 0) {
+		throw(new \PDOException("restaurnat violation id is not positive"));
+	}
+	//create quary template
+	$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationmemo,restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationId";
+	$statement = $pdo->prepare($query);
+
+	// bind the restaurant Violation id to the place holder in the template
+	$parameters = ["restaurantViolationId" => $restaurantViolationId];
+	$statement->execute($parameters);
+	// grab the restaurantViolation from mySQL
+	try {
+		$restaurantViolation = null;
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		$row = $statement->fetch();
+		if($row !== false) {
+			$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
+		}
+	} catch(\Exception $exception) {
+		// if the row couldn't be converted rethrow it
+		throw(new \PDOException($exception->getMessage(), 0, $exception));
+	}
+	return($restaurantViolation);
+}
+
 
 } /**this is the class end bracket**/
 
