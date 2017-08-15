@@ -626,27 +626,54 @@ class Restaurant implements \JsonSerializable {
 		return($restaurantArray);
 	}
 
+	/**
+	 * Method for getting a restaurant entity by its name
+	 *
+	 * @param \PDO $pdo the PDO connection object
+	 * @param string $restaurantName the restaurant name that we are searching for
+	 * @return \SplFixedArray SplFixedArray of restaurant entities matching the entered text
+	 * @throws \PDOException for mySQL related errors
+	 * @throws \TypeError if the entered variables are not of the correct data type
+	 * @throws \Exception for other kinds of errors not otherwise caught
+	 */
+	public static function getRestaurantByName(\PDO $pdo, string $restaurantName) : \SplFixedArray {
+		// first check that the entered restaurantId is a positive number
+		$restaurantName = trim($restaurantName);
+		$restaurantName = filter_var($restaurantName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($restaurantName) === true) {
+			throw (new \PDOException("There are no valid characters in the entered restaurant name."));
+		}
 
+		// escape any mySQL wild card characters
+		$restaurantName = str_replace("_", "\\_", str_replace("%", "\\%", $restaurantName));
 
-//	// Build and array to store the fetched data in
-//$restaurantArray = new \SplFixedArray($preppedGetByRestaurantId->rowCount());
-//$preppedGetByRestaurantId->setFetchMode(\PDO::FETCH_ASSOC);
-//	// !== false not strictly necessary, just being verbose
-//while(($row = $preppedGetByRestaurantId->fetch()) !== false){
-//try {
-//$restaurantKeys = new Restaurant($row["restaurantId"], $row["restaurantAddress1"], $row["restaurantAddress2"], $row["restaurantCity"], $row["restaurantFacilityKey"], $row["restaurantGoogleId"], $row["restaurantName"], $row["restaurantPhoneNumber"], $row["restaurantState"], $row["restaurantType"], $row["restaurantZip"]);
-//$restaurantArray[$restaurantArray->key()] = $restaurantKeys;
-//$restaurantArray->next();
-//} catch(\Exception $exception) {
-//	throw(new \PDOException($exception->getMessage(), 0, $exception));
-//}
-//		}
-//		return($restaurantArray);
-//	}
+		// we create a template for our SELECT statement
+		$query = "SELECT restaurantId, restaurantAddress1, restaurantAddress2, restaurantCity, restaurantFacilityKey, restaurantGoogleId, restaurantName, restaurantPhoneNumber, restaurantState, restaurantType, restaurantZip FROM restaurant WHERE restaurantName LIKE :restaurantName";
+		$statement = $pdo->prepare($query);
 
+		// make the search have wild cards before and after the search name
+		$restaurantName = "%$restaurantName%";
 
+		// sub out the placeholder value for restaurantName we previously set
+		$parameters = ["restaurantName" => $restaurantName];
+		$statement->execute($parameters);
 
+		// Build and array to store the fetched data in
+		$restaurantArray = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 
+		// !== false not strictly necessary, just being verbose
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$restaurantKeys = new Restaurant($row["restaurantId"], $row["restaurantAddress1"], $row["restaurantAddress2"], $row["restaurantCity"], $row["restaurantFacilityKey"], $row["restaurantGoogleId"], $row["restaurantName"], $row["restaurantPhoneNumber"], $row["restaurantState"], $row["restaurantType"], $row["restaurantZip"]);
+				$restaurantArray[$restaurantArray->key()] = $restaurantKeys;
+				$restaurantArray->next();
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($restaurantArray);
+	}
 
 	/**
 	 * Formats the state variables for JSON serialization
