@@ -105,7 +105,26 @@ class RestaurantViolation implements \JsonSerializable {
 		$this->restaurantViolationId = $newRestaurantViolationId;
 	}
 	/**
-	 * accessor method for restaurant restaurant violation id
+	 * accessor method for restaurant violation restaurant id
+	 *
+	 * @return int value of restaurant violation restaurant id
 	 **/
+	public function getRestaurantViolationRestaurantId() : int{
+		return($this->restaurantViolationRestaurantId);
+	}
+	/**
+	 * mutator method for restaurant violation restaurant id
+	 * @param int $newRestaurantViolationRestaurantId new value of restaurant violation restaurant id
+	 * @throws \RangeException if $newRestaurantViolationRestaurantId is not positive
+	 * @throws \TypeError if $newRestaurantViolationRestaurantId is not an integer
+	 **/
+	public function setRestaurantViolationRestaurantId(int $newRestaurantViolationRestaurantId) : void {
+		//verify the restaurant violation restaurant id is positive
+		if($newRestaurantViolationRestaurantId <= 0) {
+			throw(new \RangeException("restaurant violation restaurant id is not positive"));
+		}
+		//convert and store the restaurant violation restaurant id
+		$this->restaurantViolationRestaurantId = $newRestaurantViolationRestaurantId;
+	}
 }
 
