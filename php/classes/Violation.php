@@ -16,7 +16,6 @@ class Violation implements \JsonSerializable {
 	 * @var int $violationId
 	 *
 	 **/
-
 	private $violationId;
 	/**
 	 * @var int $violationCategoryId
@@ -25,13 +24,13 @@ class Violation implements \JsonSerializable {
 	private $violationCategoryId;
 	/**
 	 *
-	 * @var string $violationCode
+	 * @varchar string $violationCode
 	 *
 	 **/
 	private $violationCode;
 	/**
 	 *
-	 * @var string $violationCodeDescription
+	 * @varchar string $violationCodeDescription
 	 **/
 	private $violationCodeDescription;
 
