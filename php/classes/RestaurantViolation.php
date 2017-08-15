@@ -270,6 +270,25 @@ public function setRestaurantViolationMemo(string $newRestaurantViolationMemo) :
 		// update the null restaurantViolationId with what mySQL just gave us
 		$this->restaurantViolationId = intval($pdo->lastInsertId());
 	}
+/**
+ * deletes this restaurantViolation from mySQL
+ * @param \PDO $pdo PDO connection object
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError if $pdo is not a PDO connection object
+ **/
+public function delete(\PDO $pdo) : void {
+	// enforce the restaurantViolationId is not null (i.e., don't delete a restaurantViolation that hasn't been inserted)
+	if($this->restaurantViolationId === null) {
+		throw(new \PDOException("unable to delete a restaurant violation that does not exist"));
+	}
+	//create query template
+	$query = "DELETE FROM restaurantViolation WHERE restaurantViolationId = : restaurantViolationId";
+	$statement = $pdo->prepare($query);
+
+	//bind the member variables to the place holder in the template
+	$parameters = ["restaurantViolationId" => $this->restaurantViolationId];
+	$statement->execute($parameters);
+}
 
 } /**this is the class end bracket**/
 
