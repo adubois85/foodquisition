@@ -86,6 +86,8 @@ class RestaurantViolation implements \JsonSerializable {
 	/**
 	 *
 	 * mutator method for restaurant violation id
-	 * @param int/null $newRestaurantViolationId new value of id
-	 */
+	 * @param int/null $newRestaurantViolationId new value of restaurant violation id
+	 * @throws \RangeException if $newRestaurantViolationId is not positive
+	 * @throws \TypeError if $newRestaurantViolationId is not an integer
+	 **/
 
