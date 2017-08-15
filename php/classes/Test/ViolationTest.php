@@ -38,7 +38,7 @@ class ViolationTest extends FoodquisitionTest {
 	 * Valid Violation Code
 	 * @var string $VALID_VIOLATIONCODE
 	 */
-	protected $VALID_VIOLATIONCODE = "ViolationCode";
+	protected $VALID_VIOLATIONCODE = "S42";
 	/**
 	 * valid violation code description
 	 * @var string $VALID_VIOLATIONCODEDESCRIPTION
