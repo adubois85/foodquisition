@@ -218,10 +218,10 @@ public function testDeleteValidViolation(): void {
 	 *
 	 *test grabbing a Violation that does not exist
 	 */
-	public function testGetInvalidViolationByViolationCategoryId(): void {
-		// grab a category id that exceeds the maximum allowable profile id
-		$violation = Violation::getViolationByViolationId($this->getPDO(), FoodquisitionTest::INVALID_KEY);
-		$this->assertNull($violation);
+	public function testGetInvalidViolationsByViolationCategoryId(): void {
+		// grab a category id that exceeds the maximum allowable violation id
+		$violation = Violation::getViolationsByViolationCategoryId($this->getPDO(), FoodquisitionTest::INVALID_KEY);
+		$this->assertCount(0, $violation);
 	}
 
 	/**
@@ -287,6 +287,12 @@ public function testDeleteValidViolation(): void {
 		$this->assertEquals($pdoViolation->getViolationCode(), $this->VALID_VIOLATIONCODE);
 		$this->assertEquals($pdoViolation->getViolationCodeDescription(), $this->VALID_VIOLATIONCODEDESCRIPTION);
 	}
+
+		public function testGetInValidViolationByViolationCodeDescription(): void {
+			//grab an invalid code that the maximum allowable code if
+			$violation = Violation::getViolationByViolationCodeDescription($this->getPDO(), FoodquisitionTest::INVALID_KEY);
+			$this->assertCount(0, $violation);
+		}
 
 	/**
 	 *
