@@ -547,6 +547,23 @@ class Restaurant implements \JsonSerializable {
 		return($restaurantArray);
 	}
 
+	/**
+	 * A method for retreiving a restaurant entity by its restaurantFacilityKey
+	 *
+	 * @param \PDO $pdo the PDO connection object
+	 * @param string $restaurantFacilityKey the restaurant facility key that we are searching by
+	 * @return Restaurant | null Restaurant entity if found, null if not
+	 * @throws \PDOException for mySQL related errors
+	 * @throws \TypeError if the entered variables are not of the correct data type
+	 * @throws \Exception for other kinds of errors not otherwise caught
+	 */
+	public static function getRestaurantbyFacilityKey() {
+		// first we sanitize the entered facility key
+	}
+
+
+
+
 //	// Build and array to store the fetched data in
 //$restaurantArray = new \SplFixedArray($preppedGetByRestaurantId->rowCount());
 //$preppedGetByRestaurantId->setFetchMode(\PDO::FETCH_ASSOC);
