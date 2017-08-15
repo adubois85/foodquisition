@@ -586,6 +586,47 @@ class Restaurant implements \JsonSerializable {
 		return($restaurantArray);
 	}
 
+	/**
+	 * Method for getting a restaurant entity by its Google ID
+	 *
+	 * @param \PDO $pdo the PDO connection object
+	 * @param string $googleId the googleId that we are searching by
+	 * @return Restaurant | null Restaurant entity if found, null if not
+	 * @throws \PDOException for mySQL related errors
+	 * @throws \TypeError if the entered variables are not of the correct data type
+	 * @throws \Exception for other kinds of errors not otherwise caught
+	 */
+	public static function getRestaurantByGoogleId(\PDO $pdo, string $googleId) : ?Restaurant {
+		// first check that the entered restaurantId is a positive number
+		$googleId = trim($googleId);
+		$googleId = filter_var($googleId, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($googleId) === true) {
+			throw (new \PDOException("There are no valid characters in the entered Google ID."));
+		}
+
+		// we create a template for our SELECT statement
+		$query = "SELECT restaurantId, restaurantAddress1, restaurantAddress2, restaurantCity, restaurantFacilityKey, restaurantGoogleId, restaurantName, restaurantPhoneNumber, restaurantState, restaurantType, restaurantZip FROM restaurant WHERE restaurantGoogleId = :restaurantGoogleId";
+		$statement = $pdo->prepare($query);
+
+		// sub out the placeholder value for restaurantGoogleId we previously set
+		$parameters = ["restaurantGoogleId" => $googleId];
+		$statement->execute($parameters);
+
+		// Build and array to store the fetched data in
+		try {
+			$restaurantArray = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$restaurantArray = new Restaurant($row["restaurantId"], $row["restaurantAddress1"], $row["restaurantAddress2"], $row["restaurantCity"], $row["restaurantFacilityKey"], $row["restaurantGoogleId"], $row["restaurantName"], $row["restaurantPhoneNumber"], $row["restaurantState"], $row["restaurantType"], $row["restaurantZip"]);
+			}
+		} catch(\Exception $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($restaurantArray);
+	}
+
+
 
 //	// Build and array to store the fetched data in
 //$restaurantArray = new \SplFixedArray($preppedGetByRestaurantId->rowCount());
