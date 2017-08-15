@@ -79,8 +79,13 @@ class RestaurantViolation implements \JsonSerializable {
 		 * accessor method for restaurant violation Id
 		 * @return int|null value of restaurant violation Id
 		 */
-		public function get(){
-			{}
+		public function getRestaurantViolationId(): int {
+			return($this->restaurantViolationId);
 		}
 	}
+	/**
+	 *
+	 * mutator method for restaurant violation id
+	 * @param int/null $newRestaurantViolationId new value of id
+	 */
 
