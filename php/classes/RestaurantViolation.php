@@ -188,7 +188,36 @@ class RestaurantViolation implements \JsonSerializable {
 		$this->restaurantViolationDate = $newRestaurantViolationDate;
 	}
 /**
+ *accessor method for restaurant violation memo
+ *
+ * @return string value of restaurant violation memo
  *
  **/
+public function getRestaurantViolationMemo() :string {
+	return($this->restaurantViolationMemo);
+}
+/**
+ * mutator method for restaurant violation memo
+ *
+ * @param string $newRestaurantViolationMemo new value of restaurant violation memo
+ *@throws \InvalidArgumentException if $newRestaurantViolationMemo is not a string or insecure
+ *@throws \RangeException if $newRestaurantViolationMemo is > 255 characters
+ *@throws \TypeError if $newRestaurantViolationMemo is not a string
+ **/
+public function setRestaurantViolationMemo(string $newRestaurantViolationMemo) : void {
+	// verify the restaurant violation memo is secure
+	$newRestaurantViolationMemo = trim($newRestaurantViolationMemo);
+	$newRestaurantViolationMemo = filter_var($newRestaurantViolationMemo, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	if(empty($newRestaurantViolationMemo) === true) {
+		throw(new \InvalidArgumentException("restaurant violation memo is empty or insecure"));
+	}
+	// verify the restaurant violation memo will fit in the database
+	if(strlen($newRestaurantViolationMemo) > 255) {
+		throw(new \RangeException("restaurant violation memo is too large"));
+	}
+	//store the restaurant violation memo
+	$this->restaurantViolationMemo = $newRestaurantViolationMemo;
+}
+
 }
 
