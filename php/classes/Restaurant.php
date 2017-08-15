@@ -512,7 +512,7 @@ class Restaurant implements \JsonSerializable {
 	/**
 	 * Method for getting a restaurant entity by its restaurantId (primary key)
 	 *
-	 * @param \PDO $pdoGetById the PDO connection object
+	 * @param \PDO $pdoGetByRestaurantId the PDO connection object
 	 * @param int $restaurantId the restaurantId that we are searching by
 	 * @return Restaurant | null Restaurant entity if found, null if not
 	 * @throws \PDOException for mySQL related errors
@@ -530,8 +530,45 @@ class Restaurant implements \JsonSerializable {
 		$preppedGetByRestaurantId = $pdoGetByRestaurantId->prepare($queryRestaurantId);
 
 		// sub out the placeholder value for restaurantId we previously set
-		$parameters = [""]
+		$parameters = ["restaurantId" => $restaurantId];
+		$preppedGetByRestaurantId->execute($parameters);
+
+		// Build and array to store the fetched data in
+$restaurantArray = new \SplFixedArray($preppedGetByRestaurantId->rowCount());
+$preppedGetByRestaurantId->setFetchMode(\PDO::FETCH_ASSOC);
+	// !== false not strictly necessary, just being verbose
+while(($row = $preppedGetByRestaurantId->fetch()) !== false){
+try {
+$restaurantKeys = new Restaurant($row["restaurantId"], $row["restaurantAddress1"], $row["restaurantAddress2"], $row["restaurantCity"], $row["restaurantFacilityKey"], $row["restaurantGoogleId"], $row["restaurantName"], $row["restaurantPhoneNumber"], $row["restaurantState"], $row["restaurantType"], $row["restaurantZip"]);
+$restaurantArray[$restaurantArray->key()] = $restaurantKeys;
+$restaurantArray->next();
+} catch(\Exception $exception) {
+	throw(new \PDOException($exception->getMessage(), 0, $exception));
+}
+		}
+		return($restaurantArray);
 	}
+
+//	// Build and array to store the fetched data in
+//$restaurantArray = new \SplFixedArray($preppedGetByRestaurantId->rowCount());
+//$preppedGetByRestaurantId->setFetchMode(\PDO::FETCH_ASSOC);
+//	// !== false not strictly necessary, just being verbose
+//while(($row = $preppedGetByRestaurantId->fetch()) !== false){
+//try {
+//$restaurantKeys = new Restaurant($row["restaurantId"], $row["restaurantAddress1"], $row["restaurantAddress2"], $row["restaurantCity"], $row["restaurantFacilityKey"], $row["restaurantGoogleId"], $row["restaurantName"], $row["restaurantPhoneNumber"], $row["restaurantState"], $row["restaurantType"], $row["restaurantZip"]);
+//$restaurantArray[$restaurantArray->key()] = $restaurantKeys;
+//$restaurantArray->next();
+//} catch(\Exception $exception) {
+//	throw(new \PDOException($exception->getMessage(), 0, $exception));
+//}
+//		}
+//		return($restaurantArray);
+//	}
+
+
+
+
+
 	/**
 	 * Formats the state variables for JSON serialization
 	 *
