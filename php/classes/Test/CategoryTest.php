@@ -3,6 +3,7 @@ namespace Edu\Cnm\Foodquisition\Test;
 
 use Edu\Cnm\Foodquisition\Category;
 
+
 // grab the project test parameters
 require_once("FoodquisitionTest.php");
 
@@ -25,7 +26,7 @@ class CategoryTest extends FoodquisitionTest {
 	protected $VALID_CATEGORYNAME = "Fuzzies In Kitchen";
 
 	/**
-	 * test inserting a valid category andd verify that the actual mySQL data matches
+	 * test inserting a valid category and verify that the actual mySQL data matches
 	 **/
 
 	public function testInsertValidCategory() : void {
@@ -133,6 +134,7 @@ class CategoryTest extends FoodquisitionTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("category"));
 		$this->assertEquals($pdoCategory->getCategoryName(), $this->VALID_CATEGORYNAME);
 	}
+
 	/**
 	 * test grabbing a Category that does not exist
 	 **/
@@ -143,6 +145,50 @@ class CategoryTest extends FoodquisitionTest {
 	}
 
 	/**
-	 * test getting
-	 */
+	 * test getting a Category by category name
+	 **/
+	public function testGetValidCategoryByCategoryName() {
+		//count number of rows and save for later
+		$numRows = $this->getConnection()->getRowCount("category");
+
+		//create new category and insert
+		$category = new Category(null, $this->VALID_CATEGORYNAME);
+		$category->insert($this->getPDO());
+
+		//grab category back from mySQL and check that all fields match
+		$pdoCategory = Category::getCategoryByCategoryName($this->getPDO(), $category->getCategoryName());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("category"));
+		$this->assertEquals($pdoCategory->getCategoryId(), $category->getCategoryId());
+	}
+
+	/**
+	 * test grabbing a Category by a categoryName that does not exist
+	 **/
+	public function testGetInvalidCategoryByCategoryName() {
+		//try and grab a category by a categoryName that does not exist
+		$category = Category::getCategoryByCategoryName($this->getPDO(), "doggies is the kitchen");
+		$this->assertNull($category);
+	}
+
+	/**
+	 * test grabbing all categories
+	 **/
+	// count number of rows and save for later
+	public function testGetAllCategories() {
+		$numRows = $this->getConnection()->getRowCount("category");
+
+		//create new category and insert
+		$category = new Category(null, $this->VALID_CATEGORYNAME);
+		$category->insert($this->getPDO());
+
+		//grab all categories back from mySQL and check that the count matches
+		$results = Category::getAllCategories($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("category"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Foodquisition\\Category", $results);
+
+		//grab the first index out of the results array and check that all fields match what was inserted
+		$pdoCategory = $results[0];
+		$this->assertEquals($pdoCategory->getCategoryName(), $this->VALID_CATEGORYNAME);
+	}
 }
