@@ -11,7 +11,7 @@ CREATE TABLE restaurant (
 	restaurantAddress1 VARCHAR(128) NOT NULL,
 	restaurantAddress2 VARCHAR(128),
 	restaurantCity VARCHAR(64) NOT NULL,
-	restaurantFacilityKey CHAR(7) NOT NULL,
+	restaurantFacilityKey VARCHAR(7) NOT NULL,
 	restaurantGoogleId VARCHAR(128),
 	restaurantName VARCHAR(64) NOT NULL,
 	restaurantPhoneNumber VARCHAR(32),
