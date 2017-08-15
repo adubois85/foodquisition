@@ -88,7 +88,7 @@ class CategoryTest extends FoodquisitionTest {
 	/**
 	 * test creating a Category and then deleting it
 	 **/
-	public function testDeleteValidProfile() : void {
+	public function testDeleteValidCategory() : void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("category");
 
@@ -141,4 +141,8 @@ class CategoryTest extends FoodquisitionTest {
 		$category = Category::getCategoryByCategoryId($this->getPDO(), FoodquisitionTest::INVALID_KEY);
 		$this->assertNull($category);
 	}
+
+	/**
+	 * test getting
+	 */
 }

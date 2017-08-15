@@ -215,6 +215,46 @@ class Category implements \JsonSerializable {
 	}
 
 	/**
+	 * gets Category by categoryName
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $categoryName category name to search for
+	 * @return Category|null Category found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getCategoryByCategoryName(\PDO $pdo, string $categoryName) : ?Category {
+		// sanitize, check for valid category name
+		$categoryName = trim($categoryName);
+		$categoryName = filter_var($categoryName, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($categoryName) === true) {
+			throw (new \PDOException("Categoy name is invalid or insecure."));
+		}
+
+		//create query template
+		$query = "SELECT categoryId, categoryName FROM category WHERE categoryName = :categoryName";
+		$statement = $pdo->prepare($query);
+
+		// bind category id to placeholder in query template
+		$parameters = ["categoryName" => $categoryName];
+		$statement->execute($parameters);
+
+		// grab category from mySQL
+		try {
+			$category = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if ($row !== false) {
+				$category = new Category($row["categoryId"], $row["categoryName"]);
+			}
+		} catch(\Exception $exception) {
+			//if row cant be converted, rethrow it
+			throw (new \PDOException($exception->getMessage(), 0, $exception));
+		}
+		return($category);
+	}
+
+	/**
 	 * gets all the categories
 	 *
 	 * @param \PDO $pdo PDO connection object
