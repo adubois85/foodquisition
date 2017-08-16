@@ -344,7 +344,108 @@ public static function getRestaurantViolationByRestaurantViolationId(\PDO $pdo, 
 	}
 	return($restaurantViolation);
 }
-
+/**
+ * gets restaurantViolation by restaurantViolationRestaurantId
+ *
+ * @param \PDO $pdo PDO connection object
+ * @param int $restaurantViolationRestaurantId restaurant id to search by
+ * @return \SplFixedArray SplFixedArray of restaurantViolation found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when variables are not the correct data type
+ *
+ **/
+public static function  getRestaurantViolationByRestaurantViolationRestaurantId(\PDO $pdo, int $restaurantViolationRestaurantId) : \SPLFixedArray {
+	// sanitize the restaurant id before searching
+	if($restaurantViolationRestaurantId <= 0 ) {
+		throw(new \RangeException("restaurant violation restaurant id"));
+	}
+	// create query template
+	$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, RestaurantViolationResults FROM restaurantViolation WHERE restaurantViolationRestaurantId";
+	$statement = $pdo->prepare($query);
+	//bind the restaurant Violation Restaurant Id to the place holder in the template
+	$parameters = ["restaurantViolationRestaurantId" => $restaurantViolationRestaurantId];
+	$statement->execute($parameters);
+	// build an array of restaurant violations
+	$restaurantViolation = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false){
+		try{
+			$restaurantViolation = new restaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
+			$restaurantViolation [$restaurantViolation->key()] = $restaurantViolation;
+			$restaurantViolation->next();
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+	}
+	return($restaurantViolation);
+}
+	/**
+	 * gets restaurantViolation by restaurantViolationViolationId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $restaurantViolationViolationId violation id to search by
+	 * @return \SplFixedArray SplFixedArray of Violation found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 *
+	 **/
+	public static function  getRestaurantViolationByRestaurantViolationViolationId(\PDO $pdo, int $restaurantViolationViolationId) : \SPLFixedArray {
+		// sanitize the restaurant id before searching
+		if($restaurantViolationViolationId <= 0 ) {
+			throw(new \RangeException("restaurant violation violation id"));
+		}
+		// create query template
+		$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, RestaurantViolationResults FROM restaurantViolation WHERE restaurantViolationRestaurantId";
+		$statement = $pdo->prepare($query);
+		//bind the restaurant Violation violation Id to the place holder in the template
+		$parameters = ["restaurantViolationViolationId" => $restaurantViolationViolationId];
+		$statement->execute($parameters);
+		// build an array of restaurant violations
+		$restaurantViolation = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false){
+			try{
+				$restaurantViolation = new restaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
+				$restaurantViolation [$restaurantViolation->key()] = $restaurantViolation;
+				$restaurantViolation->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($restaurantViolation);
+	}
+	/**
+	 * gets the restaurant Violation date
+	 *
+	 * @param  \PDO $pdo PDO connection object
+	 * @param \DateTime $sunriseRestaurantViolationDate beginning date to search for
+	 * @param \DateTime $sunsetRestaurantViolationDate ending date to search for
+	 * @return \SplFixedArray of restaurantViolations found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 * @throws \InvalidArgumentException if either sun dates are in the wrong format
+	 *
+	 **/
+	public static function getRestaurantViolationByRestaurantViolationDate (\PDO $pdo, \DateTime $sunriseRestaurantViolationDate, \DateTime $sunsetRestaurantViolationDate ) : \SplFixedArray {
+		//enforce both dates are present
+		if((empty($sunriseRestaurantViolationDate) === true) || (empty($sunsetRestaurantViolationDate) === true)) {
+			throw(new \InvalidArgumentException("dates are empty of insecure"));
+		}
+		// ensure both dates are in the correct format and are secure
+		try {
+			$sunriseRestaurantViolationDate = self::validateDateTime($sunriseRestaurantViolationDate);
+			$sunsetRestaurantViolationDate = self::validateDateTime($sunsetRestaurantViolationDate);
+		} catch(\InvalidArgumentException | \RangeException $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+		// create query template
+		$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationDate>= :sunriseRestaurantViolationDate and restaurantViolationDate <= :sunsetRestaurantViolation";
+		$statement = $pdo->prepare($query);
+		//format the dates
+	}
 
 } /**this is the class end bracket**/
 
