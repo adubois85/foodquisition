@@ -281,7 +281,7 @@ class Restaurant implements \JsonSerializable {
 		if(empty($newRestaurantFacilityKey) === true) {
 			throw(new \InvalidArgumentException("There are no valid characters in the entered facility key."));
 		}
-		if(strlen($newRestaurantFacilityKey) !== 7) {
+		if(strlen($newRestaurantFacilityKey) > 7) {
 			throw(new \RangeException("The entered facility key is not the correct length."));
 		}
 		$this->restaurantFacilityKey = $newRestaurantFacilityKey;
