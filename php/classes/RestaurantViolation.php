@@ -506,6 +506,84 @@ public static function getRestaurantViolationByRestaurantViolationMemo(\PDO $pdo
 	}
 	return($restaurantViolation);
 }
+	/**
+	 * get restaurantViolation by restaurant violation results
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $restaurantViolationResults restaurant violation results to search for
+	 * @return \SplFixedArray SplFixedArray of restaurant violation found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getRestaurantViolationByRestaurantViolationResults(\PDO $pdo, string $restaurantViolationResults) : \SplFixedArray {
+		// sanitize the description before searching
+		$restaurantViolationResults = trim($restaurantViolationResults);
+		$restaurantViolationResults = filter_var($restaurantViolationResults, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($restaurantViolationResults) === true) {
+			throw(new \PDOException("restaurant violation results is invalid"));
+		}
+		// escape any mySQL wild cards
+		$restaurantViolationResults = str_replace("_", "\\_", str_replace("%", "\\%", $restaurantViolationResults));
 
+		//create query template
+		$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationResults LIKE :restaurantViolationResults";
+		$statement = $pdo->prepare($query);
+
+		//bind the restaurant violation results to the place holder in the template
+		$restaurantViolationResults = "%$restaurantViolationResults";
+		$parameters = ["restaurantViolationResults" => $restaurantViolationResults];
+		$statement->execute($parameters);
+		//build an array of restaurant violation results
+		$restaurantViolation = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$restaurantViolation = new restaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"], $row["restaurantViolationResults"]);
+				$restaurantViolation[$restaurantViolation->key()] = $restaurantViolation;
+				$restaurantViolation->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($restaurantViolation);
+	}
+	/**
+	 * gets all restaurant violations
+	 * @param \PDO $pdo PDO connection object
+	 * @return \SplFixedArray of restaurant violation found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getAllRestaruantViolations(\PDO $pdo) : \SPLFixedArray {
+		// create query template
+		$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// buils an array of the restaurant violations
+		$restaurantViolation = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch())!== false) {
+			try {
+				$restaurantViolation = new restaurantViolation($row["restaurantViolationId"],$row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"], $row["restaurantViolationResults"]);
+				$restaurantViolation[$restaurantViolation->key()] = $restaurantViolation;
+				$restaurantViolation->next();
+			} catch(\Exception $exception){
+				// if the new row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($restaurantViolation);
+	}
+	/**
+	 * formats the state variables for JSON serialization
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		//format the date so that the front end can consume it
+		$fields["restaurantViolationDate"] = round(floatval($this->restaurantViolationDate->format("U.u")) * 1000);
+		return($fields);
+	}
 } /**this is the class end bracket**/
 
