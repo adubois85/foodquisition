@@ -444,8 +444,68 @@ public static function  getRestaurantViolationByRestaurantViolationRestaurantId(
 		// create query template
 		$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationDate>= :sunriseRestaurantViolationDate and restaurantViolationDate <= :sunsetRestaurantViolation";
 		$statement = $pdo->prepare($query);
-		//format the dates
+		//format the dates so that mySQL can use them
+		$formattedSunriseDate = $sunriseRestaurantViolationDate->format("Y-m-d");
+		$formattedSunsetDate = $sunsetRestaurantViolationDate->format("Y-m-d");
+		$parameters = ["sunriseRestaurantViolationDate"=>$formattedSunriseDate, "sunsetRestaurantViolationDate"=>$formattedSunsetDate];
+		$statement->execute($parameters);
+		$statement->execute($parameters);
+		//build an array of restaurantViolations
+		$restaurantViolation = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+
+		while(($row = $statement->fetch()) !== false){
+			try{
+				$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"], $row["restaurantViolationResults"]);
+				$restaurantViolation[$restaurantViolation->key()] = $restaurantViolation;
+				$restaurantViolation->next();
+			} catch(\Exception $exception) {
+				throw (new \PDOException($exception->getMessage(),0, $exception));
+			}
+		}
+		return($restaurantViolation);
 	}
+/**
+ * get restaurantViolation by restaurant violation memo
+ * @param \PDO $pdo PDO connection object
+ * @param string $restaurantViolationMemo restaurant violation memo to search for
+ * @return \SplFixedArray SplFixedArray of restaurant violation found
+ * @throws \PDOException when mySQL related errors occur
+ * @throws \TypeError when variables are not the correct data type
+ **/
+public static function getRestaurantViolationByRestaurantViolationMemo(\PDO $pdo, string $restaurantViolationMemo) : \SplFixedArray {
+	// sanitize the description before searching
+	$restaurantViolationMemo = trim($restaurantViolationMemo);
+	$restaurantViolationMemo = filter_var($restaurantViolationMemo, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	if(empty($restaurantViolationMemo) === true) {
+		throw(new \PDOException("restaurant violation memo is invalid"));
+	}
+	// escape any mySQL wild cards
+	$restaurantViolationMemo = str_replace("_", "\\_", str_replace("%", "\\%", $restaurantViolationMemo));
+
+	//create query template
+	$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationMemo LIKE :restaurantViolationMemo";
+	$statement = $pdo->prepare($query);
+
+	//bind the restaurant violation memo to the place holder in the template
+	$restaurantViolationMemo = "%$restaurantViolationMemo";
+	$parameters = ["restaurantViolationMemo" => $restaurantViolationMemo];
+	$statement->execute($parameters);
+	//build an array of restaurant violation memo
+	$restaurantViolation = new \SplFixedArray($statement->rowCount());
+	$statement->setFetchMode(\PDO::FETCH_ASSOC);
+	while(($row = $statement->fetch()) !== false) {
+		try {
+			$restaurantViolation = new restaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"], $row["restaurantViolationResults"]);
+			$restaurantViolation[$restaurantViolation->key()] = $restaurantViolation;
+			$restaurantViolation->next();
+		} catch(\Exception $exception) {
+			// if the row couldn't be converted, rethrow it
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
+		}
+	}
+	return($restaurantViolation);
+}
 
 } /**this is the class end bracket**/
 
