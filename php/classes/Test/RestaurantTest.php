@@ -141,7 +141,7 @@ class RestaurantTest extends FoodquisitionTest{
 		$restaurant->insert($this->getPDO());
 
 		// grab the data from mySQL and store it
-		$results = Restaurant::getRestaurantbyFacilityKey($this->getPDO(), $restaurant->getRestaurantFacilityKey());
+		$results = Restaurant::getRestaurantByFacilityKey($this->getPDO(), $restaurant->getRestaurantFacilityKey());
 
 		// compare the data we entered with what we got back to see if they're the same
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));

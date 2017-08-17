@@ -557,7 +557,7 @@ class Restaurant implements \JsonSerializable {
 	 * @throws \TypeError if the entered variables are not of the correct data type
 	 * @throws \Exception for other kinds of errors not otherwise caught
 	 */
-	public static function getRestaurantbyFacilityKey(\PDO $pdo, string $facilityKey) : ?Restaurant {
+	public static function getRestaurantByFacilityKey(\PDO $pdo, string $facilityKey) : ?Restaurant {
 		// first we sanitize the entered facility key
 		$facilityKey = trim($facilityKey);
 		$facilityKey = filter_var($facilityKey, FILTER_SANITIZE_NUMBER_INT);
