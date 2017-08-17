@@ -79,8 +79,8 @@ class RestaurantTest extends FoodquisitionTest{
 	protected $VALID_RESTAURANT_ZIP = "87114-4411";
 
 	/**
-	 * A test that inserts a valid new restaurant entity into the database, then verify that
-	 * the returned mySQL data matches
+	 * A test that inserts a valid new restaurant entity into the database, then verifies
+	 * that the returned mySQL data matches
 	 */
 	public function testInsertValidRestaurant() : void {
 		// count and store the number of rows for later
@@ -107,6 +107,27 @@ class RestaurantTest extends FoodquisitionTest{
 		$this->assertEquals($pdoRestaurant->getRestaurantZip(), $this->VALID_RESTAURANT_ZIP);
 	}
 
+	/**
+	 * A test that attempts to insert an invalid new restaurant entity into the database
+	 *
+	 * @expectedException \PDOException
+	 */
+	public function testInsertInvalidRestaurant() : void {
+		// create an entity with a larger primary key int value than the database will
+		// accept, it should fail
+		$restaurant = new Restaurant(FoodquisitionTest::INVALID_KEY, $this->VALID_RESTAURANT_ADDRESS1, $this->VALID_RESTAURANT_ADDRESS2, $this->VALID_RESTAURANT_CITY, $this->VALID_RESTAURANT_FACILITY_KEY, $this->VALID_RESTAURANT_GOOGLE_ID, $this->VALID_RESTAURANT_NAME, $this->VALID_RESTAURANT_PHONE_NUMBER, $this->VALID_RESTAURANT_STATE, $this->VALID_RESTAURANT_TYPE, $this->VALID_RESTAURANT_ZIP);
+		$restaurant->insert($this->getPDO());
+	}
+
+	/**
+	 * A test to attempt grabbing a restaurant entity that does not exist
+	 */
+	public function testGetInvalidRestaurantByRestaurantId() : void {
+		// attempt to search for an entity with a primary key int value larger than the
+		// database allows, it should be null
+		$restaurant = Restaurant::getRestaurantByRestaurantId($this->getPDO(), FoodquisitionTest::INVALID_KEY);
+		$this->assertNull($restaurant);
+	}
 
 
 
