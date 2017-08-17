@@ -676,6 +676,37 @@ class Restaurant implements \JsonSerializable {
 	}
 
 	/**
+	 * Method for getting every restaurant in the database
+	 *
+	 * @param \PDO $pdo the PDO connection object
+	 * @return \SplFixedArray SplFixedArray of every restaurant in the database
+	 * @throws \PDOException for mySQL related errors
+	 * @throws \TypeError if the variables are not of the correct data type
+	 */
+	public static function getAllRestaurants(\PDO $pdo) : \SplFixedArray{
+		// we prepare our SELECT statement, then execute it
+		$query = "SELECT restaurantId, restaurantAddress1, restaurantAddress2, restaurantCity, restaurantFacilityKey, restaurantGoogleId, restaurantName, restaurantPhoneNumber, restaurantState, restaurantType, restaurantZip FROM restaurant";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		// Build and array to store the fetched data in
+		$restaurantArray = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+
+		// !== false not strictly necessary, just being verbose
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$restaurantKeys = new Restaurant($row["restaurantId"], $row["restaurantAddress1"], $row["restaurantAddress2"], $row["restaurantCity"], $row["restaurantFacilityKey"], $row["restaurantGoogleId"], $row["restaurantName"], $row["restaurantPhoneNumber"], $row["restaurantState"], $row["restaurantType"], $row["restaurantZip"]);
+				$restaurantArray[$restaurantArray->key()] = $restaurantKeys;
+				$restaurantArray->next();
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return($restaurantArray);
+	}
+
+	/**
 	 * Formats the state variables for JSON serialization
 	 *
 	 * @return array containing state variables to serialize
