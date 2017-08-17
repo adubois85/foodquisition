@@ -200,6 +200,15 @@ class RestaurantTest extends FoodquisitionTest{
 		$this->assertEquals($result->getRestaurantZip(), $this->VALID_RESTAURANT_ZIP);
 	}
 
+	/**
+	 * A test to attempt grabbing a restaurant entity by a Google ID that does not exist
+	 */
+	public function testGetInvalidRestaurantByGoogleId() : void {
+		// attempt to search for an entity with a facility key that does not exist
+		$restaurant = Restaurant::getRestaurantByGoogleId($this->getPDO(), "invalidgoogleid123");
+		$this->assertCount(0, $restaurant);
+	}
+
 
 
 }
