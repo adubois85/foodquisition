@@ -80,7 +80,9 @@ class RestaurantTest extends FoodquisitionTest{
 
 	/**
 	 * A test that inserts a valid new restaurant entity into the database, then verifies
-	 * that the returned mySQL data matches
+	 * that the returned mySQL data matches.
+	 *
+	 * This is coverage for the INSERT method.
 	 */
 	public function testInsertValidRestaurant() : void {
 		// count and store the number of rows for later
@@ -117,6 +119,37 @@ class RestaurantTest extends FoodquisitionTest{
 		// accept, it should fail
 		$restaurant = new Restaurant(FoodquisitionTest::INVALID_KEY, $this->VALID_RESTAURANT_ADDRESS1, $this->VALID_RESTAURANT_ADDRESS2, $this->VALID_RESTAURANT_CITY, $this->VALID_RESTAURANT_FACILITY_KEY, $this->VALID_RESTAURANT_GOOGLE_ID, $this->VALID_RESTAURANT_NAME, $this->VALID_RESTAURANT_PHONE_NUMBER, $this->VALID_RESTAURANT_STATE, $this->VALID_RESTAURANT_TYPE, $this->VALID_RESTAURANT_ZIP);
 		$restaurant->insert($this->getPDO());
+	}
+
+	/**
+	 * A test that inserts a valid new restaurant entity into the database, then verifies
+	 * that the returned mySQL data matches
+	 *
+	 * This is coverage for the getRestaurantByRestaurantId method
+	 */
+	public function testGetValidRestaurantByRestaurantId() : void {
+		// count and store the number of rows for later
+		$numRows = $this->getConnection()->getRowCount("restaurant");
+
+		// create our new dummy entity and insert into mySQL
+		$restaurant = new Restaurant(null, $this->VALID_RESTAURANT_ADDRESS1, $this->VALID_RESTAURANT_ADDRESS2, $this->VALID_RESTAURANT_CITY, $this->VALID_RESTAURANT_FACILITY_KEY, $this->VALID_RESTAURANT_GOOGLE_ID, $this->VALID_RESTAURANT_NAME, $this->VALID_RESTAURANT_PHONE_NUMBER, $this->VALID_RESTAURANT_STATE, $this->VALID_RESTAURANT_TYPE, $this->VALID_RESTAURANT_ZIP);
+		$restaurant->insert($this->getPDO());
+
+		// grab the data from mySQL and store it
+		$pdoRestaurant = Restaurant::getRestaurantByRestaurantId($this->getPDO(), $restaurant->getRestaurantId());
+
+		// compare the data we entered with what we got back to see if they're the same
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
+		$this->assertEquals($pdoRestaurant->getRestaurantAddress1(), $this->VALID_RESTAURANT_ADDRESS1);
+		$this->assertEquals($pdoRestaurant->getRestaurantAddress2(), $this->VALID_RESTAURANT_ADDRESS2);
+		$this->assertEquals($pdoRestaurant->getRestaurantCity(), $this->VALID_RESTAURANT_CITY);
+		$this->assertEquals($pdoRestaurant->getRestaurantFacilityKey(), $this->VALID_RESTAURANT_FACILITY_KEY);
+		$this->assertEquals($pdoRestaurant->getRestaurantGoogleId(), $this->VALID_RESTAURANT_GOOGLE_ID);
+		$this->assertEquals($pdoRestaurant->getRestaurantName(), $this->VALID_RESTAURANT_NAME);
+		$this->assertEquals($pdoRestaurant->getRestaurantPhoneNumber(), $this->VALID_RESTAURANT_PHONE_NUMBER);
+		$this->assertEquals($pdoRestaurant->getRestaurantState(), $this->VALID_RESTAURANT_STATE);
+		$this->assertEquals($pdoRestaurant->getRestaurantType(), $this->VALID_RESTAURANT_TYPE);
+		$this->assertEquals($pdoRestaurant->getRestaurantZip(), $this->VALID_RESTAURANT_ZIP);
 	}
 
 	/**
