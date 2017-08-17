@@ -147,7 +147,7 @@ class RestaurantTest extends FoodquisitionTest{
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
 		$this->assertCount(1, $results);
 
-		// enfore no other objects are bleeding into the test
+		// enforce no other objects are bleeding into the test
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Foodquisition\\Restaurant", $results);
 
 		// it should be the first indexed item in the array; grab and validate it
@@ -164,7 +164,49 @@ class RestaurantTest extends FoodquisitionTest{
 		$this->assertEquals($pdoRestaurant->getRestaurantZip(), $this->VALID_RESTAURANT_ZIP);
 	}
 
+	/**
+	 * A test to attempt grabbing a restaurant entity by a facility key that does not exist
+	 */
+	public function testGetInvalidRestaurantByFacilityKey() : void {
+		// attempt to search for an entity with a facility key that does not exist
+		$restaurant = Restaurant::getRestaurantByFacilityKey($this->getPDO(), "123456");
+		$this->assertCount(0, $restaurant);
+	}
 
+	/**
+	 * A test to attempt grabbing a valid restaurant entity by its Google ID
+	 */
+	public function testGetValidRestaurantByGoogleId() : void {
+		// count and store the number of rows for later
+		$numRows = $this->getConnection()->getRowCount("restaurant");
+
+		// create our new dummy entity and insert into mySQL
+		$restaurant = new Restaurant(null, $this->VALID_RESTAURANT_ADDRESS1, $this->VALID_RESTAURANT_ADDRESS2,$this->VALID_RESTAURANT_CITY, $this->VALID_RESTAURANT_FACILITY_KEY, $this->VALID_RESTAURANT_GOOGLE_ID, $this->VALID_RESTAURANT_NAME, $this->VALID_RESTAURANT_PHONE_NUMBER, $this->VALID_RESTAURANT_STATE, $this->VALID_RESTAURANT_TYPE, $this->VALID_RESTAURANT_ZIP);
+		$restaurant->insert($this->getPDO());
+
+		// grab the data from mySQL and store it
+		$results = Restaurant::getRestaurantByGoogleId($this->getPDO(), $restaurant->getRestaurantGoogleId());
+
+		// compare the data we entered with what we got back to see if they're the same
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
+		$this->assertCount(1, $results);
+
+		// enforce no other objects are bleeding into the test
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Foodquisition\\Restaurant", $results);
+
+		// it should be the first indexed item in the array; grab and validate it
+		$pdoRestaurant = $results[0];
+		$this->assertEquals($pdoRestaurant->getRestaurantAddress1(), $this->VALID_RESTAURANT_ADDRESS1);
+		$this->assertEquals($pdoRestaurant->getRestaurantAddress2(), $this->VALID_RESTAURANT_ADDRESS2);
+		$this->assertEquals($pdoRestaurant->getRestaurantCity(), $this->VALID_RESTAURANT_CITY);
+		$this->assertEquals($pdoRestaurant->getRestaurantFacilityKey(), $this->VALID_RESTAURANT_FACILITY_KEY);
+		$this->assertEquals($pdoRestaurant->getRestaurantGoogleId(), $this->VALID_RESTAURANT_GOOGLE_ID);
+		$this->assertEquals($pdoRestaurant->getRestaurantName(), $this->VALID_RESTAURANT_NAME);
+		$this->assertEquals($pdoRestaurant->getRestaurantPhoneNumber(), $this->VALID_RESTAURANT_PHONE_NUMBER);
+		$this->assertEquals($pdoRestaurant->getRestaurantState(), $this->VALID_RESTAURANT_STATE);
+		$this->assertEquals($pdoRestaurant->getRestaurantType(), $this->VALID_RESTAURANT_TYPE);
+		$this->assertEquals($pdoRestaurant->getRestaurantZip(), $this->VALID_RESTAURANT_ZIP);
+	}
 
 
 
