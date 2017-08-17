@@ -178,7 +178,6 @@ class RestaurantTest extends FoodquisitionTest{
 
 		// compare the data we entered with what we got back to see if they're the same
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
-		$this->assertCount(1, $result);
 
 		// grab and validate it
 		$this->assertEquals($result->getRestaurantAddress1(), $this->VALID_RESTAURANT_ADDRESS1);
@@ -199,7 +198,7 @@ class RestaurantTest extends FoodquisitionTest{
 	public function testGetInvalidRestaurantByFacilityKey() : void {
 		// attempt to search for an entity with a facility key that does not exist
 		$restaurant = Restaurant::getRestaurantByFacilityKey($this->getPDO(), "123456");
-		$this->assertCount(0, $restaurant);
+		$this->assertNull($restaurant);
 	}
 
 	/**
@@ -218,7 +217,6 @@ class RestaurantTest extends FoodquisitionTest{
 
 		// compare the data we entered with what we got back to see if they're the same
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
-		$this->assertCount(1, $result);
 
 		// grab and validate it
 		$this->assertEquals($result->getRestaurantAddress1(), $this->VALID_RESTAURANT_ADDRESS1);
@@ -239,7 +237,7 @@ class RestaurantTest extends FoodquisitionTest{
 	public function testGetInvalidRestaurantByGoogleId() : void {
 		// attempt to search for an entity with a Google ID that does not exist
 		$restaurant = Restaurant::getRestaurantByGoogleId($this->getPDO(), "invalidgoogleid123");
-		$this->assertCount(0, $restaurant);
+		$this->assertNull($restaurant);
 	}
 
 	/**
