@@ -141,27 +141,23 @@ class RestaurantTest extends FoodquisitionTest{
 		$restaurant->insert($this->getPDO());
 
 		// grab the data from mySQL and store it
-		$results = Restaurant::getRestaurantByFacilityKey($this->getPDO(), $restaurant->getRestaurantFacilityKey());
+		$result = Restaurant::getRestaurantByFacilityKey($this->getPDO(), $restaurant->getRestaurantFacilityKey());
 
 		// compare the data we entered with what we got back to see if they're the same
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
-		$this->assertCount(1, $results);
+		$this->assertCount(1, $result);
 
-		// enforce no other objects are bleeding into the test
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Foodquisition\\Restaurant", $results);
-
-		// it should be the first indexed item in the array; grab and validate it
-		$pdoRestaurant = $results[0];
-		$this->assertEquals($pdoRestaurant->getRestaurantAddress1(), $this->VALID_RESTAURANT_ADDRESS1);
-		$this->assertEquals($pdoRestaurant->getRestaurantAddress2(), $this->VALID_RESTAURANT_ADDRESS2);
-		$this->assertEquals($pdoRestaurant->getRestaurantCity(), $this->VALID_RESTAURANT_CITY);
-		$this->assertEquals($pdoRestaurant->getRestaurantFacilityKey(), $this->VALID_RESTAURANT_FACILITY_KEY);
-		$this->assertEquals($pdoRestaurant->getRestaurantGoogleId(), $this->VALID_RESTAURANT_GOOGLE_ID);
-		$this->assertEquals($pdoRestaurant->getRestaurantName(), $this->VALID_RESTAURANT_NAME);
-		$this->assertEquals($pdoRestaurant->getRestaurantPhoneNumber(), $this->VALID_RESTAURANT_PHONE_NUMBER);
-		$this->assertEquals($pdoRestaurant->getRestaurantState(), $this->VALID_RESTAURANT_STATE);
-		$this->assertEquals($pdoRestaurant->getRestaurantType(), $this->VALID_RESTAURANT_TYPE);
-		$this->assertEquals($pdoRestaurant->getRestaurantZip(), $this->VALID_RESTAURANT_ZIP);
+		// grab and validate it
+		$this->assertEquals($result->getRestaurantAddress1(), $this->VALID_RESTAURANT_ADDRESS1);
+		$this->assertEquals($result->getRestaurantAddress2(), $this->VALID_RESTAURANT_ADDRESS2);
+		$this->assertEquals($result->getRestaurantCity(), $this->VALID_RESTAURANT_CITY);
+		$this->assertEquals($result->getRestaurantFacilityKey(), $this->VALID_RESTAURANT_FACILITY_KEY);
+		$this->assertEquals($result->getRestaurantGoogleId(), $this->VALID_RESTAURANT_GOOGLE_ID);
+		$this->assertEquals($result->getRestaurantName(), $this->VALID_RESTAURANT_NAME);
+		$this->assertEquals($result->getRestaurantPhoneNumber(), $this->VALID_RESTAURANT_PHONE_NUMBER);
+		$this->assertEquals($result->getRestaurantState(), $this->VALID_RESTAURANT_STATE);
+		$this->assertEquals($result->getRestaurantType(), $this->VALID_RESTAURANT_TYPE);
+		$this->assertEquals($result->getRestaurantZip(), $this->VALID_RESTAURANT_ZIP);
 	}
 
 	/**
@@ -185,27 +181,23 @@ class RestaurantTest extends FoodquisitionTest{
 		$restaurant->insert($this->getPDO());
 
 		// grab the data from mySQL and store it
-		$results = Restaurant::getRestaurantByGoogleId($this->getPDO(), $restaurant->getRestaurantGoogleId());
+		$result = Restaurant::getRestaurantByGoogleId($this->getPDO(), $restaurant->getRestaurantGoogleId());
 
 		// compare the data we entered with what we got back to see if they're the same
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurant"));
-		$this->assertCount(1, $results);
+		$this->assertCount(1, $result);
 
-		// enforce no other objects are bleeding into the test
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Foodquisition\\Restaurant", $results);
-
-		// it should be the first indexed item in the array; grab and validate it
-		$pdoRestaurant = $results[0];
-		$this->assertEquals($pdoRestaurant->getRestaurantAddress1(), $this->VALID_RESTAURANT_ADDRESS1);
-		$this->assertEquals($pdoRestaurant->getRestaurantAddress2(), $this->VALID_RESTAURANT_ADDRESS2);
-		$this->assertEquals($pdoRestaurant->getRestaurantCity(), $this->VALID_RESTAURANT_CITY);
-		$this->assertEquals($pdoRestaurant->getRestaurantFacilityKey(), $this->VALID_RESTAURANT_FACILITY_KEY);
-		$this->assertEquals($pdoRestaurant->getRestaurantGoogleId(), $this->VALID_RESTAURANT_GOOGLE_ID);
-		$this->assertEquals($pdoRestaurant->getRestaurantName(), $this->VALID_RESTAURANT_NAME);
-		$this->assertEquals($pdoRestaurant->getRestaurantPhoneNumber(), $this->VALID_RESTAURANT_PHONE_NUMBER);
-		$this->assertEquals($pdoRestaurant->getRestaurantState(), $this->VALID_RESTAURANT_STATE);
-		$this->assertEquals($pdoRestaurant->getRestaurantType(), $this->VALID_RESTAURANT_TYPE);
-		$this->assertEquals($pdoRestaurant->getRestaurantZip(), $this->VALID_RESTAURANT_ZIP);
+		// grab and validate it
+		$this->assertEquals($result->getRestaurantAddress1(), $this->VALID_RESTAURANT_ADDRESS1);
+		$this->assertEquals($result->getRestaurantAddress2(), $this->VALID_RESTAURANT_ADDRESS2);
+		$this->assertEquals($result->getRestaurantCity(), $this->VALID_RESTAURANT_CITY);
+		$this->assertEquals($result->getRestaurantFacilityKey(), $this->VALID_RESTAURANT_FACILITY_KEY);
+		$this->assertEquals($result->getRestaurantGoogleId(), $this->VALID_RESTAURANT_GOOGLE_ID);
+		$this->assertEquals($result->getRestaurantName(), $this->VALID_RESTAURANT_NAME);
+		$this->assertEquals($result->getRestaurantPhoneNumber(), $this->VALID_RESTAURANT_PHONE_NUMBER);
+		$this->assertEquals($result->getRestaurantState(), $this->VALID_RESTAURANT_STATE);
+		$this->assertEquals($result->getRestaurantType(), $this->VALID_RESTAURANT_TYPE);
+		$this->assertEquals($result->getRestaurantZip(), $this->VALID_RESTAURANT_ZIP);
 	}
 
 
