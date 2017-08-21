@@ -1,7 +1,7 @@
 <?php
 namespace Edu\Cnm\Foodquisition\Test;
 use Edu\Cnm\Foodquisition\{
-	Restaurant, Violation, RestaurantViolation};
+	Restaurant,Category, Violation, RestaurantViolation};
 // grab the class under scrutiny
 require_once(dirname(__DIR__) . "/autoload.php");
 /*
@@ -20,17 +20,19 @@ class RestaurantViolationTest extends FoodquisitionTest {
 	 * @var $RESTAURANT restaurant
 	 */
 	protected $restaurant = null;
+
+	/**
+	 * restaurant Violation category that created the  RestaurantViolation; this is string
+	 * @var $CATEGORY category
+	 */
+	protected $category = null;
+
 	/**
 	 * Violation that created the RestaurantViolation; this is for foreign key relations
 	 * @var $VIOLATION violation
 	 */
 	protected $violation = null;
 
-	/**
-	 * restaurant Violation category that created the  RestaurantViolation; this is string
-	 * @var $CATEGORY category
-	 */
-//	protected $category = null;
 	/**
 	 *memo of the violation
 	 *@var string $VALID_RESTAURANTVIOLATIONMEMO
@@ -70,13 +72,13 @@ class RestaurantViolationTest extends FoodquisitionTest {
 		$this->restaurant->insert($this->getPDO());
 // added to  violation because this is what my class pulls from
 
-		$this->violation = new Violation(null, 128708789,"4856865", "code description");
-		$this->violation->insert($this->getPDO());
-
 		// added category because violation pulls from category
 
-//		$this->category = new Category(null, "name");
-//		$this->category->insert($this->getPDO());
+		$this->category = new Category(null, "name");
+		$this->category->insert($this->getPDO());
+
+		$this->violation = new Violation(null, $this->category->getCategoryId(),"4856865", "code description");
+		$this->violation->insert($this->getPDO());
 
 		// calculate the date(just us the time and date the unit test was setup...)
 		$this->VALID_RESTAURANTVIOLATIONDATE = new \DateTime();
