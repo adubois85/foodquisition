@@ -296,7 +296,7 @@ public function delete(\PDO $pdo) : void {
  * @throws \TypeError if $pdo is not a PDO connection object
  **/
 public function update(\PDO $pdo) : void {
-	//enforcethe restaurantViolationId is not null (i.e., don't update a violationId that has not been inserted)
+	//enforce the restaurantViolationId is not null (i.e., don't update a violationId that has not been inserted)
 	if($this->restaurantViolationId === null){
 		throw(new \PDOException("unable to update a restaurantViolationId that does not exist"));
 	}
@@ -324,8 +324,9 @@ public static function getRestaurantViolationByRestaurantViolationId(\PDO $pdo, 
 		throw(new \PDOException("restaurnat violation id is not positive"));
 	}
 	//create quary template
-	$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationmemo,restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationId";
+	$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo,restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationId";
 	$statement = $pdo->prepare($query);
+
 
 	// bind the restaurant Violation id to the place holder in the template
 	$parameters = ["restaurantViolationId" => $restaurantViolationId];
@@ -554,7 +555,7 @@ public static function getRestaurantViolationByRestaurantViolationMemo(\PDO $pdo
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getAllRestaruantViolations(\PDO $pdo) : \SPLFixedArray {
+	public static function getAllRestaurantViolations(\PDO $pdo) : \SPLFixedArray {
 		// create query template
 		$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation";
 		$statement = $pdo->prepare($query);
