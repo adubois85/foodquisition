@@ -260,7 +260,7 @@ public function setRestaurantViolationMemo(string $newRestaurantViolationMemo) :
 			throw(new \PDOException("not a new restaurant violation id"));
 		}
 		// create query template
-		$query = "INSERT INTO restaurantViolation(restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults) VALUES(:restaurantViolationId, :restaurantViolationResturantId, :returantViolationViolationId, :restaurantViolationDate, :restaurnatViolationMemo, :restaurantViolationResults)";
+		$query = "INSERT INTO restaurantViolation(restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults) VALUES(:restaurantViolationId, :restaurantViolationRestaurantId, :returantViolationViolationId, :restaurantViolationDate, :restaurnatViolationMemo, :restaurantViolationResults)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables in the place holder template
@@ -371,7 +371,7 @@ public static function  getRestaurantViolationByRestaurantViolationRestaurantId(
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	while(($row = $statement->fetch()) !== false){
 		try{
-			$restaurantViolation = new restaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
+			$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
 			$restaurantViolation [$restaurantViolation->key()] = $restaurantViolation;
 			$restaurantViolation->next();
 		} catch(\Exception $exception) {
@@ -407,7 +407,7 @@ public static function  getRestaurantViolationByRestaurantViolationRestaurantId(
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false){
 			try{
-				$restaurantViolation = new restaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
+				$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
 				$restaurantViolation [$restaurantViolation->key()] = $restaurantViolation;
 				$restaurantViolation->next();
 			} catch(\Exception $exception) {
@@ -497,7 +497,7 @@ public static function getRestaurantViolationByRestaurantViolationMemo(\PDO $pdo
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	while(($row = $statement->fetch()) !== false) {
 		try {
-			$restaurantViolation = new restaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"], $row["restaurantViolationResults"]);
+			$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"], $row["restaurantViolationResults"]);
 			$restaurantViolation[$restaurantViolation->key()] = $restaurantViolation;
 			$restaurantViolation->next();
 		} catch(\Exception $exception) {
@@ -538,7 +538,7 @@ public static function getRestaurantViolationByRestaurantViolationMemo(\PDO $pdo
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$restaurantViolation = new restaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"], $row["restaurantViolationResults"]);
+				$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"], $row["restaurantViolationResults"]);
 				$restaurantViolation[$restaurantViolation->key()] = $restaurantViolation;
 				$restaurantViolation->next();
 			} catch(\Exception $exception) {
@@ -566,7 +566,7 @@ public static function getRestaurantViolationByRestaurantViolationMemo(\PDO $pdo
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch())!== false) {
 			try {
-				$restaurantViolation = new restaurantViolation($row["restaurantViolationId"],$row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"], $row["restaurantViolationResults"]);
+				$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"],$row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"], $row["restaurantViolationResults"]);
 				$restaurantViolation[$restaurantViolation->key()] = $restaurantViolation;
 				$restaurantViolation->next();
 			} catch(\Exception $exception){
