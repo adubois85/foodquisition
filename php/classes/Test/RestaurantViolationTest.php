@@ -95,13 +95,13 @@ class RestaurantViolationTest extends FoodquisitionTest {
 	 **/
 	public function testInsertValidRestaurantViolation() : void {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("RestaurantViolation");
+		$numRows = $this->getConnection()->getRowCount("restaurantViolation");
 		// create a new RestaurantViolation and insert to into mySQL
 		$RestaurantViolation = new RestaurantViolation(null, $this->restaurant->getRestaurantId(), $this->violation->getViolationId(),$this->VALID_RESTAURANTVIOLATIONDATE, $this->VALID_RESTAURANTVIOLATIONMEMO, $this->VALID_RESTAURANTVIOLATIONRESULTS);
 		$RestaurantViolation->insert($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
 		$pdoRestaurantViolation = RestaurantViolation::getRestaurantViolationByRestaurantViolationId($this->getPDO(), $RestaurantViolation->getRestaurantViolationId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("RestaurantViolation"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurantViolation"));
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationRestaurantId(), $this->restaurant->getRestaurantId());
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationViolationId(), $this->violation->getViolationId());
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationMemo(), $this->VALID_RESTAURANTVIOLATIONMEMO);
@@ -124,7 +124,7 @@ class RestaurantViolationTest extends FoodquisitionTest {
 	 **/
 	public function testUpdateValidRestaurantViolation() : void {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("RestaurantViolation");
+		$numRows = $this->getConnection()->getRowCount("restaurantViolation");
 		// create a new RestaurantViolation and insert to into mySQL
 		$RestaurantViolation = new RestaurantViolation(null, $this->restaurant->getRestaurantId(), $this->violation->getViolationId(), $this->VALID_RESTAURANTVIOLATIONDATE, $this->VALID_RESTAURANTVIOLATIONMEMO, $this->VALID_RESTAURANTVIOLATIONRESULTS);
 		$RestaurantViolation->insert($this->getPDO());
@@ -135,7 +135,7 @@ class RestaurantViolationTest extends FoodquisitionTest {
 		// grab the data from mySQL and enforce the fields match our expectations
 
 		$pdoRestaurantViolation = RestaurantViolation::getRestaurantViolationByRestaurantViolationId($this->getPDO(), $RestaurantViolation->getRestaurantViolationId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("RestaurantViolation"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurantViolation"));
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationRestaurantId(), $this->restaurant->getRestaurantId());
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationViolationId(), $this->violation->getViolationId());
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationMemo(), $this->VALID_RESTAURANTVIOLATIONMEMO1);
@@ -342,14 +342,14 @@ class RestaurantViolationTest extends FoodquisitionTest {
 	 **/
 	public function testGetAllValidRestaurantViolations() : void {
 		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("RestaurantViolation");
+		$numRows = $this->getConnection()->getRowCount("restaurantViolation");
 		// create a new RestaurantViolation and insert to into mySQL
 		$restaurantViolation = new RestaurantViolation(null, $this->restaurant->getRestaurantId(), $this->violation->getViolationId(), $this->VALID_RESTAURANTVIOLATIONDATE, $this->VALID_RESTAURANTVIOLATIONMEMO, $this->VALID_RESTAURANTVIOLATIONRESULTS);
 		$restaurantViolation->delete($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$results = RestaurantViolation::getAllRestaurantViolations($this->getPDO());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("RestaurantViolation"));
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurantViolation"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Foodquisition\\RestaurantViolation", $results);
 		// grab the result from the array and validate it
