@@ -157,35 +157,35 @@ class RestaurantViolation implements \JsonSerializable {
 		$this->restaurantViolationViolationId = $newRestaurantViolationViolationId;
 	}
 	/**
-	 *accessor method for restaurant violation memo
+	 *accessor method for restaurant violation compliance
 	 *
-	 * @return string value of restaurant violation memo
+	 * @return string value of restaurant violation compliance
 	 *
 	 **/
-	public function getRestaurantViolation() :string {
-		return($this->restaurantViolationMemo);
+	public function getRestaurantViolationCompliance() :string {
+		return($this->restaurantViolationCompliance);
 	}
 	/**
-	 * mutator method for restaurant violation memo
+	 * mutator method for restaurant violation compliance
 	 *
-	 * @param string $newRestaurantViolationMemo new value of restaurant violation memo
-	 *@throws \InvalidArgumentException if $newRestaurantViolationMemo is not a string or insecure
-	 *@throws \RangeException if $newRestaurantViolationMemo is > 255 characters
-	 *@throws \TypeError if $newRestaurantViolationMemo is not a string
+	 * @param string $newRestaurantViolationCompliance new value of restaurant violation compliance
+	 *@throws \InvalidArgumentException if $newRestaurantViolationCompliance is not a string or insecure
+	 *@throws \RangeException if $newRestaurantViolationCompliance is > 17 characters
+	 *@throws \TypeError if $newRestaurantViolationCompliance is not a string
 	 **/
-	public function setRestaurantViolationMemo(string $newRestaurantViolationMemo) : void {
-		// verify the restaurant violation memo is secure
-		$newRestaurantViolationMemo = trim($newRestaurantViolationMemo);
-		$newRestaurantViolationMemo = filter_var($newRestaurantViolationMemo, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newRestaurantViolationMemo) === true) {
-			throw(new \InvalidArgumentException("restaurant violation memo is empty or insecure"));
+	public function setRestaurantViolationCompliance(string $newRestaurantViolationCompliance) : void {
+		// verify the restaurant violation compliance is secure
+		$newRestaurantViolationCompliance = trim($newRestaurantViolationCompliance);
+		$newRestaurantViolationCompliance = filter_var($newRestaurantViolationCompliance, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newRestaurantViolationCompliance) === true) {
+			throw(new \InvalidArgumentException("restaurant violation compliance is empty or insecure"));
 		}
-		// verify the restaurant violation memo will fit in the database
-		if(strlen($newRestaurantViolationMemo) > 255) {
-			throw(new \RangeException("restaurant violation memo is too large"));
+		// verify the restaurant violation compliance will fit in the database
+		if(strlen($newRestaurantViolationCompliance) > 255) {
+			throw(new \RangeException("restaurant violation compliance too large"));
 		}
-		//store the restaurant violation memo
-		$this->restaurantViolationMemo = $newRestaurantViolationMemo;
+		//store the restaurant violation compliance
+		$this->restaurantViolationCompliance = $newRestaurantViolationCompliance;
 	}
 /**
  * accessor method for restaurant violation date
@@ -298,12 +298,12 @@ class RestaurantViolation implements \JsonSerializable {
 			throw(new \PDOException("not a new restaurant violation id"));
 		}
 		// create query template
-		$query = "INSERT INTO restaurantViolation(restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults) VALUES(:restaurantViolationId, :restaurantViolationRestaurantId, :restaurantViolationViolationId, :restaurantViolationDate, :restaurantViolationMemo, :restaurantViolationResults)";
+		$query = "INSERT INTO restaurantViolation(restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationCompliance, restaurantViolationDate,restaurantViolationMemo, restaurantViolationResults) VALUES(:restaurantViolationId, :restaurantViolationRestaurantId, :restaurantViolationViolationId,:restaurantViolationCompliance, :restaurantViolationDate, :restaurantViolationMemo, :restaurantViolationResults)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables in the place holder template
 		$formattedDate = $this->restaurantViolationDate->format("Y-m-d");
-		$parameters = ["restaurantViolationId" => $this->restaurantViolationId, "restaurantViolationRestaurantId" => $this->restaurantViolationRestaurantId, "restaurantViolationViolationId" => $this->restaurantViolationViolationId, "restaurantViolationDate" => $formattedDate, "restaurantViolationMemo" => $this->restaurantViolationMemo, "restaurantViolationResults" => $this->restaurantViolationResults];
+		$parameters = ["restaurantViolationId" => $this->restaurantViolationId, "restaurantViolationRestaurantId" => $this->restaurantViolationRestaurantId, "restaurantViolationViolationId" => $this->restaurantViolationViolationId, "restaurantViolationCompliance" => $this->restaurantViolationCompliance, "restaurantViolationDate" => $formattedDate, "restaurantViolationMemo" => $this->restaurantViolationMemo, "restaurantViolationResults" => $this->restaurantViolationResults];
 		$statement->execute($parameters);
 		// update the null restaurantViolationId with what mySQL just gave us
 		$this->restaurantViolationId = intval($pdo->lastInsertId());
@@ -339,12 +339,12 @@ public function update(\PDO $pdo) : void {
 		throw(new \PDOException("unable to update a restaurantViolationId that does not exist"));
 	}
 	// create a query template
-	$query = "UPDATE restaurantViolation SET restaurantViolationRestaurantId = :restaurantViolationRestaurantId, restaurantViolationViolationId = :restaurantViolationViolationId, restaurantViolationDate = :restaurantViolationDate, restaurantViolationMemo = :restaurantViolationMemo, restaurantViolationResults = :restaurantViolationResults WHERE restaurantViolationId = :restaurantViolationId";
+	$query = "UPDATE restaurantViolation SET restaurantViolationRestaurantId = :restaurantViolationRestaurantId, restaurantViolationViolationId = :restaurantViolationViolationId, restaurantViolationCompliance = :restaurantViolationCompliance ,restaurantViolationDate = :restaurantViolationDate, restaurantViolationMemo = :restaurantViolationMemo, restaurantViolationResults = :restaurantViolationResults WHERE restaurantViolationId = :restaurantViolationId";
 	$statement = $pdo->prepare($query);
 
 	// bind the member variables to the place holders in the template
 	$formattedDate = $this->restaurantViolationDate->format("Y-m-d");
-	$parameters = ["restaurantViolationId" => $this->restaurantViolationId, "restaurantViolationRestaurantId" => $this->restaurantViolationRestaurantId, "restaurantViolationViolationId" => $this->restaurantViolationViolationId, "restaurantViolationDate" => $formattedDate, "restaurantViolationMemo" => $this->restaurantViolationMemo, "restaurantViolationResults" => $this->restaurantViolationResults];
+	$parameters = ["restaurantViolationId" => $this->restaurantViolationId, "restaurantViolationRestaurantId" => $this->restaurantViolationRestaurantId, "restaurantViolationViolationId" => $this->restaurantViolationViolationId, "restaurantViolationCompliance" => $this->restaurantViolationCompliance, "restaurantViolationDate" => $formattedDate, "restaurantViolationMemo" => $this->restaurantViolationMemo, "restaurantViolationResults" => $this->restaurantViolationResults];
 	$statement->execute($parameters);
 }
 /**
@@ -359,10 +359,10 @@ public function update(\PDO $pdo) : void {
 public static function getRestaurantViolationByRestaurantViolationId(\PDO $pdo, int $restaurantViolationId) : ?RestaurantViolation {
 	// sanitize the restaurantViolationId before searching
 	if($restaurantViolationId <= 0) {
-		throw(new \PDOException("restaurnat violation id is not positive"));
+		throw(new \PDOException("restaurant violation id is not positive"));
 	}
 	//create quary template
-	$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo,restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationId";
+	$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationCompliance, restaurantViolationDate, restaurantViolationMemo,restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationId";
 	$statement = $pdo->prepare($query);
 
 
@@ -375,7 +375,7 @@ public static function getRestaurantViolationByRestaurantViolationId(\PDO $pdo, 
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		$row = $statement->fetch();
 		if($row !== false) {
-			$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
+			$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationCompliance"],$row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
 		}
 	} catch(\Exception $exception) {
 		// if the row couldn't be converted rethrow it
@@ -399,7 +399,7 @@ public static function  getRestaurantViolationByRestaurantViolationRestaurantId(
 		throw(new \RangeException("restaurant violation restaurant id"));
 	}
 	// create query template
-	$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationRestaurantId";
+	$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationCompliance, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationRestaurantId";
 	$statement = $pdo->prepare($query);
 	//bind the restaurant Violation Restaurant Id to the place holder in the template
 	$parameters = ["restaurantViolationRestaurantId" => $restaurantViolationRestaurantId];
@@ -410,7 +410,7 @@ public static function  getRestaurantViolationByRestaurantViolationRestaurantId(
 	while(($row = $statement->fetch()) !== false){
 		try{
 
-			$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
+			$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationCompliance"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
 			$restaurantViolations [$restaurantViolations->key()] = $restaurantViolation;
 			$restaurantViolations->next();
 		} catch(\Exception $exception) {
@@ -436,7 +436,7 @@ public static function  getRestaurantViolationByRestaurantViolationRestaurantId(
 			throw(new \RangeException("restaurant violation violation id"));
 		}
 		// create query template
-		$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, RestaurantViolationResults FROM restaurantViolation WHERE restaurantViolationRestaurantId";
+		$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationCompliance, restaurantViolationDate, restaurantViolationMemo, RestaurantViolationResults FROM restaurantViolation WHERE restaurantViolationRestaurantId";
 		$statement = $pdo->prepare($query);
 		//bind the restaurant Violation violation Id to the place holder in the template
 		$parameters = ["restaurantViolationViolationId" => $restaurantViolationViolationId];
@@ -446,7 +446,7 @@ public static function  getRestaurantViolationByRestaurantViolationRestaurantId(
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false){
 			try{
-				$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
+				$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationCompliance"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
 				$restaurantViolations [$restaurantViolations->key()] = $restaurantViolation;
 				$restaurantViolations->next();
 			} catch(\Exception $exception) {
@@ -482,7 +482,7 @@ public static function  getRestaurantViolationByRestaurantViolationRestaurantId(
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationDate >= :sunriseRestaurantViolationDate and restaurantViolationDate <= :sunsetRestaurantViolation";
+		$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationCompliance, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationDate >= :sunriseRestaurantViolationDate and restaurantViolationDate <= :sunsetRestaurantViolation";
 		$statement = $pdo->prepare($query);
 		//format the dates so that mySQL can use them
 		$formattedSunriseDate = $sunriseRestaurantViolationDate->format("Y-m-d");
@@ -496,7 +496,7 @@ public static function  getRestaurantViolationByRestaurantViolationRestaurantId(
 
 		while(($row = $statement->fetch()) !== false){
 			try{
-				$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"], $row["restaurantViolationResults"]);
+				$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationCompliance"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
 				$restaurantViolations[$restaurantViolations->key()] = $restaurantViolation;
 				$restaurantViolations->next();
 			} catch(\Exception $exception) {
@@ -524,7 +524,7 @@ public static function getRestaurantViolationByRestaurantViolationMemo(\PDO $pdo
 	$restaurantViolationMemo = str_replace("_", "\\_", str_replace("%", "\\%", $restaurantViolationMemo));
 
 	//create query template
-	$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationMemo LIKE :restaurantViolationMemo";
+	$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId,restaurantViolationViolationId, restaurantViolationCompliance, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationMemo LIKE :restaurantViolationMemo";
 	$statement = $pdo->prepare($query);
 
 	//bind the restaurant violation memo to the place holder in the template
@@ -536,7 +536,7 @@ public static function getRestaurantViolationByRestaurantViolationMemo(\PDO $pdo
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	while(($row = $statement->fetch()) !== false) {
 		try {
-			$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"], $row["restaurantViolationResults"]);
+			$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationCompliance"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
 			$restaurantViolations[$restaurantViolations->key()] = $restaurantViolation;
 			$restaurantViolations->next();
 		} catch(\Exception $exception) {
@@ -565,7 +565,7 @@ public static function getRestaurantViolationByRestaurantViolationMemo(\PDO $pdo
 		$restaurantViolationResults = str_replace("_", "\\_", str_replace("%", "\\%", $restaurantViolationResults));
 
 		//create query template
-		$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationResults LIKE :restaurantViolationResults";
+		$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationCompliance, restaurantViolationDate,restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationResults LIKE :restaurantViolationResults";
 		$statement = $pdo->prepare($query);
 
 		//bind the restaurant violation results to the place holder in the template
@@ -577,7 +577,7 @@ public static function getRestaurantViolationByRestaurantViolationMemo(\PDO $pdo
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"], $row["restaurantViolationResults"]);
+				$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationCompliance"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
 				$restaurantViolations[$restaurantViolations->key()] = $restaurantViolation;
 				$restaurantViolations->next();
 			} catch(\Exception $exception) {
@@ -596,7 +596,7 @@ public static function getRestaurantViolationByRestaurantViolationMemo(\PDO $pdo
 	 **/
 	public static function getAllRestaurantViolations(\PDO $pdo) : \SPLFixedArray {
 		// create query template
-		$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation";
+		$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationCompliance, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
@@ -605,7 +605,7 @@ public static function getRestaurantViolationByRestaurantViolationMemo(\PDO $pdo
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch())!== false) {
 			try {
-				$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"],$row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"], $row["restaurantViolationResults"]);
+				$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationCompliance"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
 				$restaurantViolations[$restaurantViolations->key()] = $restaurantViolation;
 				$restaurantViolations->next();
 			} catch(\Exception $exception){
