@@ -260,7 +260,7 @@ public function setRestaurantViolationMemo(string $newRestaurantViolationMemo) :
 			throw(new \PDOException("not a new restaurant violation id"));
 		}
 		// create query template
-		$query = "INSERT INTO restaurantViolation(restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults) VALUES(:restaurantViolationId, :restaurantViolationRestaurantId, :returantViolationViolationId, :restaurantViolationDate, :restaurnatViolationMemo, :restaurantViolationResults)";
+		$query = "INSERT INTO restaurantViolation(restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults) VALUES(:restaurantViolationId, :restaurantViolationRestaurantId, :restaurantViolationViolationId, :restaurantViolationDate, :restaurantViolationMemo, :restaurantViolationResults)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables in the place holder template
