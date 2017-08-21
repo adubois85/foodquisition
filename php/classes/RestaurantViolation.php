@@ -29,6 +29,11 @@ class RestaurantViolation implements \JsonSerializable {
 	 **/
 	private $restaurantViolationViolationId;
 	/**
+	 * id of the restaurant violation compliance
+	 * @var int $restaurantViolationCompliance
+	 **/
+	private $restaurantViolationCompliance;
+	/**
 	 * date of restaurant violation
 	 * @var \DateTime $restaurantViolationDate
 	 **/
@@ -52,6 +57,7 @@ class RestaurantViolation implements \JsonSerializable {
 	 * @param int|null $newRestaurantViolationId of this restaurantViolation or null if a new restaurantViolation
 	 * @param int $newRestaurantViolationRestaurantId of the restaurantId that caused the restaurant violation
 	 * @param int $newRestaurantViolationViolationId of the restaurant violation violation
+	 * @param string $restaurantViolationCompliance weather in compliance or not
 	 * @param \DateTime|string|null $newRestaurantViolationDate date and time restaurant violation was sent or null if set to current date and time
 	 * @param string $newRestaurantViolationMemo string containing inspector notes
 	 * @param string $newRestaurantViolationResults sting containing results of inspection
@@ -61,11 +67,12 @@ class RestaurantViolation implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct(?int $newRestaurantViolationId, int $newRestaurantViolationRestaurantId, int $newRestaurantViolationViolationId, $newRestaurantViolationDate = null, string $newRestaurantViolationMemo, string $newRestaurantViolationResults) {
+	public function __construct(?int $newRestaurantViolationId, int $newRestaurantViolationRestaurantId, int $newRestaurantViolationViolationId, $restaurantViolationCompliance,$newRestaurantViolationDate = null, string $newRestaurantViolationMemo, string $newRestaurantViolationResults) {
 		try {
 			$this->setRestaurantViolationId($newRestaurantViolationId);
 			$this->setRestaurantViolationRestaurantId($newRestaurantViolationRestaurantId);
 			$this->setRestaurantViolationViolationId($newRestaurantViolationViolationId);
+			$this->setRestaurantViolationCompliance($restaurantViolationCompliance);
 			$this->setRestaurantViolationDate($newRestaurantViolationDate);
 			$this->setRestaurantViolationMemo($newRestaurantViolationMemo);
 			$this->setRestaurantViolationResults($newRestaurantViolationResults);
@@ -149,6 +156,37 @@ class RestaurantViolation implements \JsonSerializable {
 		//convert and store the restaurant violation violation id
 		$this->restaurantViolationViolationId = $newRestaurantViolationViolationId;
 	}
+	/**
+	 *accessor method for restaurant violation memo
+	 *
+	 * @return string value of restaurant violation memo
+	 *
+	 **/
+	public function getRestaurantViolation() :string {
+		return($this->restaurantViolationMemo);
+	}
+	/**
+	 * mutator method for restaurant violation memo
+	 *
+	 * @param string $newRestaurantViolationMemo new value of restaurant violation memo
+	 *@throws \InvalidArgumentException if $newRestaurantViolationMemo is not a string or insecure
+	 *@throws \RangeException if $newRestaurantViolationMemo is > 255 characters
+	 *@throws \TypeError if $newRestaurantViolationMemo is not a string
+	 **/
+	public function setRestaurantViolationMemo(string $newRestaurantViolationMemo) : void {
+		// verify the restaurant violation memo is secure
+		$newRestaurantViolationMemo = trim($newRestaurantViolationMemo);
+		$newRestaurantViolationMemo = filter_var($newRestaurantViolationMemo, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newRestaurantViolationMemo) === true) {
+			throw(new \InvalidArgumentException("restaurant violation memo is empty or insecure"));
+		}
+		// verify the restaurant violation memo will fit in the database
+		if(strlen($newRestaurantViolationMemo) > 255) {
+			throw(new \RangeException("restaurant violation memo is too large"));
+		}
+		//store the restaurant violation memo
+		$this->restaurantViolationMemo = $newRestaurantViolationMemo;
+	}
 /**
  * accessor method for restaurant violation date
  *
@@ -180,7 +218,7 @@ class RestaurantViolation implements \JsonSerializable {
 		}
 		// store the like date using the ValidateDate trait
 		try{
-			$newRestaurantViolationDate = self::validateDateTime($newRestaurantViolationDate);
+			$newRestaurantViolationDate = self::validateDate($newRestaurantViolationDate);
 		} catch(\InvalidArgumentException | \RangeException $exception) {
 			$exceptionType = get_class($exception);
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
@@ -193,31 +231,31 @@ class RestaurantViolation implements \JsonSerializable {
  * @return string value of restaurant violation memo
  *
  **/
-public function getRestaurantViolationMemo() :string {
-	return($this->restaurantViolationMemo);
-}
-/**
- * mutator method for restaurant violation memo
- *
- * @param string $newRestaurantViolationMemo new value of restaurant violation memo
- *@throws \InvalidArgumentException if $newRestaurantViolationMemo is not a string or insecure
- *@throws \RangeException if $newRestaurantViolationMemo is > 255 characters
- *@throws \TypeError if $newRestaurantViolationMemo is not a string
- **/
-public function setRestaurantViolationMemo(string $newRestaurantViolationMemo) : void {
-	// verify the restaurant violation memo is secure
-	$newRestaurantViolationMemo = trim($newRestaurantViolationMemo);
-	$newRestaurantViolationMemo = filter_var($newRestaurantViolationMemo, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	if(empty($newRestaurantViolationMemo) === true) {
-		throw(new \InvalidArgumentException("restaurant violation memo is empty or insecure"));
+	public function getRestaurantViolationMemo() :string {
+		return($this->restaurantViolationMemo);
 	}
-	// verify the restaurant violation memo will fit in the database
-	if(strlen($newRestaurantViolationMemo) > 255) {
-		throw(new \RangeException("restaurant violation memo is too large"));
+	/**
+	 * mutator method for restaurant violation memo
+	 *
+	 * @param string $newRestaurantViolationMemo new value of restaurant violation memo
+	 *@throws \InvalidArgumentException if $newRestaurantViolationMemo is not a string or insecure
+	 *@throws \RangeException if $newRestaurantViolationMemo is > 255 characters
+	 *@throws \TypeError if $newRestaurantViolationMemo is not a string
+	 **/
+	public function setRestaurantViolationMemo(string $newRestaurantViolationMemo) : void {
+		// verify the restaurant violation memo is secure
+		$newRestaurantViolationMemo = trim($newRestaurantViolationMemo);
+		$newRestaurantViolationMemo = filter_var($newRestaurantViolationMemo, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newRestaurantViolationMemo) === true) {
+			throw(new \InvalidArgumentException("restaurant violation memo is empty or insecure"));
+		}
+		// verify the restaurant violation memo will fit in the database
+		if(strlen($newRestaurantViolationMemo) > 255) {
+			throw(new \RangeException("restaurant violation memo is too large"));
+		}
+		//store the restaurant violation memo
+		$this->restaurantViolationMemo = $newRestaurantViolationMemo;
 	}
-	//store the restaurant violation memo
-	$this->restaurantViolationMemo = $newRestaurantViolationMemo;
-}
 /**
  *
  * accessor method for restaurant violation results
@@ -282,7 +320,7 @@ public function delete(\PDO $pdo) : void {
 		throw(new \PDOException("unable to delete a restaurant violation that does not exist"));
 	}
 	//create query template
-	$query = "DELETE FROM restaurantViolation WHERE restaurantViolationId = : restaurantViolationId";
+	$query = "DELETE FROM restaurantViolation WHERE restaurantViolationId = :restaurantViolationId";
 	$statement = $pdo->prepare($query);
 
 	//bind the member variables to the place holder in the template
@@ -361,25 +399,26 @@ public static function  getRestaurantViolationByRestaurantViolationRestaurantId(
 		throw(new \RangeException("restaurant violation restaurant id"));
 	}
 	// create query template
-	$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, RestaurantViolationResults FROM restaurantViolation WHERE restaurantViolationRestaurantId";
+	$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationRestaurantId";
 	$statement = $pdo->prepare($query);
 	//bind the restaurant Violation Restaurant Id to the place holder in the template
 	$parameters = ["restaurantViolationRestaurantId" => $restaurantViolationRestaurantId];
 	$statement->execute($parameters);
 	// build an array of restaurant violations
-	$restaurantViolation = new \SplFixedArray($statement->rowCount());
+	$restaurantViolations = new \SplFixedArray($statement->rowCount());
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	while(($row = $statement->fetch()) !== false){
 		try{
+
 			$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
-			$restaurantViolation [$restaurantViolation->key()] = $restaurantViolation;
-			$restaurantViolation->next();
+			$restaurantViolations [$restaurantViolations->key()] = $restaurantViolation;
+			$restaurantViolations->next();
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 	}
-	return($restaurantViolation);
+	return($restaurantViolations);
 }
 	/**
 	 * gets restaurantViolation by restaurantViolationViolationId
@@ -403,19 +442,19 @@ public static function  getRestaurantViolationByRestaurantViolationRestaurantId(
 		$parameters = ["restaurantViolationViolationId" => $restaurantViolationViolationId];
 		$statement->execute($parameters);
 		// build an array of restaurant violations
-		$restaurantViolation = new \SplFixedArray($statement->rowCount());
+		$restaurantViolations = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false){
 			try{
 				$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
-				$restaurantViolation [$restaurantViolation->key()] = $restaurantViolation;
-				$restaurantViolation->next();
+				$restaurantViolations [$restaurantViolations->key()] = $restaurantViolation;
+				$restaurantViolations->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($restaurantViolation);
+		return($restaurantViolations);
 	}
 	/**
 	 * gets the restaurant Violation date
@@ -443,28 +482,28 @@ public static function  getRestaurantViolationByRestaurantViolationRestaurantId(
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 		// create query template
-		$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationDate>= :sunriseRestaurantViolationDate and restaurantViolationDate <= :sunsetRestaurantViolation";
+		$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationDate >= :sunriseRestaurantViolationDate and restaurantViolationDate <= :sunsetRestaurantViolation";
 		$statement = $pdo->prepare($query);
 		//format the dates so that mySQL can use them
 		$formattedSunriseDate = $sunriseRestaurantViolationDate->format("Y-m-d");
 		$formattedSunsetDate = $sunsetRestaurantViolationDate->format("Y-m-d");
-		$parameters = ["sunriseRestaurantViolationDate"=>$formattedSunriseDate, "sunsetRestaurantViolationDate"=>$formattedSunsetDate];
-		$statement->execute($parameters);
+
+		$parameters = ["sunriseRestaurantViolationDate"=>$formattedSunriseDate, "sunsetRestaurantViolation"=>$formattedSunsetDate];
 		$statement->execute($parameters);
 		//build an array of restaurantViolations
-		$restaurantViolation = new \SplFixedArray($statement->rowCount());
+		$restaurantViolations = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 
 		while(($row = $statement->fetch()) !== false){
 			try{
 				$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"], $row["restaurantViolationResults"]);
-				$restaurantViolation[$restaurantViolation->key()] = $restaurantViolation;
-				$restaurantViolation->next();
+				$restaurantViolations[$restaurantViolations->key()] = $restaurantViolation;
+				$restaurantViolations->next();
 			} catch(\Exception $exception) {
 				throw (new \PDOException($exception->getMessage(),0, $exception));
 			}
 		}
-		return($restaurantViolation);
+		return($restaurantViolations);
 	}
 /**
  * get restaurantViolation by restaurant violation memo
@@ -493,19 +532,19 @@ public static function getRestaurantViolationByRestaurantViolationMemo(\PDO $pdo
 	$parameters = ["restaurantViolationMemo" => $restaurantViolationMemo];
 	$statement->execute($parameters);
 	//build an array of restaurant violation memo
-	$restaurantViolation = new \SplFixedArray($statement->rowCount());
+	$restaurantViolations = new \SplFixedArray($statement->rowCount());
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
 	while(($row = $statement->fetch()) !== false) {
 		try {
 			$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"], $row["restaurantViolationResults"]);
-			$restaurantViolation[$restaurantViolation->key()] = $restaurantViolation;
-			$restaurantViolation->next();
+			$restaurantViolations[$restaurantViolations->key()] = $restaurantViolation;
+			$restaurantViolations->next();
 		} catch(\Exception $exception) {
 			// if the row couldn't be converted, rethrow it
 			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 	}
-	return($restaurantViolation);
+	return($restaurantViolations);
 }
 	/**
 	 * get restaurantViolation by restaurant violation results
@@ -534,19 +573,19 @@ public static function getRestaurantViolationByRestaurantViolationMemo(\PDO $pdo
 		$parameters = ["restaurantViolationResults" => $restaurantViolationResults];
 		$statement->execute($parameters);
 		//build an array of restaurant violation results
-		$restaurantViolation = new \SplFixedArray($statement->rowCount());
+		$restaurantViolations = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
 				$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"], $row["restaurantViolationResults"]);
-				$restaurantViolation[$restaurantViolation->key()] = $restaurantViolation;
-				$restaurantViolation->next();
+				$restaurantViolations[$restaurantViolations->key()] = $restaurantViolation;
+				$restaurantViolations->next();
 			} catch(\Exception $exception) {
 				// if the row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return($restaurantViolation);
+		return($restaurantViolations);
 	}
 	/**
 	 * gets all restaurant violations
@@ -562,19 +601,19 @@ public static function getRestaurantViolationByRestaurantViolationMemo(\PDO $pdo
 		$statement->execute();
 
 		// buils an array of the restaurant violations
-		$restaurantViolation = new \SplFixedArray($statement->rowCount());
+		$restaurantViolations = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch())!== false) {
 			try {
 				$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"],$row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"], $row["restaurantViolationResults"]);
-				$restaurantViolation[$restaurantViolation->key()] = $restaurantViolation;
-				$restaurantViolation->next();
+				$restaurantViolations[$restaurantViolations->key()] = $restaurantViolation;
+				$restaurantViolations->next();
 			} catch(\Exception $exception){
 				// if the new row couldn't be converted, rethrow it
 				throw(new \PDOException($exception->getMessage(), 0, $exception));
 			}
 		}
-		return ($restaurantViolation);
+		return ($restaurantViolations);
 	}
 	/**
 	 * formats the state variables for JSON serialization

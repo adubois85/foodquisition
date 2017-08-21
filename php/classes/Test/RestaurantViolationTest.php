@@ -81,7 +81,7 @@ class RestaurantViolationTest extends FoodquisitionTest {
 		$this->violation->insert($this->getPDO());
 
 		// calculate the date(just us the time and date the unit test was setup...)
-		$this->VALID_RESTAURANTVIOLATIONDATE = new \DateTime();
+		$this->VALID_RESTAURANTVIOLATIONDATE = date("Y-m-d");
 		//format the sunrise date to use for testing
 		$this->VALID_SUNRISEDATE = new \DateTime();
 		$this->VALID_SUNRISEDATE->sub(new \DateInterval("P10D"));
@@ -96,6 +96,7 @@ class RestaurantViolationTest extends FoodquisitionTest {
 	public function testInsertValidRestaurantViolation() : void {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("restaurantViolation");
+
 		// create a new RestaurantViolation and insert to into mySQL
 		$RestaurantViolation = new RestaurantViolation(null, $this->restaurant->getRestaurantId(), $this->violation->getViolationId(),$this->VALID_RESTAURANTVIOLATIONDATE, $this->VALID_RESTAURANTVIOLATIONMEMO, $this->VALID_RESTAURANTVIOLATIONRESULTS);
 		$RestaurantViolation->insert($this->getPDO());
@@ -106,8 +107,8 @@ class RestaurantViolationTest extends FoodquisitionTest {
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationViolationId(), $this->violation->getViolationId());
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationMemo(), $this->VALID_RESTAURANTVIOLATIONMEMO);
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationResults(), $this->VALID_RESTAURANTVIOLATIONRESULTS);
-		//format the date too seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationDate()->getTimestamp(), $this->VALID_RESTAURANTVIOLATIONDATE->getTimestamp());
+		//format the date too seconds since the beginning of time to avoid round off error$
+		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationDate(), $RestaurantViolation->getRestaurantViolationDate());
 	}
 	/**
 	 * test inserting a RestaurantViolation that already exists
@@ -133,7 +134,6 @@ class RestaurantViolationTest extends FoodquisitionTest {
 		$RestaurantViolation->setRestaurantViolationMemo($this->VALID_RESTAURANTVIOLATIONMEMO1);
 		$RestaurantViolation->update($this->getPDO());
 		// grab the data from mySQL and enforce the fields match our expectations
-
 		$pdoRestaurantViolation = RestaurantViolation::getRestaurantViolationByRestaurantViolationId($this->getPDO(), $RestaurantViolation->getRestaurantViolationId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurantViolation"));
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationRestaurantId(), $this->restaurant->getRestaurantId());
@@ -141,7 +141,7 @@ class RestaurantViolationTest extends FoodquisitionTest {
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationMemo(), $this->VALID_RESTAURANTVIOLATIONMEMO1);
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationResults(), $this->VALID_RESTAURANTVIOLATIONRESULTS);
 		//format the date too seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationDate()->getTimestamp(), $this->VALID_RESTAURANTVIOLATIONDATE->getTimestamp());
+		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationDate(), $RestaurantViolation->getRestaurantViolationDate());
 	}
 	/**
 	 * test updating a RestaurantViolation that already exists
@@ -184,26 +184,6 @@ class RestaurantViolationTest extends FoodquisitionTest {
 		$restaurantViolation->delete($this->getPDO());
 	}
 	/**
-	 * test inserting a RestaurantViolation and regrabbing it from mySQL
-	 **/
-	public function testGetValidRestaurantViolationByRestaurantViolationId() : void {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("restaurantViolation");
-		// create a new RestaurantViolation and insert to into mySQL
-		$restaurantViolation = new RestaurantViolation(null, $this->restaurant->getRestaurantId(), $this->violation->getViolationId(), $this->VALID_RESTAURANTVIOLATIONDATE, $this->VALID_RESTAURANTVIOLATIONMEMO, $this->VALID_RESTAURANTVIOLATIONRESULTS);
-		$restaurantViolation->delete($this->getPDO());
-
-		// grab the data from mySQL and enforce the fields match our expectations
-		$pdoRestaurantViolation = RestaurantViolation::getRestaurantViolationByRestaurantViolationId($this->getPDO(), $restaurantViolation->getRestaurantViolationId());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurantViolation"));
-		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationRestaurantId(), $this->restaurant->getRestaurantId());
-		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationViolationId(), $this->violation->getViolationId());
-		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationMemo(), $this->VALID_RESTAURANTVIOLATIONMEMO);
-		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationResults(), $this->VALID_RESTAURANTVIOLATIONRESULTS);
-		//format the date too seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationDate()->getTimestamp(), $this->VALID_RESTAURANTVIOLATIONDATE->getTimestamp());
-	}
-	/**
 	 * test grabbing a RestaurantViolation that does not exist
 	 **/
 	public function testGetInvalidRestaurantViolationByRestaurantViolationId() : void {
@@ -218,15 +198,15 @@ class RestaurantViolationTest extends FoodquisitionTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("restaurantViolation");
 		// create a new RestaurantViolation and insert to into mySQL
-		$restaurantViolation = new RestaurantViolation(null, $this->restaurant->getRestaurantId(), $this->violation->getViolationId(), $this->VALID_RESTAURANTVIOLATIONDATE, $this->VALID_RESTAURANTVIOLATIONMEMO, $this->VALID_RESTAURANTVIOLATIONRESULTS);
-		$restaurantViolation->delete($this->getPDO());
+		$RestaurantViolation = new RestaurantViolation(null, $this->restaurant->getRestaurantId(), $this->violation->getViolationId(), $this->VALID_RESTAURANTVIOLATIONDATE, $this->VALID_RESTAURANTVIOLATIONMEMO, $this->VALID_RESTAURANTVIOLATIONRESULTS);
+		$RestaurantViolation->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = RestaurantViolation::getRestaurantViolationByRestaurantViolationRestaurantId($this->getPDO(), $restaurantViolation->getRestaurantViolationRestaurantId());
-		$results = RestaurantViolation::getRestaurantViolationByRestaurantViolationViolationId($this->getPDO(), $restaurantViolation->getRestaurantViolationViolationId());
+		$results = RestaurantViolation::getRestaurantViolationByRestaurantViolationRestaurantId($this->getPDO(), $RestaurantViolation->getRestaurantViolationRestaurantId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurantViolation"));
 		$this->assertCount(1, $results);
 		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Foodquisition\\RestaurantViolation", $results);
+
 
 		// grab the result from the array and validate it
 		$pdoRestaurantViolation = $results[0];
@@ -235,7 +215,7 @@ class RestaurantViolationTest extends FoodquisitionTest {
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationMemo(), $this->VALID_RESTAURANTVIOLATIONMEMO);
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationResults(), $this->VALID_RESTAURANTVIOLATIONRESULTS);
 		//format the date too seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationDate()->getTimestamp(), $this->VALID_RESTAURANTVIOLATIONDATE->getTimestamp());
+		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationDate(), $RestaurantViolation->getRestaurantViolationDate());
 	}
 	/**
 	 * test grabbing a RestaurantViolation that does not exist
@@ -252,36 +232,11 @@ class RestaurantViolationTest extends FoodquisitionTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("restaurantViolation");
 		// create a new RestaurantViolation and insert to into mySQL
-		$restaurantViolation = new RestaurantViolation(null, $this->restaurant->getRestaurantId(), $this->violation->getViolationId(), $this->VALID_RESTAURANTVIOLATIONDATE, $this->VALID_RESTAURANTVIOLATIONMEMO, $this->VALID_RESTAURANTVIOLATIONRESULTS);
-		$restaurantViolation->delete($this->getPDO());
+		$RestaurantViolation = new RestaurantViolation(null, $this->restaurant->getRestaurantId(), $this->violation->getViolationId(), $this->VALID_RESTAURANTVIOLATIONDATE, $this->VALID_RESTAURANTVIOLATIONMEMO, $this->VALID_RESTAURANTVIOLATIONRESULTS);
+		$RestaurantViolation->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
-		$results = RestaurantViolation::getRestaurantViolationByRestaurantViolationMemo($this->getPDO(), $restaurantViolation->getRestaurantViolationMemo());
-		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurantViolation"));
-		$this->assertCount(1, $results);
-		// enforce no other objects are bleeding into the test
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Foodquisition\\RestaurantViolation", $results);
-		// grab the result from the array and validate it
-		$pdoRestaurantViolation = $results[0];
-		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationRestaurantId(), $this->restaurant->getRestaurantId());
-		$this->assertEquals($pdoRestaurantViolation->getViolationId(), $this->violation->getViolationId());
-		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationMemo(), $this->VALID_RESTAURANTVIOLATIONMEMO);
-		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationResults(), $this->VALID_RESTAURANTVIOLATIONRESULTS);
-		//format the date too seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationDate()->getTimestamp(), $this->VALID_RESTAURANTVIOLATIONDATE->getTimestamp());
-	}
-	/**
-	 * test grabbing a RestaurantViolation by RestaurantViolation Results
-	 **/
-	public function testGetValidRestaurantViolationByRestaurantViolationResults() : void {
-		// count the number of rows and save it for later
-		$numRows = $this->getConnection()->getRowCount("restaurantViolation");
-		// create a new RestaurantViolation and insert to into mySQL
-		$restaurantViolation = new RestaurantViolation(null, $this->restaurant->getRestaurantId(), $this->violation->getViolationId(), $this->VALID_RESTAURANTVIOLATIONDATE, $this->VALID_RESTAURANTVIOLATIONMEMO, $this->VALID_RESTAURANTVIOLATIONRESULTS);
-		$restaurantViolation->delete($this->getPDO());
-
-		// grab the data from mySQL and enforce the fields match our expectations
-		$results = RestaurantViolation::getRestaurantViolationByRestaurantViolationResults($this->getPDO(), $restaurantViolation->getRestaurantViolationResults());
+		$results = RestaurantViolation::getRestaurantViolationByRestaurantViolationMemo($this->getPDO(), $RestaurantViolation->getRestaurantViolationMemo());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurantViolation"));
 		$this->assertCount(1, $results);
 		// enforce no other objects are bleeding into the test
@@ -293,7 +248,32 @@ class RestaurantViolationTest extends FoodquisitionTest {
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationMemo(), $this->VALID_RESTAURANTVIOLATIONMEMO);
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationResults(), $this->VALID_RESTAURANTVIOLATIONRESULTS);
 		//format the date too seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationDate()->getTimestamp(), $this->VALID_RESTAURANTVIOLATIONDATE->getTimestamp());
+		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationDate(), $RestaurantViolation->getRestaurantViolationDate());
+	}
+	/**
+	 * test grabbing a RestaurantViolation by RestaurantViolation Results
+	 **/
+	public function testGetValidRestaurantViolationByRestaurantViolationResults() : void {
+		// count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("restaurantViolation");
+		// create a new RestaurantViolation and insert to into mySQL
+		$RestaurantViolation = new RestaurantViolation(null, $this->restaurant->getRestaurantId(), $this->violation->getViolationId(), $this->VALID_RESTAURANTVIOLATIONDATE, $this->VALID_RESTAURANTVIOLATIONMEMO, $this->VALID_RESTAURANTVIOLATIONRESULTS);
+		$RestaurantViolation->insert($this->getPDO());
+
+		// grab the data from mySQL and enforce the fields match our expectations
+		$results = RestaurantViolation::getRestaurantViolationByRestaurantViolationResults($this->getPDO(), $RestaurantViolation->getRestaurantViolationResults());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("restaurantViolation"));
+		$this->assertCount(1, $results);
+		// enforce no other objects are bleeding into the test
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\Foodquisition\\RestaurantViolation", $results);
+		// grab the result from the array and validate it
+		$pdoRestaurantViolation = $results[0];
+		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationRestaurantId(), $this->restaurant->getRestaurantId());
+		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationViolationId(), $this->violation->getViolationId());
+		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationMemo(), $this->VALID_RESTAURANTVIOLATIONMEMO);
+		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationResults(), $this->VALID_RESTAURANTVIOLATIONRESULTS);
+		//format the date too seconds since the beginning of time to avoid round off error
+		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationDate(), $RestaurantViolation->getRestaurantViolationDate());
 	}
 	/**
 	 * test grabbing a RestaurantViolation by memo that does not exist
@@ -319,8 +299,8 @@ class RestaurantViolationTest extends FoodquisitionTest {
 		//count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("restaurantViolation");
 		//create a new RestaurantViolation and insert it into the database
-		$restaurantViolation = new RestaurantViolation(null, $this->restaurant->getRestaurantId(), $this->violation->getViolationId(), $this->VALID_RESTAURANTVIOLATIONDATE, $this->VALID_RESTAURANTVIOLATIONMEMO, $this->VALID_RESTAURANTVIOLATIONRESULTS);
-		$restaurantViolation->delete($this->getPDO());
+		$RestaurantViolation = new RestaurantViolation(null, $this->restaurant->getRestaurantId(), $this->violation->getViolationId(), $this->VALID_RESTAURANTVIOLATIONDATE, $this->VALID_RESTAURANTVIOLATIONMEMO, $this->VALID_RESTAURANTVIOLATIONRESULTS);
+		$RestaurantViolation->insert($this->getPDO());
 
 		// grab the RestaurantViolation from the database and see if it matches expectations
 		$results = RestaurantViolation::getRestaurantViolationByRestaurantViolationDate($this->getPDO(), $this->VALID_SUNRISEDATE, $this->VALID_SUNSETDATE);
@@ -335,7 +315,7 @@ class RestaurantViolationTest extends FoodquisitionTest {
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationMemo(), $this->VALID_RESTAURANTVIOLATIONMEMO);
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationResults(), $this->VALID_RESTAURANTVIOLATIONRESULTS);
 		//format the date too seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationDate()->getTimestamp(), $this->VALID_RESTAURANTVIOLATIONDATE->getTimestamp());
+		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationDate(), $RestaurantViolation->getRestaurantViolationDate());
 	}
 	/**
 	 * test grabbing all RestaurantViolations
@@ -344,8 +324,8 @@ class RestaurantViolationTest extends FoodquisitionTest {
 		// count the number of rows and save it for later
 		$numRows = $this->getConnection()->getRowCount("restaurantViolation");
 		// create a new RestaurantViolation and insert to into mySQL
-		$restaurantViolation = new RestaurantViolation(null, $this->restaurant->getRestaurantId(), $this->violation->getViolationId(), $this->VALID_RESTAURANTVIOLATIONDATE, $this->VALID_RESTAURANTVIOLATIONMEMO, $this->VALID_RESTAURANTVIOLATIONRESULTS);
-		$restaurantViolation->delete($this->getPDO());
+		$RestaurantViolation = new RestaurantViolation(null, $this->restaurant->getRestaurantId(), $this->violation->getViolationId(), $this->VALID_RESTAURANTVIOLATIONDATE, $this->VALID_RESTAURANTVIOLATIONMEMO, $this->VALID_RESTAURANTVIOLATIONRESULTS);
+		$RestaurantViolation->insert($this->getPDO());
 
 		// grab the data from mySQL and enforce the fields match our expectations
 		$results = RestaurantViolation::getAllRestaurantViolations($this->getPDO());
@@ -359,6 +339,6 @@ class RestaurantViolationTest extends FoodquisitionTest {
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationMemo(), $this->VALID_RESTAURANTVIOLATIONMEMO);
 		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationResults(), $this->VALID_RESTAURANTVIOLATIONRESULTS);
 		//format the date too seconds since the beginning of time to avoid round off error
-		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationDate()->getTimestamp(), $this->VALID_RESTAURANTVIOLATIONDATE->getTimestamp());
+		$this->assertEquals($pdoRestaurantViolation->getRestaurantViolationDate(), $RestaurantViolation->getRestaurantViolationDate());
 	}
 }/** this is the test END brace **/
