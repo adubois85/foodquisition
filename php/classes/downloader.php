@@ -154,17 +154,17 @@ class DataDownloader {
 					$restaurantZip = mb_convert_encoding($restaurantZip, "UTF-8", "UTF-16");
 					$categoryId = mb_convert_encoding($categoryId, "UTF-8", "UTF-16");
 					$categoryName = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
-					$violationId = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
-					$violationCategoryId = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
-					$violationCode = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
-					$violationCodeDescription = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
-					$restaurantViolationId = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
-					$restaurantViolationRestaurantId = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
-					$restaurantViolationViolationId = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
-					$restaurantViolationCompliance = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
-					$restaurantViolationDate = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
-					$restaurantViolationMemo = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
-					$restaurantViolationResults = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
+					$violationId = mb_convert_encoding($violationId, "UTF-8", "UTF-16");
+					$violationCategoryId = mb_convert_encoding($violationCategoryId, "UTF-8", "UTF-16");
+					$violationCode = mb_convert_encoding($violationCode, "UTF-8", "UTF-16");
+					$violationCodeDescription = mb_convert_encoding($violationCodeDescription, "UTF-8", "UTF-16");
+					$restaurantViolationId = mb_convert_encoding($restaurantViolationId, "UTF-8", "UTF-16");
+					$restaurantViolationRestaurantId = mb_convert_encoding($restaurantViolationRestaurantId, "UTF-8", "UTF-16");
+					$restaurantViolationViolationId = mb_convert_encoding($restaurantViolationViolationId, "UTF-8", "UTF-16");
+					$restaurantViolationCompliance = mb_convert_encoding($restaurantViolationCompliance, "UTF-8", "UTF-16");
+					$restaurantViolationDate = mb_convert_encoding($restaurantViolationDate, "UTF-8", "UTF-16");
+					$restaurantViolationMemo = mb_convert_encoding($restaurantViolationMemo, "UTF-8", "UTF-16");
+					$restaurantViolationResults = mb_convert_encoding($restaurantViolationResults, "UTF-8", "UTF-16");
 
 
 					try {
@@ -200,22 +200,7 @@ class DataDownloader {
 					throw(new \Exception($exception->getMessage(), 0, \$pdoException));
 				}
 				try {
-					$violation = new Violation($violationId, $violationCategoryId, $violationCode, $violationCodeDescription);
-					$violation->insert($pdo);
-				} catch(\PDOException $pdoException) {
-					$sqlStateCode = "23000";
-
-					$errorInfo = $pdoException->errorInfo;
-					if($errorInfo[0] === $sqlStateCode) {
-						//echo "<p>Duplicate</p>";
-					} else {
-						throw(new \PDOException($pdoException->getMessage(), 0, $pdoException));
-					}
-				} catch(\Exception $exception) {
-					throw(new \Exception($exception->getMessage(), 0, \$pdoException));
-				}
-				try {
-					$restaurantViolation = new RestaurantViolation($restaurantViolationId, $restaurantViolationRestaurantId, $restaurantViolationViolationId, $restaurantViolationCompliance,$restaurantViolationDate, $restaurantViolationMemo, $restaurantViolationResults);
+					$restaurantViolation = new RestaurantViolation($restaurantViolationId, $restaurantViolationRestaurantId, $restaurantViolationViolationId, $restaurantViolationCompliance, $restaurantViolationDate, $restaurantViolationMemo, $restaurantViolationResults);
 					$restaurantViolation->insert($pdo);
 				} catch(\PDOException $pdoException) {
 					$sqlStateCode = "23000";
@@ -230,7 +215,5 @@ class DataDownloader {
 					throw(new \Exception($exception->getMessage(), 0, \$pdoException));
 				}
 			}
-
-		}
 
 
