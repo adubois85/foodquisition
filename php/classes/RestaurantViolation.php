@@ -7,7 +7,7 @@ require_once("autoload.php");
 /**
  * Restaurant Violation cross section
  *
- * @author Dinn Bojorquez
+ * @author Dannielle Bojorquez
  * @version 1.0
  */
 class RestaurantViolation implements \JsonSerializable {
