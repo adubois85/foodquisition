@@ -73,7 +73,7 @@ class DatatDownloader {
 		/**
 		 * Deletes a file or files fom a directory
 		 *
-		 * @param strind $path path to file
+		 * @param string $path path to file
 		 * @param string $name filename
 		 * @param string $ex
 		 *
