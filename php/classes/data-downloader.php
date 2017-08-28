@@ -31,12 +31,13 @@ class DataDownloader {
 		 *
 		 **/
 	public static function deleteFiles($path, $name, $extension) {
-	//Deletes files
+		//Deletes files
 		$files = glob("$path$name*$extension");
-		{
-			foreach($files as $file) {
-				echo "glob:" . $file . "<br/>";
-			}
+		foreach($files as $file) {
+			//echo "glob:" . $file . "<br/>";
+			unlink($file);
+		}
+	}
 			/*
 			 * Downloads a file to a path from a url
 			 *
