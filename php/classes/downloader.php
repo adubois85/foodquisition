@@ -1,6 +1,11 @@
 <?php
 
 namespace Edu\Cnm\Foodquisition;
+
+use Edu\Cnm\Foodquisition\{
+	Restaurant, Violation, Category, RestaurantViolation
+};
+
 require_once("autoload.php");
 require_once("/etc/apache2/mysql/encrypted-config.php");
 
@@ -18,6 +23,20 @@ class DataDownloader {
 	 * FoodInspections-CNM.xls
 	 *
 	 **/
+
+	/**
+	 * Gets the metadata from a file url
+	 *
+	 * @param string $url url to grab from
+	 * @param int $redirect whether to redirect or not
+	 * @return mixed stream data
+	 * @throws \Exception if file doesn't exist
+	 */
+
+	public static function getData($url, $redirect = 1) {
+		$context = stream_context_create(array("http" => array("follow_location" => $redirect, "ignore_errors" => true, "method" => "HEAD")));
+
+	}
 
 
 	/**
@@ -78,8 +97,8 @@ class DataDownloader {
 	 *
 	 * @param string $urlBegin beginning of Url to grab file at
 	 * @param string $urlEnd end of url to grab file at
-	 * @throws PDOException PDO related errors
-	 * @throws Exception catch-all exception
+	 * @throws \PDOException PDO related errors
+	 * @throws \Exception catch-all exception
 	 *
 	 */
 	public static function readBusinessesCSV($urlBegin, $urlEnd) {
@@ -96,81 +115,108 @@ class DataDownloader {
 				fgetcsv($fd, 0, ",");
 				while((($data = fgetcsv($fd, 0, ",")) !== false) && feof($fd) === false) {
 					$restaurantId = null;
+					$restaurantAddress1 = $data[0];
+					$restaurantAddress2 = $data[0];
+					$restaurantCity = $data[0];
+					$restaurantFacilityKey = $data[0];
+					$restaurantGoogleId = $data[0];
+					$restaurantName = $data[0];
+					$restaurantPhoneNumber = $data[0];
+					$restaurantState = $data[0];
+					$restaurantType = $data[0];
+					$restaurantZip = $data[0];
+					$categoryId = null;
+					$categoryName = $data[0];
+					$violationId = null;
+					$violationCategoryId = $data[0];
+					$violationCode = $data[0];
+					$violationCodeDescription = $data[0];
+					$restaurantViolationId = null;
+					$restaurantViolationRestaurantId = $data[0];
+					$restaurantViolationViolationId = $data[0];
+					$restaurantViolationCompliance = $data[0];
+					$restaurantViolationDate = $data[0];
+					$restaurantViolationMemo = $data[0];
+					$restaurantViolationResults = $data[0];
 					$googleId = "";
-					$facilityKey = $data[1];
-					$name = $data[2];
-					$address = $data[3];
-					$phone = $data;
 
 					//Convert everything to UTF - 8
 
-					$facilityKey = mb_convert_encoding($facilityKey, "UTF-8", "UTF-16");
-					$name = mb_convert_encoding($name, "UTF-8", "UTF-16");
-					$name = str_replace("\"", "", $name);
-					$address = mb_convert_encoding($address, "UTF-8", "UTF-16");
-					$phone = mb_convert_encoding($phone, "UTF-8", "UTF-16");
+					$restaurantId = mb_convert_encoding($restaurantId, "UTF-8", "UTF-16");
+					$restaurantAddress1 = mb_convert_encoding($restaurantAddress1, "UTF-8", "UTF-16");
+					$restaurantAddress2 = mb_convert_encoding($restaurantAddress2, "UTF-8", "UTF-16");
+					$restaurantCity = mb_convert_encoding($restaurantCity, "UTF-8", "UTF-16");
+					$restaurantFacilityKey = mb_convert_encoding($restaurantFacilityKey, "UTF-8", "UTF-16");
+					$restaurantName = mb_convert_encoding($restaurantName, "UTF-8", "UTF-16");
+					$restaurantPhoneNumber = mb_convert_encoding($restaurantPhoneNumber, "UTF-8", "UTF-16");
+					$restaurantState = mb_convert_encoding($restaurantState, "UTF-8", "UTF-16");
+					$restaurantType = mb_convert_encoding($restaurantType, "UTF-8", "UTF-16");
+					$restaurantZip = mb_convert_encoding($restaurantZip, "UTF-8", "UTF-16");
+					$categoryId = mb_convert_encoding($categoryId, "UTF-8", "UTF-16");
+					$categoryName = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
+
 
 					try {
 						$restaurant = new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone);
 						$restaurant->insert($pdo);
-					} catch(PDOException $pdoException) {
+					} catch(\PDOException $pdoException) {
 						$sqlStateCode = "23000";
 
 						$errorInfo = $pdoException->errorInfo;
 						if($errorInfo[0] === $sqlStateCode) {
 							//echo "<p>Duplicate</p>";
 						} else {
-							throw(new PDOException($pdoException->getMessage(), 0, $pdoException));
+							throw(new \PDOException($pdoException->getMessage(), 0, $pdoException));
 						}
-					} catch(Exception $exception) {
-						throw(new Exception($exception->getMessage(), 0, $pdoException));
+					} catch(\Exception $exception) {
+						throw(new \Exception($exception->getMessage(), 0, \$pdoException));
 					}
 
 				}
 				try {
 					$category = new Category($categoryId, $categoryName);
 					$category->insert($pdo);
-				} catch(PDOException $pdoException) {
+				} catch(\PDOException $pdoException) {
 					$sqlStateCode = "23000";
 
 					$errorInfo = $pdoException->errorInfo;
 					if($errorInfo[0] === $sqlStateCode) {
 						// echo "<p>Duplicate</p>";
 					} else {
-						throw(new PDOException($pdoException->getMessage(), 0, $pdoException));
+						throw(new \PDOException($pdoException->getMessage(), 0, $pdoException));
 					}
-				} catch(Exception $exception) {
-					throw(new Exception($exception->getMessage(), 0, $pdoException));
+				} catch(\Exception $exception) {
+					throw(new \Exception($exception->getMessage(), 0, \$pdoException));
 				}
 				try {
-					$violation = new Violation($violationId, $googleId, $facilityKey, $name, $address, $phone);
+					$violation = new Violation($violationId, $violationCategoryId, $violationCode, $violationCodeDescription);
 					$violation->insert($pdo);
-				} catch(PDOException $pdoException) {
+				} catch(\PDOException $pdoException) {
 					$sqlStateCode = "23000";
 
 					$errorInfo = $pdoException->errorInfo;
 					if($errorInfo[0] === $sqlStateCode) {
 						//echo "<p>Duplicate</p>";
 					} else {
-						throw(new PDOException($pdoException->getMessage(), 0, $pdoException));
+						throw(new \PDOException($pdoException->getMessage(), 0, $pdoException));
 					}
 				} catch(Exception $exception) {
-					throw(new Exception($exception->getMessage(), 0, $pdoException));
+					throw(new Exception($exception->getMessage(), 0, \$pdoException));
 				}
 				try {
-					$restaurantViolation = new RestaurantViolation($restaurantViolationId, $googleId, $facilityKey, $name, $address, $phone);
+					$restaurantViolation = new RestaurantViolation($restaurantViolationId, $rest, $facilityKey, $name, $address, $phone);
 					$restaurantViolation->insert($pdo);
-				} catch(PDOException $pdoException) {
+				} catch(\PDOException $pdoException) {
 					$sqlStateCode = "23000";
 
 					$errorInfo = $pdoException->errorInfo;
 					if($errorInfo[0] === $sqlStateCode) {
 						//echo "<p>Duplicate</p>";
 					} else {
-						throw(new PDOException($pdoException->getMessage(), 0, $pdoException));
+						throw(new \PDOException($pdoException->getMessage(), 0, \$pdoException));
 					}
-				} catch(Exception $exception) {
-					throw(new Exception($exception->getMessage(), 0, $pdoException));
+				} catch(\Exception $exception) {
+					throw(new \Exception($exception->getMessage(), 0, \$pdoException));
 				}
 			}
 
