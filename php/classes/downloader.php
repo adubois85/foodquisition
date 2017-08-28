@@ -154,10 +154,21 @@ class DataDownloader {
 					$restaurantZip = mb_convert_encoding($restaurantZip, "UTF-8", "UTF-16");
 					$categoryId = mb_convert_encoding($categoryId, "UTF-8", "UTF-16");
 					$categoryName = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
+					$violationId = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
+					$violationCategoryId = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
+					$violationCode = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
+					$violationCodeDescription = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
+					$restaurantViolationId = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
+					$restaurantViolationRestaurantId = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
+					$restaurantViolationViolationId = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
+					$restaurantViolationCompliance = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
+					$restaurantViolationDate = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
+					$restaurantViolationMemo = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
+					$restaurantViolationResults = mb_convert_encoding($categoryName, "UTF-8", "UTF-16");
 
 
 					try {
-						$restaurant = new Restaurant($restaurantId, $googleId, $facilityKey, $name, $address, $phone);
+						$restaurant = new Restaurant($restaurantId, $restaurantAddress1, $restaurantAddress2, $restaurantCity, $restaurantFacilityKey, $restaurantGoogleId, $restaurantName, $restaurantPhoneNumber, $restaurantState, $restaurantType, $restaurantZip);
 						$restaurant->insert($pdo);
 					} catch(\PDOException $pdoException) {
 						$sqlStateCode = "23000";
@@ -200,11 +211,11 @@ class DataDownloader {
 					} else {
 						throw(new \PDOException($pdoException->getMessage(), 0, $pdoException));
 					}
-				} catch(Exception $exception) {
-					throw(new Exception($exception->getMessage(), 0, \$pdoException));
+				} catch(\Exception $exception) {
+					throw(new \Exception($exception->getMessage(), 0, \$pdoException));
 				}
 				try {
-					$restaurantViolation = new RestaurantViolation($restaurantViolationId, $rest, $facilityKey, $name, $address, $phone);
+					$restaurantViolation = new RestaurantViolation($restaurantViolationId, $restaurantViolationRestaurantId, $restaurantViolationViolationId, $restaurantViolationCompliance,$restaurantViolationDate, $restaurantViolationMemo, $restaurantViolationResults);
 					$restaurantViolation->insert($pdo);
 				} catch(\PDOException $pdoException) {
 					$sqlStateCode = "23000";
