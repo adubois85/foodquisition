@@ -143,34 +143,34 @@ INSERT INTO violation (violationId, violationCategoryId, violationCode, violatio
 VALUES (30, 12, "30", "Observed facility not following an approved variance for specialized processing method.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (31, 13, "31", "");
+VALUES (31, 13, "31", "Observed improper cooling methods or inadequate equipment for temperature control.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (32, 13, "32", "");
+VALUES (32, 13, "32", "Plant food not properly cooked for hot holding.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (33, 13, "33", "");
+VALUES (33, 13, "33", "Observed use of unapproved thawing methods.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (34, 13, "34", "");
+VALUES (34, 13, "34", "Observed food thermometers missing, inaccurate, or not easily accessible for use by employees.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (35, 14, "35", "");
+VALUES (35, 14, "35", "Observed packaged food without appropriate labels.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (36, 15, "36", "");
+VALUES (36, 15, "36", "Observed harborage, evidence, or presence of rodents, insects, and animals in facility.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (37, 15, "37", "");
+VALUES (37, 15, "37", "Observed inadequate methods to prevent food contamination during food preparation, storage, and display.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (38, 15, "38", "");
+VALUES (38, 15, "38", "Observed personnel without clean outer clothing, inappropriate hair restraint, using prohibited jewelry, or inappropriate fingernails.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (39, 15, "39", "");
+VALUES (39, 15, "39", "Observed wiping cloths inappropriately stored, used, or held in improper sanitizer concentration.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (40, 15, "40", "");
+VALUES (40, 15, "40", "Observed raw produce or fruit improperly washed.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
 VALUES (41, 16, "41", "");
