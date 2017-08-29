@@ -99,7 +99,7 @@ try {
 	$reply->status = $typeError->getCode();
 	$reply->message = $typeError->getMessage();
 }
-header("Content-type: restaurant/json");
+header("Content-type: restaurant/json") ;
 if($reply->data === null) {
 	unset($reply->data);
 }
