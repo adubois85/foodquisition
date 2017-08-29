@@ -8,7 +8,7 @@ use Edu\Cnm\Foodquisition\{
 use PHPUnit\Runner\Exception;
 
 require_once("autoload.php");
-require_once("/etc/apache2/mysql/encrypted-config.php");
+require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 /**
  *
@@ -169,7 +169,7 @@ class DataDownloader {
 							throw(new \PDOException($pdoException->getMessage(), 0, $pdoException));
 						}
 					} catch(\Exception $exception) {
-						throw(new \Exception($exception->getMessage(), 0, \$pdoException));
+						throw(new \Exception($exception->getMessage(), 0, $pdoException));
 					}
 
 				}
@@ -183,10 +183,10 @@ class DataDownloader {
 					if($errorInfo[0] === $sqlStateCode) {
 						//echo "<p>Duplicate</p>";
 					} else {
-						throw(new \PDOException($pdoException->getMessage(), 0, \$pdoException));
+						throw(new \PDOException($pdoException->getMessage(), 0, $pdoException));
 					}
 				} catch(\Exception $exception) {
-					throw(new \Exception($exception->getMessage(), 0, \$pdoException));
+					throw(new \Exception($exception->getMessage(), 0, $pdoException));
 				}
 			}
 			fclose($fd);
@@ -196,6 +196,13 @@ class DataDownloader {
 			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
 		}
+}
+
+try {
+	$dataDownloader = new DataDownloader();
+	$dataDownloader->getData("\C:\Users\dbranch6\Downloads\test-data.csv\\");
+} catch (\Exception $exception) {
+	echo "Emerald Engineer Error (EEE): " . $exception->getMessage() . PHP_EOL;
 }
 
 
