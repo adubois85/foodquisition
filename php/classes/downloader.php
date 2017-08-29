@@ -5,6 +5,7 @@ namespace Edu\Cnm\Foodquisition;
 use Edu\Cnm\Foodquisition\{
 	Restaurant, Violation, Category, RestaurantViolation
 };
+use PHPUnit\Runner\Exception;
 
 require_once("autoload.php");
 require_once("/etc/apache2/mysql/encrypted-config.php");
@@ -188,5 +189,13 @@ class DataDownloader {
 					throw(new \Exception($exception->getMessage(), 0, \$pdoException));
 				}
 			}
+			fclose($fd);
+		} catch(\PDOException $pdoException) {
+			throw(new \PDOException($pdoException->getMessage(), 0, $pdoException));
+		} catch(Exception $exception) {
+			throw(new \Exception($exception->getMessage(), 0, $exception));
+		}
+		}
+}
 
 
