@@ -113,34 +113,34 @@ INSERT INTO violation (violationId, violationCategoryId, violationCode, violatio
 VALUES (20, 7, "20", "Observed improper cold holding temperatures of potentially hazardous foods.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (21, 7, "21", "");
+VALUES (21, 7, "21", "Observed date-marked food exceeding time limit or date-marking is not followed.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (22, 7, "22", "");
+VALUES (22, 7, "22", "Person in charge does not have a standard operating procedure in place to use time as a public health control while storing potentially hazardous foods outside of proper holding temperatures.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (23, 8, "23", "");
+VALUES (23, 8, "23", "Observed raw or undercooked foods served or sold without a consumer advisory.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (24, 9, "24", "");
+VALUES (24, 9, "24", "Observed facility serving unpasteurized foods, undercooked eggs, or prohibited foods to a highly susceptible population.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (25, 10, "25", "");
+VALUES (25, 10, "25", "Observed unapproved additives on-site or approved additives used improperly.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (26, 10, "26", "");
+VALUES (26, 10, "26", "Observed Toxic substances are not properly identified, stored, or used.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (27, 11, "27", "");
+VALUES (27, 11, "27", "Observed unapproved specialized food process used or approved variance not followed.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (28, 12, "28", "");
+VALUES (28, 12, "28", "Pasteurized eggs were not used where required.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (29, 12, "29", "");
+VALUES (29, 12, "29", "Water and ice were not from an approved source.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (30, 12, "30", "");
+VALUES (30, 12, "30", "Observed facility not following an approved variance for specialized processing method.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
 VALUES (31, 13, "31", "");
