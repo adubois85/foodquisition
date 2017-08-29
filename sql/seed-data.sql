@@ -83,34 +83,34 @@ INSERT INTO violation (violationId, violationCategoryId, violationCode, violatio
 VALUES (10, 5, "10", "	Discovered food temperatures were not taken upon receiving to verify compliance with food safety.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (11, 5, "11", "");
+VALUES (11, 5, "11", "Observed food in poor condition, is unsafe, or is adulterated.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (12, 5, "12", "");
+VALUES (12, 5, "12", "Observed lack of shell stock tags for shellfish or improper documentation of parasite destruction in fish.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (13, 6, "13", "");
+VALUES (13, 6, "13", "Observed food improperly stored, packaged, covered, or lacking protection against contamination.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (14, 6, "14", "");
+VALUES (14, 6, "14", "Observed ineffective methods of cleaning and sanitizing food-contact surfaces.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (15, 6, "15", "");
+VALUES (15, 6, "15", "Observed food determined to be unsafe, adulterated, or contaminated.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (16, 7, "16", "");
+VALUES (16, 7, "16", "Observed food items undercooked.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (17, 7, "17", "");
+VALUES (17, 7, "17", "Observed food items improperly reheated.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (18, 7, "18", "");
+VALUES (18, 7, "18", "Observed improper cooling time and temperatures of potentially hazardous foods.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (19, 7, "19", "");
+VALUES (19, 7, "19", "Observed improper hot holding temperatures.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (20, 7, "20", "");
+VALUES (20, 7, "20", "Observed improper cold holding temperatures of potentially hazardous foods.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
 VALUES (21, 7, "21", "");
