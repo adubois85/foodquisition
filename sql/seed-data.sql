@@ -53,34 +53,34 @@ INSERT INTO category (categoryId, categoryName)
 VALUES (18, "Facilities not up to code");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (1, 1, "1", "");
+VALUES (1, 1, "1", "Person in charge was not on-site or failed to demonstrate knowledge of duties.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (2, 2, "2", "");
+VALUES (2, 2, "2", "Person in charge failed to demonstrate employees are informed on reportable illnesses.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (3, 2, "3", "");
+VALUES (3, 2, "3", "Observed or found evidence of an employee working, or having worked, while ill.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (4, 3, "4", "");
+VALUES (4, 3, "4", "Observed evidence of employee food, open drinks, or tobacco use in food prep area.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (5, 3, "5", "");
+VALUES (5, 3, "5", "Observed discharge from eyes, nose, or mouth.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (6, 4, "6", "");
+VALUES (6, 4, "6", "Observed employees not washing hands correctly or as often as required.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (7, 4, "7", "");
+VALUES (7, 4, "7", "Observed employees touching ready-to-eat foods with bare hands.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (8, 4, "8", "");
+VALUES (8, 4, "8", "Observed hand washing sinks not properly stocked or conveniently located.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (9, 5, "9", "");
+VALUES (9, 5, "9", "Observed person in charge is unable to determine approved source of food supplies.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (10, 5, "10", "");
+VALUES (10, 5, "10", "	Discovered food temperatures were not taken upon receiving to verify compliance with food safety.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
 VALUES (11, 5, "11", "");
@@ -219,3 +219,9 @@ VALUES (55, 18, "55", "");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
 VALUES (56, 18, "56", "");
+
+INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
+VALUES (57, 18, "57", "");
+
+INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
+VALUES (58, 18, "58", "");
