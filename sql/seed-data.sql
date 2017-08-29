@@ -173,34 +173,34 @@ INSERT INTO violation (violationId, violationCategoryId, violationCode, violatio
 VALUES (40, 15, "40", "Observed raw produce or fruit improperly washed.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (41, 16, "41", "");
+VALUES (41, 16, "41", "Observed improper storage of in-use utensils during pauses in food preparation or dispensing.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (42, 16, "42", "");
+VALUES (42, 16, "42", "Observed or assessed overall storage and handling of equipment and utensils is inappropriate.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (43, 16, "43", "");
+VALUES (43, 16, "43", "Observed single-use / single service items improperly stored or used.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (44, 16, "44", "");
+VALUES (44, 16, "44", "Observed single-use gloves misused or are contributing to cross-contamination.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (45, 17, "45", "");
+VALUES (45, 17, "45", "Observed food and non-food contact surfaces improperly designed, constructed, installed, used, or not kept in good repair.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (46, 17, "46", "");
+VALUES (46, 17, "46", "Observed facility is using improper ware washing or ineffective sanitization.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (47, 17, "47", "");
+VALUES (47, 17, "47", "Observed improper cleaning method or inadequate cleaning frequency of non-food contact surfaces.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (48, 18, "48", "");
+VALUES (48, 18, "48", "Observed hot and cold water is not available or is not at an adequate pressure.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (49, 18, "49", "");
+VALUES (49, 18, "49", "Observed plumbing system has not been properly installed or is unprotected from contamination.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (50, 18, "50", "");
+VALUES (50, 18, "50", "Observed sewage or wastewater system was incorrectly installed or is not functioning properly.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
 VALUES (51, 18, "51", "");
