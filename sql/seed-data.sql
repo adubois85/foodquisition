@@ -203,25 +203,25 @@ INSERT INTO violation (violationId, violationCategoryId, violationCode, violatio
 VALUES (50, 18, "50", "Observed sewage or wastewater system was incorrectly installed or is not functioning properly.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (51, 18, "51", "");
+VALUES (51, 18, "51", "Observed toilet facilities are improperly constructed, supplied, or cleaned.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (52, 18, "52", "");
+VALUES (52, 18, "52", "Observed refuse collection and disposal areas inadequately designed, installed, or maintained.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (53, 18, "53", "");
+VALUES (53, 18, "53", "Observed facility inadequately cleaned, maintained, or in disrepair.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (54, 18, "54", "");
+VALUES (54, 18, "54", "Observed inadequate ventilation, lighting, or storage of personal belongings.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (55, 18, "55", "");
+VALUES (55, 18, "55", "Facility does not have a valid permit for operating within the city.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (56, 18, "56", "");
+VALUES (56, 18, "56", "Due to an imminent health hazard or other conditions the inspector judges to be a substantial hazard to public health, the facility was immediately closed or its permit was suspended.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (57, 18, "57", "");
+VALUES (57, 18, "57", "Violation(s) and associated correction action(s) are listed on this form.");
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
-VALUES (58, 18, "58", "");
+VALUES (58, 18, "58", "Evidence was observed to substantiate complaint.");
