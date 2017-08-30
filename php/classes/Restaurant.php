@@ -177,9 +177,11 @@ class Restaurant implements \JsonSerializable {
 		$newRestaurantAddress1 = filter_var($newRestaurantAddress1, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 		// check if the resultant variable is still valid, then set
-		if(empty($newRestaurantAddress1) === true) {
-			throw(new \InvalidArgumentException("There are no valid characters in the entered address line 1."));
-		}
+		
+//		if(empty($newRestaurantAddress1)  === true) {
+//			throw(new \InvalidArgumentException("There are no valid characters in the entered address line 1."));
+//
+//		}
 		if(strlen($newRestaurantAddress1) > 128) {
 			throw(new \RangeException("The entered address line 1 is too long."));
 		}

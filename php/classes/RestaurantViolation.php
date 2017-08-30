@@ -67,7 +67,7 @@ class RestaurantViolation implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct(?int $newRestaurantViolationId, int $newRestaurantViolationRestaurantId, int $newRestaurantViolationViolationId, $restaurantViolationCompliance,$newRestaurantViolationDate = null, string $newRestaurantViolationMemo, string $newRestaurantViolationResults) {
+	public function __construct(?int $newRestaurantViolationId, ?int $newRestaurantViolationRestaurantId, ?int $newRestaurantViolationViolationId, $restaurantViolationCompliance,$newRestaurantViolationDate = null, string $newRestaurantViolationMemo, string $newRestaurantViolationResults) {
 		try {
 			$this->setRestaurantViolationId($newRestaurantViolationId);
 			$this->setRestaurantViolationRestaurantId($newRestaurantViolationRestaurantId);
@@ -126,7 +126,7 @@ class RestaurantViolation implements \JsonSerializable {
 	 * @throws \RangeException if $newRestaurantViolationRestaurantId is not positive
 	 * @throws \TypeError if $newRestaurantViolationRestaurantId is not an integer
 	 **/
-	public function setRestaurantViolationRestaurantId(int $newRestaurantViolationRestaurantId) : void {
+	public function setRestaurantViolationRestaurantId(?int $newRestaurantViolationRestaurantId) : void {
 		//verify the restaurant violation restaurant id is positive
 		if($newRestaurantViolationRestaurantId <= 0) {
 			throw(new \RangeException("restaurant violation restaurant id is not positive"));

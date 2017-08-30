@@ -41,7 +41,7 @@ INSERT INTO category (categoryId, categoryName)
 VALUES (14, "Food improperly labeled");
 
 INSERT INTO category (categoryId, categoryName)
-VALUES (15, "Potential infestation or contamination");
+VALUES (15, "Possible infestation");
 
 INSERT INTO category (categoryId, categoryName)
 VALUES (16, "Improper use of utensils");
