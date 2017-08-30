@@ -102,17 +102,11 @@ class DataDownloader {
 	 * @throws \Exception catch-all exception
 	 *
 	 */
-	public static function readBusinessesCSV($urlBegin, $urlEnd) {
-		$urls = glob("urlBegin*$urlEnd");
-		if(count($urls) > 0) {
-			$url = $urls[0];
-		}
-		$context = stream_context_create(array("http" => array("ignore_errors" => true, "method" => "GET")));
-
+	public static function readBloodyCSV(string $bloodyFilename) {
 		try {
-			$pdo = connectToEncryptedMySQL("/etc/apache2/mysql/foodquisition.ini");
+			$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/foodquisition.ini");
 
-			if(($fd = @fopen($url, "rb", false, $context)) !== false) {
+			if(($fd = @fopen($bloodyFilename, "rb")) !== false) {
 				fgetcsv($fd, 0, ",");
 				while((($data = fgetcsv($fd, 0, ",")) !== false) && feof($fd) === false) {
 					$restaurantId = null;
@@ -121,7 +115,7 @@ class DataDownloader {
 					$restaurantCity = $data[3];
 					$restaurantFacilityKey = $data[1];
 					$restaurantGoogleId = null;
-					$restaurantName = $data[0];
+					$restaurantName = substr($data[0], 0, 64);
 					$restaurantPhoneNumber = $data[13];
 					$restaurantState = $data[4];
 					$restaurantType = $data[15];
@@ -134,27 +128,6 @@ class DataDownloader {
 					$restaurantViolationMemo = $data[27];
 					$restaurantViolationResults = $data[23];
 					$googleId = "";
-
-					//Convert everything to UTF - 8
-
-					$restaurantId = mb_convert_encoding($restaurantId, "UTF-8", "UTF-16");
-					$restaurantAddress1 = mb_convert_encoding($restaurantAddress1, "UTF-8", "UTF-16");
-					$restaurantAddress2 = mb_convert_encoding($restaurantAddress2, "UTF-8", "UTF-16");
-					$restaurantCity = mb_convert_encoding($restaurantCity, "UTF-8", "UTF-16");
-					$restaurantFacilityKey = mb_convert_encoding($restaurantFacilityKey, "UTF-8", "UTF-16");
-					$restaurantName = mb_convert_encoding($restaurantName, "UTF-8", "UTF-16");
-					$restaurantPhoneNumber = mb_convert_encoding($restaurantPhoneNumber, "UTF-8", "UTF-16");
-					$restaurantState = mb_convert_encoding($restaurantState, "UTF-8", "UTF-16");
-					$restaurantType = mb_convert_encoding($restaurantType, "UTF-8", "UTF-16");
-					$restaurantZip = mb_convert_encoding($restaurantZip, "UTF-8", "UTF-16");
-					$restaurantViolationId = mb_convert_encoding($restaurantViolationId, "UTF-8", "UTF-16");
-					$restaurantViolationRestaurantId = mb_convert_encoding($restaurantViolationRestaurantId, "UTF-8", "UTF-16");
-					$restaurantViolationViolationId = mb_convert_encoding($restaurantViolationViolationId, "UTF-8", "UTF-16");
-					$restaurantViolationCompliance = mb_convert_encoding($restaurantViolationCompliance, "UTF-8", "UTF-16");
-					$restaurantViolationDate = mb_convert_encoding($restaurantViolationDate, "UTF-8", "UTF-16");
-					$restaurantViolationMemo = mb_convert_encoding($restaurantViolationMemo, "UTF-8", "UTF-16");
-					$restaurantViolationResults = mb_convert_encoding($restaurantViolationResults, "UTF-8", "UTF-16");
-
 
 					try {
 						$restaurant = new Restaurant($restaurantId, $restaurantAddress1, $restaurantAddress2, $restaurantCity, $restaurantFacilityKey, $restaurantGoogleId, $restaurantName, $restaurantPhoneNumber, $restaurantState, $restaurantType, $restaurantZip);
@@ -169,7 +142,7 @@ class DataDownloader {
 							throw(new \PDOException($pdoException->getMessage(), 0, $pdoException));
 						}
 					} catch(\Exception $exception) {
-						throw(new \Exception($exception->getMessage(), 0, $pdoException));
+						throw(new \Exception($exception->getMessage(), 0, $exception));
 					}
 
 				}
@@ -186,7 +159,7 @@ class DataDownloader {
 						throw(new \PDOException($pdoException->getMessage(), 0, $pdoException));
 					}
 				} catch(\Exception $exception) {
-					throw(new \Exception($exception->getMessage(), 0, $pdoException));
+					throw(new \Exception($exception->getMessage(), 0, $exception));
 				}
 			}
 			fclose($fd);
@@ -199,10 +172,10 @@ class DataDownloader {
 }
 
 try {
-	$dataDownloader = new DataDownloader();
-	$dataDownloader->getData("\C:\Users\dbranch6\Downloads\test-data.csv\\");
+	DataDownloader::readBloodyCSV("/home/dbranch6/food-inspections.csv");
 } catch (\Exception $exception) {
-	echo "Emerald Engineer Error (EEE): " . $exception->getMessage() . PHP_EOL;
+	var_dump($exception);
+	echo "Bloody Error (BE) " . $exception->getMessage() . PHP_EOL;
 }
 
 

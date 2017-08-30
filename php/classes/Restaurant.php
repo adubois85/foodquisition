@@ -372,7 +372,7 @@ class Restaurant implements \JsonSerializable {
 	 */
 	public function setRestaurantPhoneNumber(?string $newRestaurantPhoneNumber) {
 		// since this is optional, check if anything was entered, return if null
-		if ($newRestaurantPhoneNumber === null) {
+		if (empty($newRestaurantPhoneNumber) === true) {
 			$this->restaurantPhoneNumber = null;
 			return;
 		}
