@@ -20,6 +20,11 @@ $reply = new stdClass();
 $reply->status = 200;
 $reply->data = null;
 
+
+/*
+ * TODO[Alex]: Google Places API integration
+ */
+
 try {
 	// grab the mySQL connection
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/foodquisition.ini");
@@ -40,16 +45,31 @@ try {
 
 		// get a specific restaurant from its ID and update our reply variable
 		if(empty($id) === false) {
-			$restaurant =
+			$restaurant = Restaurant::getRestaurantByRestaurantId($pdo, $id);
+			if($restaurant !== null) {
+				$reply->data = $restaurant;
+			}
+		// Personal note -- in PHP, elseif and else if (two words) are treated identically in these if/else blocks
+		// The two-word form will not work, however, in the alternative syntax for control structures
+
+		// get restaurants by their name; this should return an array of matches
+		} else if(empty($restaurantName) !== false) {
+			$restaurants = Restaurant::getRestaurantByName($pdo, $restaurantName)->toArray();
+			if($restaurants !== null) {
+				$reply->data = $restaurants;
+			}
 		}
-
-
-
-
-
-
 	}
-
-
-
+	// catch errors and update the reply variable with the HTTP status code and its associated message
+} catch(\Exception | \TypeError $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
 }
+// set the HTTP header type
+header("Content-type: application/json");
+if($reply->data === null) {
+	unset($reply->data);
+}
+
+// JSON encode and return the reply to front end caller
+echo json_encode($reply);
