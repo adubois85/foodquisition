@@ -1,12 +1,14 @@
 <?php
-require_once(dirname(__DIR__,2) . "/php/classes/autoload.php");
-require_once (dirname(__DIR__,2) . "/php/lib/xsrf.php");
+require_once(dirname(__DIR__, 2) . "/php/classes/autoload.php");
+require_once(dirname(__DIR__, 2) . "/php/lib/xsrf.php");
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
+
 use Edu\Cnm\Foodquisition\Restaurant;
 use Edu\Cnm\Foodquisition\Violation;
 use Edu\Cnm\Foodquisition\RestaurantViolation;
 use Edu\Cnm\Foodquisition\Category;
 use Edu\Cnm\Foodquisition\JsonObjectStorage;
+
 /**
  * api for the restaurantViolation class
  *
@@ -49,7 +51,7 @@ try {
 			$restaurants = Restaurant::getRestaurantsByViolationId($pdo, $restaurantViolationId);
 			if($restaurants !== null) {
 				$storage = new JsonObjectStorage();
-				for($i = 0; $i < count($restaurants); $i++){
+				for($i = 0; $i < count($restaurants); $i++) {
 					$storage->attach(
 						$restaurants[$i],
 						[
@@ -66,7 +68,7 @@ try {
 			if($restaurants !== null) {
 				$reply->data = $restaurants->toArray();
 			}
-		}else if(empty($restaurantRestaurantViolationId) === false) {
+		} else if(empty($restaurantRestaurantViolationId) === false) {
 			$restaurants = Restaurant::getRestaurantsByRestaurantViolationId($pdo, $restaurantRestaurantViolationId);
 			if($restaurants !== null) {
 				$reply->data = $restaurants->toArray();
@@ -75,7 +77,7 @@ try {
 			$restaurants = Restaurant::getAllRestaurants($pdo);
 			if($restaurants !== null) {
 				$storage = new JsonObjectStorage();
-				for($i = 0; $i < count($restaurants); $i++){
+				for($i = 0; $i < count($restaurants); $i++) {
 					$storage->attach(
 						$restaurants[$i],
 						[
@@ -88,7 +90,7 @@ try {
 				$reply->data = $storage;
 			}
 		}
-	}else {
+	} else {
 		throw (new Exception("Invalid HTTP request!", 405));
 	}
 	// update reply with exception information
@@ -99,7 +101,7 @@ try {
 	$reply->status = $typeError->getCode();
 	$reply->message = $typeError->getMessage();
 }
-header("Content-type: restaurant/json") ;
+header("Content-type: restaurant/json");
 if($reply->data === null) {
 	unset($reply->data);
 }

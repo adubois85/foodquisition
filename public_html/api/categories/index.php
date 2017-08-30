@@ -4,7 +4,8 @@ require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\Foodquisition\Category;
-	// we only use the category class for testing purposes
+
+// we only use the category class for testing purposes
 /**
  * api for the Category class
  *
@@ -23,7 +24,7 @@ try {
 	//grab the mySQL connection
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/foodquisition.ini");
 
-	// mock a category by mocking the session and assigning a specific item to it.
+	// mock a logged in user by mocking the session and assigning a specific user to it.
 	// this is only for testing purposes and should not be in the live code.
 	//$_SESSION["category"] = Category::getCategoryByCategoryId($pdo, 732);
 
@@ -36,34 +37,38 @@ try {
 	$categoryName = filter_input(INPUT_GET, "categoryName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//make sure the id is valid for methods that require it
-	if(($method === "GET") && (empty($id) === true || $id < 0)) {
+	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
 		throw(new InvalidArgumentException("id cannot be empty or negative", 405));
 	}
 	if($method === "GET") {
 		//set XSRF cookie
 		setXsrfCookie();
 
-		//get a specific tweet based on arguments provided or all the tweets and update reply
+		//get a specific category based on arguments provided or all the categories and update reply
 		if(empty($id) === false) {
 			$category = Category::getCategoryByCategoryId($pdo, $id);
 			if($category !== null) {
 				$reply->data = $category;
 			}
-		} else if(empty($categoryName) === false) {
+		} else if(empty($category) === false) {
 			$category = Category::getCategoryByCategoryName($pdo, $categoryName)->toArray();
 			if($category !== null) {
 				$reply->data = $category;
+			} else {
+				$categories = Category::getAllCategories($pdo)->toArray();
+				if($categories !== null) {
+					$reply->data = $categories;
+				}
 			}
 		}
-		// update the $reply->status $reply->message
 	}
-catch
-	(\Exception | \TypeError $exception) {
-		$reply->status = $exception->getCode();
-		$reply->message = $exception->getMessage();
-	}
+// update the $reply->status $reply->message
+} catch(\Exception | \TypeError $exception) {
+	$reply->status = $exception->getCode();
+	$reply->message = $exception->getMessage();
+}
 
-header("Content-type: category/json");
+header("Content-type: application/json");
 if($reply->data === null) {
 	unset($reply->data);
 }
@@ -72,4 +77,3 @@ if($reply->data === null) {
 echo json_encode($reply);
 
 // finally - JSON encodes the $reply object and sends it back to the front end.
-}
