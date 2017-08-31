@@ -503,8 +503,7 @@ class Restaurant implements \JsonSerializable {
 		$preppedInsert = $pdoInsert->prepare($queryInsert);
 
 		// we have to sub out the placeholder values before submitting
-		$parameters = ["restaurantId" => $this->restaurantId, "restaurantAddress1" => $this->restaurantAddress1, "restaurantAddress2" =>
-			$this->restaurantAddress2, "restaurantCity" => $this->restaurantCity, "restaurantFacilityKey" => $this->restaurantFacilityKey, "restaurantGoogleId" => $this->restaurantGoogleId, "restaurantName" => $this->restaurantName, "restaurantPhoneNumber" => $this->restaurantPhoneNumber, "restaurantState" => $this->restaurantState, "restaurantType" => $this->restaurantType, "restaurantZip" => $this->restaurantZip];
+		$parameters = ["restaurantId" => $this->restaurantId, "restaurantAddress1" => $this->restaurantAddress1, "restaurantAddress2" => $this->restaurantAddress2, "restaurantCity" => $this->restaurantCity, "restaurantFacilityKey" => $this->restaurantFacilityKey, "restaurantGoogleId" => $this->restaurantGoogleId, "restaurantName" => $this->restaurantName, "restaurantPhoneNumber" => $this->restaurantPhoneNumber, "restaurantState" => $this->restaurantState, "restaurantType" => $this->restaurantType, "restaurantZip" => $this->restaurantZip];
 		$preppedInsert->execute($parameters);
 
 		// finally, the restaurantId should've been null up to this point, wo we sub it out with what mySQL gives us
