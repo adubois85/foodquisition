@@ -45,24 +45,7 @@ class Violation implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
-
-	 */
-	/**
-	 * accessor method for violation id
-	 *
-	 * @return int|null value of violation id
-	 **/
-	public function getViolationId(): int {
-		return ($this->violationId);
-	}
-
-	/**
-	 * mutator method for violation id
-	 *
-	 * @param int|null $newViolationId new value of violation id
-	 * @throws \RangeException if $newViolationId is not positive
-	 * @throws \TypeError if $newViolationId is not an integer
-	 **/
+	**/
 	public function __construct(?int $newViolationId, int $newViolationCategoryId, string $newViolationCode, string $newViolationCodeDescription) {
 		try {
 			$this->setViolationId($newViolationId);
@@ -75,7 +58,20 @@ class Violation implements \JsonSerializable {
 			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
+	} 	/**
+ * accessor method for violation id
+ *
+ * @return int|null value of violation id
+ **/
+	public function getViolationId(): int {
+		return ($this->violationId);
 	}
+	/** mutator method for violation id
+	 *
+	 * @param int|null $newViolationId new value of violation id
+	 * @throws \RangeException if $newViolationId is not positive
+	 * @throws \TypeError if $newViolationId is not an integer
+	 **/
 	public function setViolationId(?int $newViolationId): void {
 		//if violation id is null immediately return it
 		if($newViolationId === null) {

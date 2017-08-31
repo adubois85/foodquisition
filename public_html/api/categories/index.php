@@ -50,18 +50,16 @@ try {
 			if($category !== null) {
 				$reply->data = $category;
 			}
-		} else if(empty($category) === false) {
-			$category = Category::getCategoryByCategoryName($pdo, $categoryName)->toArray();
-			if($category !== null) {
-				$reply->data = $category;
-			} else {
-				$categories = Category::getAllCategories($pdo)->toArray();
-				if($categories !== null) {
-					$reply->data = $categories;
-				}
+		} else {
+			$categories = Category::getAllCategories($pdo)->toArray();
+			if($categories !== null) {
+				$reply->data = $categories;
 			}
 		}
+	} else {
+		throw(new \InvalidArgumentException("http request is invalid",418));
 	}
+
 // update the $reply->status $reply->message
 } catch(\Exception | \TypeError $exception) {
 	$reply->status = $exception->getCode();

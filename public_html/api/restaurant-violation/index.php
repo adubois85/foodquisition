@@ -33,63 +33,32 @@ try {
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 	//sanitize input
 	$restaurantId = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$ViolationId = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$restaurantViolationId = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$CategoryId = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+
 
 	// handle GET request
 	if($method === "GET") {
 		//set XSRF cookie
 		setXsrfCookie();
-		//get a specific application or all applications and update reply
+		//get all the violations for a restaurant
 		if(empty($restaurantId) === false) {
 			$restaurant = Restaurant::getRestaurantByRestaurantId($pdo, $restaurantId);
 			if($restaurant !== null) {
-				$reply->data = $restaurant;
-			}
-		} else if(empty($restaurantViolationId) === false) {
-			$restaurants = Restaurant::getRestaurantsByViolationId($pdo, $restaurantViolationId);
-			if($restaurants !== null) {
+				// create json storage object
 				$storage = new JsonObjectStorage();
-				for($i = 0; $i < count($restaurants); $i++) {
+
+				// grab all restaurant violations by restaurant id
+				$restaurantViolations = RestaurantViolation::getRestaurantViolationByRestaurantViolationRestaurantId($pdo, $restaurant->getRestaurantId());
+				foreach($restaurantViolations as $restaurantViolation){
+					$violation = Violation::getViolationByViolationId($pdo, $restaurantViolation->getViolationId());
 					$storage->attach(
-						$restaurants[$i],
-						[
-							Violation::getViolationByViolationId($pdo, $restaurants[$i]->getRestaurantViolationId()),
-							RestaurantViolation::getRestaurantViolationByRestaurantViolationId($pdo, $restaurants[$i]->getRestaurantViolationId()),
-							Category::getCategoryByCategoryId($pdo, $restaurants[$i]->getRestaurantCategoryId())
+						$violation, [
+						$restaurantViolation
 						]
 					);
 				}
-				$reply->data = $storage;
-			}
-		} else if(empty($restaurantCategoryId) === false) {
-			$restaurants = Restaurant::getRestaurantsByCategoryId($pdo, $restaurantCategoryId);
-			if($restaurants !== null) {
-				$reply->data = $restaurants->toArray();
-			}
-		} else if(empty($restaurantRestaurantViolationId) === false) {
-			$restaurants = Restaurant::getRestaurantsByRestaurantViolationId($pdo, $restaurantRestaurantViolationId);
-			if($restaurants !== null) {
-				$reply->data = $restaurants->toArray();
-			}
-		} else {
-			$restaurants = Restaurant::getAllRestaurants($pdo);
-			if($restaurants !== null) {
-				$storage = new JsonObjectStorage();
-				for($i = 0; $i < count($restaurants); $i++) {
-					$storage->attach(
-						$restaurants[$i],
-						[
-							Violation::getViolationByViolationId($pdo, $restaurants[$i]->getRestaurantViolationId()),
-							RestaurantViolation::getRestaurantViolationByRestaurantViolationId($pdo, $restaurants[$i]->getRestaurantViolationId()),
-							Category::getCategoryByCategoryId($pdo, $restaurants[$i]->getRestaurantCategoryId())
-						]
-					);
-				}
-				$reply->data = $storage;
 			}
 		}
+
 	} else {
 		throw (new Exception("Invalid HTTP request!", 405));
 	}
