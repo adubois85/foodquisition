@@ -129,27 +129,30 @@ class DataDownloader {
 					$restaurantViolationResults = $data[23];
 					$googleId = "";
 
+					if(in_array($restaurantFacilityKey , $facilityKeys)=== false) {
 
-					try {
-						$restaurant = new Restaurant($restaurantId, $restaurantAddress1, $restaurantAddress2, $restaurantCity, $restaurantFacilityKey, $restaurantGoogleId, $restaurantName, $restaurantPhoneNumber, $restaurantState, $restaurantType, $restaurantZip);
-						$facilityKeys[] = $restaurantFacilityKey;
-						$restaurant->insert($pdo);
-					} catch(\PDOException $pdoException) {
-						$sqlStateCode = "23000";
+						try {
+							$restaurant = new Restaurant($restaurantId, $restaurantAddress1, $restaurantAddress2, $restaurantCity, $restaurantFacilityKey, $restaurantGoogleId, $restaurantName, $restaurantPhoneNumber, $restaurantState, $restaurantType, $restaurantZip);
+							$facilityKeys[] = $restaurantFacilityKey;
+							$restaurant->insert($pdo);
+						} catch(\PDOException $pdoException) {
+							$sqlStateCode = "23000";
 
 
-						$errorInfo = $pdoException->errorInfo;
-						if($errorInfo[0] === $sqlStateCode) {
-							//echo "<p>Duplicate</p>";
-						} else {
-							throw(new \PDOException($pdoException->getMessage(), 0, $pdoException));
+							$errorInfo = $pdoException->errorInfo;
+							if($errorInfo[0] === $sqlStateCode) {
+								//echo "<p>Duplicate</p>";
+							} else {
+								throw(new \PDOException($pdoException->getMessage(), 0, $pdoException));
+							}
+						} catch(\Exception $exception) {
+							throw(new \Exception($exception->getMessage(), 0, $exception));
 						}
-					} catch(\Exception $exception) {
-						throw(new \Exception($exception->getMessage(), 0, $exception));
 					}
 
 
 						try {
+						$restaurant = $restaurant ?? Restaurant::getRestaurantByFacilityKey($pdo, $restaurantFacilityKey);
 							$restaurantViolation = new RestaurantViolation($restaurantViolationId, $restaurant->getRestaurantId(), $restaurantViolationViolationId, $restaurantViolationCompliance, $restaurantViolationDate, $restaurantViolationMemo, $restaurantViolationResults);
 							$restaurantViolation->insert($pdo);
 
@@ -183,8 +186,11 @@ class DataDownloader {
 		}
 
 try {
-	DataDownloader::readBloodyCSV("/home/dbranch6/food-inspections.csv");
-} catch(\Exception $exception) {
+DataDownloader::readBloodyCSV("/home/dbranch6/food-inspections.csv");
+}
+
+catch
+(\Exception $exception) {
 	var_dump($exception);
 	echo "Bloody Error (BE) " . $exception->getMessage() . PHP_EOL;
 }
