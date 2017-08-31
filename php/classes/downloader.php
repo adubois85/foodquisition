@@ -108,6 +108,7 @@ class DataDownloader {
 
 			if(($fd = @fopen($bloodyFilename, "rb")) !== false) {
 				fgetcsv($fd, 0, ",");
+				$facilityKeys = [];
 				while((($data = fgetcsv($fd, 0, ",")) !== false) && feof($fd) === false) {
 					$restaurantId = null;
 					$restaurantAddress1 = substr($data[2], 0, 128);
@@ -121,7 +122,6 @@ class DataDownloader {
 					$restaurantType = $data[15];
 					$restaurantZip = $data[5];
 					$restaurantViolationId = null;
-					$restaurantViolationRestaurantId = $restaurantId;
 					$restaurantViolationViolationId = null;
 					$restaurantViolationCompliance = $data[25];
 					$restaurantViolationDate = $data[16];
@@ -132,6 +132,7 @@ class DataDownloader {
 
 					try {
 						$restaurant = new Restaurant($restaurantId, $restaurantAddress1, $restaurantAddress2, $restaurantCity, $restaurantFacilityKey, $restaurantGoogleId, $restaurantName, $restaurantPhoneNumber, $restaurantState, $restaurantType, $restaurantZip);
+						$facilityKeys[] = $restaurantFacilityKey;
 						$restaurant->insert($pdo);
 					} catch(\PDOException $pdoException) {
 						$sqlStateCode = "23000";
@@ -148,21 +149,8 @@ class DataDownloader {
 					}
 
 
-//				if(($fd = @fopen($bloodyFilename, "rb")) !== false) {
-//					fgetcsv($fd, 0, ",");
-//					while((($data = fgetcsv($fd, 0, ",")) !== false) && feof($fd) === false) {
-//						$restaurantViolationId = null;
-//						$restaurantViolationRestaurantId = $restaurantId;
-//						$restaurantViolationViolationId = null;
-//						$restaurantViolationCompliance = $data[25];
-//						$restaurantViolationDate = $data[16];
-//						$restaurantViolationMemo = $data[27];
-//						$restaurantViolationResults = $data[23];
-//						$googleId = "";
-
-
 						try {
-							$restaurantViolation = new RestaurantViolation($restaurantViolationId, $restaurantViolationRestaurantId, $restaurantViolationViolationId, $restaurantViolationCompliance, $restaurantViolationDate, $restaurantViolationMemo, $restaurantViolationResults);
+							$restaurantViolation = new RestaurantViolation($restaurantViolationId, $restaurant->getRestaurantId(), $restaurantViolationViolationId, $restaurantViolationCompliance, $restaurantViolationDate, $restaurantViolationMemo, $restaurantViolationResults);
 							$restaurantViolation->insert($pdo);
 
 						} catch(\PDOException $pdoException) {
