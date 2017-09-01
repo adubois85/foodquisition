@@ -67,9 +67,9 @@ class RestaurantViolation implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct(?int $newRestaurantViolationId, ?int $newRestaurantViolationRestaurantId, ?int $newRestaurantViolationViolationId, $restaurantViolationCompliance,$newRestaurantViolationDate = null, string $newRestaurantViolationMemo, string $newRestaurantViolationResults) {
-		try {
-			$this->setRestaurantViolationId($newRestaurantViolationId);
+	public function __construct(?int $newRestaurantViolationId, int $newRestaurantViolationRestaurantId, ?int $newRestaurantViolationViolationId, $restaurantViolationCompliance,$newRestaurantViolationDate = null, string $newRestaurantViolationMemo, string $newRestaurantViolationResults) {
+				try {
+					$this->setRestaurantViolationId($newRestaurantViolationId);
 			$this->setRestaurantViolationRestaurantId($newRestaurantViolationRestaurantId);
 			$this->setRestaurantViolationViolationId($newRestaurantViolationViolationId);
 			$this->setRestaurantViolationCompliance($restaurantViolationCompliance);

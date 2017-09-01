@@ -29,7 +29,7 @@ class DataDownloader {
 	 * Gets the metadata from a file url
 	 *
 	 * @param string $url url to grab from
-	 * @param int $redirect whether to redirect or not
+	 * @param \0 $redirect whether to redirect or not
 	 * @return mixed stream data
 	 * @throws \Exception if file doesn't exist
 	 */
@@ -109,6 +109,7 @@ class DataDownloader {
 			if(($fd = @fopen($bloodyFilename, "rb")) !== false) {
 				fgetcsv($fd, 0, ",");
 				$facilityKeys = [];
+				$violationId = [];
 				while((($data = fgetcsv($fd, 0, ",")) !== false) && feof($fd) === false) {
 					$restaurantId = null;
 					$restaurantAddress1 = substr($data[2], 0, 128);
@@ -122,14 +123,22 @@ class DataDownloader {
 					$restaurantType = $data[15];
 					$restaurantZip = $data[5];
 					$restaurantViolationId = null;
-					$restaurantViolationViolationId = null;
+					$restaurantViolationViolationId = substr($data[24], -2, 2);
+					$restaurantViolationCode = $data[24];
 					$restaurantViolationCompliance = $data[25];
 					$restaurantViolationDate = $data[16];
 					$restaurantViolationMemo = $data[27];
 					$restaurantViolationResults = $data[23];
-					$googleId = "";
+//					$googleId = "";
+					var_dump($restaurantViolationViolationId);
+					if($restaurantViolationViolationId !== null) {
+						$restaurantViolationViolationId = substr($restaurantViolationViolationId, -1, 1);
+						var_dump($restaurantViolationViolationId);
+						$restaurantViolationViolationId = (int) $restaurantViolationViolationId;
+						var_dump($restaurantViolationViolationId);
+					}
 
-					if(in_array($restaurantFacilityKey , $facilityKeys)=== false) {
+					if(in_array($restaurantFacilityKey, $facilityKeys) === false) {
 
 						try {
 							$restaurant = new Restaurant($restaurantId, $restaurantAddress1, $restaurantAddress2, $restaurantCity, $restaurantFacilityKey, $restaurantGoogleId, $restaurantName, $restaurantPhoneNumber, $restaurantState, $restaurantType, $restaurantZip);
@@ -149,13 +158,18 @@ class DataDownloader {
 							throw(new \Exception($exception->getMessage(), 0, $exception));
 						}
 					}
-
+					if(in_array($restaurantViolationId, $violationId) === false) {
 
 						try {
-						$restaurant = $restaurant ?? Restaurant::getRestaurantByFacilityKey($pdo, $restaurantFacilityKey);
-							$restaurantViolation = new RestaurantViolation($restaurantViolationId, $restaurant->getRestaurantId(), $restaurantViolationViolationId, $restaurantViolationCompliance, $restaurantViolationDate, $restaurantViolationMemo, $restaurantViolationResults);
-							$restaurantViolation->insert($pdo);
+							//echo intval(substr($restaurantViolationCode, 0, strpos($restaurantViolationCode, "S")));
 
+							$restaurant = Restaurant::getRestaurantByFacilityKey($pdo, $restaurantFacilityKey);
+							$violation = $violation ?? Violation::getViolationByViolationId($pdo, $restaurantViolationViolationId);
+						//($restaurant);
+							var_dump($restaurantViolationDate);
+							$restaurantViolation = new RestaurantViolation($restaurantViolationId, $restaurant->getRestaurantId(), $violation->getViolationId(), $restaurantViolationCompliance, $restaurantViolationDate, $restaurantViolationMemo, $restaurantViolationResults);
+							$violationId[] = $restaurantViolationId;
+							$restaurantViolation->insert($pdo);
 						} catch(\PDOException $pdoException) {
 							$sqlStateCode = "23000";
 
@@ -170,26 +184,22 @@ class DataDownloader {
 							throw(new \Exception($exception->getMessage(), 0, $exception));
 						}
 					}
-					fclose($fd);
 				}
+				fclose($fd);
 			}
-
-
-		catch
-			(\PDOException $pdoException) {
-				throw(new \PDOException($pdoException->getMessage(), 0, $pdoException));
-			} catch(Exception $exception) {
-				throw(new \Exception($exception->getMessage(), 0, $exception));
-			}
-
-}
+		} catch
+		(\PDOException $pdoException) {
+			throw(new \PDOException($pdoException->getMessage(), 0, $pdoException));
+		} catch(Exception $exception) {
+			throw(new \Exception($exception->getMessage(), 0, $exception));
 		}
 
-try {
-DataDownloader::readBloodyCSV("/home/dbranch6/food-inspections.csv");
+	}
 }
 
-catch
+try {
+	DataDownloader::readBloodyCSV("/home/dbranch6/food-inspections.csv");
+} catch
 (\Exception $exception) {
 	var_dump($exception);
 	echo "Bloody Error (BE) " . $exception->getMessage() . PHP_EOL;

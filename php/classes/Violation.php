@@ -252,7 +252,7 @@ class Violation implements \JsonSerializable {
 	 * @throws \TypeError when variables are not the correct data type
 	 *
 	 **/
-	public static function getViolationByViolationId(\PDO $pdo, int $violationId):? Violation{
+	public static function getViolationByViolationId(\PDO $pdo, int $violationId): ?Violation{
 		// sanitize the violation id before searching
 		if($violationId <= 0) {
 			throw(new \PDOException("violation id is not positive"));
