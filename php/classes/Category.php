@@ -255,7 +255,7 @@ class Category implements \JsonSerializable {
 	}
 
 	/**
-	 * gets all the categories
+	 * gets all the category
 	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @return \SplFixedArray SplFixedArray of Categories found or null if not found
@@ -268,7 +268,7 @@ class Category implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
-		// build an array of categories
+		// build an array of category
 		$categories = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {

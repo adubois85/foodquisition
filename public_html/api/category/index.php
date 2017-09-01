@@ -43,7 +43,7 @@ try {
 		//set XSRF cookie
 		setXsrfCookie();
 
-		//get a specific category based on arguments provided or all the categories and update reply
+		//get a specific category based on arguments provided or all the category and update reply
 		if(empty($id) === false) {
 			$category = Category::getCategoryByCategoryId($pdo, $id);
 			if($category !== null) {

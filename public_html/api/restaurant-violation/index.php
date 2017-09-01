@@ -43,16 +43,11 @@ try {
 		//set XSRF cookie
 		setXsrfCookie();
 
-		//get a specific category based on arguments provided or all the categories and update reply
+		//get a specific category based on arguments provided or all the category and update reply
 		if(empty($id) === false) {
-			$restaurant = RestaurantViolation::getrestaurantViolationByRestaurantViolationRestaurantId($pdo, $id);
+			$restaurant = RestaurantViolation::getrestaurantViolationByRestaurantViolationRestaurantId($pdo, $id)->toArray();
 			if($restaurant !== null) {
 				$reply->data = $restaurant;
-			}
-		} else {
-			$restaurants = RestaurantViolation::getAllRestaurantViolations($pdo)->toArray();
-			if($restaurants !== null) {
-				$reply->data = $restaurants;
 			}
 		}
 	} else {
