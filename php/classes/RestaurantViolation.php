@@ -67,7 +67,7 @@ class RestaurantViolation implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct(?int $newRestaurantViolationId, int $newRestaurantViolationRestaurantId, ?int $newRestaurantViolationViolationId, $restaurantViolationCompliance,$newRestaurantViolationDate = null, string $newRestaurantViolationMemo, string $newRestaurantViolationResults) {
+	public function __construct(?int $newRestaurantViolationId, int $newRestaurantViolationRestaurantId, ?int $newRestaurantViolationViolationId, $restaurantViolationCompliance,$newRestaurantViolationDate = null, ?string $newRestaurantViolationMemo, string $newRestaurantViolationResults) {
 				try {
 					$this->setRestaurantViolationId($newRestaurantViolationId);
 			$this->setRestaurantViolationRestaurantId($newRestaurantViolationRestaurantId);
@@ -231,7 +231,7 @@ class RestaurantViolation implements \JsonSerializable {
  * @return string value of restaurant violation memo
  *
  **/
-	public function getRestaurantViolationMemo() :string {
+	public function getRestaurantViolationMemo() : ?string {
 		return($this->restaurantViolationMemo);
 	}
 	/**
@@ -246,9 +246,9 @@ class RestaurantViolation implements \JsonSerializable {
 		// verify the restaurant violation memo is secure
 		$newRestaurantViolationMemo = trim($newRestaurantViolationMemo);
 		$newRestaurantViolationMemo = filter_var($newRestaurantViolationMemo, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newRestaurantViolationMemo) === true) {
-			throw(new \InvalidArgumentException("restaurant violation memo is empty or insecure"));
-		}
+//		if(empty($newRestaurantViolationMemo) === true) {
+//			throw(new \InvalidArgumentException("restaurant violation memo is empty or insecure"));
+//		}
 		// verify the restaurant violation memo will fit in the database
 		if(strlen($newRestaurantViolationMemo) > 255) {
 			throw(new \RangeException("restaurant violation memo is too large"));

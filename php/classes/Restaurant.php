@@ -499,7 +499,7 @@ class Restaurant implements \JsonSerializable {
 			throw (new \PDOException("The restaurant ID is not new."));
 		}
 		// next we prep the command to be passed to the database
-		$queryInsert = "INSERT INTO restaurant(restaurantAddress1, restaurantAddress2, restaurantCity, restaurantFacilityKey, restaurantGoogleId, restaurantName, restaurantPhoneNumber, restaurantState, restaurantType, restaurantZip) VALUES (:restaurantId, :restaurantAddress1, :restaurantAddress2, :restaurantCity, :restaurantFacilityKey, :restaurantGoogleId, :restaurantName, :restaurantPhoneNumber, :restaurantState, :restaurantType, :restaurantZip)";
+		$queryInsert = "INSERT INTO restaurant(restaurantAddress1, restaurantAddress2, restaurantCity, restaurantFacilityKey, restaurantGoogleId, restaurantName, restaurantPhoneNumber, restaurantState, restaurantType, restaurantZip) VALUES (:restaurantAddress1, :restaurantAddress2, :restaurantCity, :restaurantFacilityKey, :restaurantGoogleId, :restaurantName, :restaurantPhoneNumber, :restaurantState, :restaurantType, :restaurantZip)";
 		$preppedInsert = $pdoInsert->prepare($queryInsert);
 
 		// we have to sub out the placeholder values before submitting

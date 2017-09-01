@@ -126,11 +126,11 @@ class DataDownloader {
 					$restaurantViolationViolationId = substr($data[24], -2, 2);
 					$restaurantViolationCode = $data[24];
 					$restaurantViolationCompliance = $data[25];
-					$restaurantViolationDate = $data[16];
+					$restaurantViolationDate = \DateTime::createFromFormat("Y-m-d", $data[16]);
 					$restaurantViolationMemo = $data[27];
 					$restaurantViolationResults = $data[23];
 //					$googleId = "";
-					var_dump($restaurantViolationViolationId);
+					var_dump($restaurantViolationMemo);
 					if($restaurantViolationViolationId !== null) {
 						$restaurantViolationViolationId = substr($restaurantViolationViolationId, -1, 1);
 						var_dump($restaurantViolationViolationId);
@@ -144,6 +144,7 @@ class DataDownloader {
 							$restaurant = new Restaurant($restaurantId, $restaurantAddress1, $restaurantAddress2, $restaurantCity, $restaurantFacilityKey, $restaurantGoogleId, $restaurantName, $restaurantPhoneNumber, $restaurantState, $restaurantType, $restaurantZip);
 							$facilityKeys[] = $restaurantFacilityKey;
 							$restaurant->insert($pdo);
+							var_dump($restaurant);
 						} catch(\PDOException $pdoException) {
 							$sqlStateCode = "23000";
 
@@ -165,7 +166,6 @@ class DataDownloader {
 
 							$restaurant = Restaurant::getRestaurantByFacilityKey($pdo, $restaurantFacilityKey);
 							$violation = $violation ?? Violation::getViolationByViolationId($pdo, $restaurantViolationViolationId);
-						//($restaurant);
 							var_dump($restaurantViolationDate);
 							$restaurantViolation = new RestaurantViolation($restaurantViolationId, $restaurant->getRestaurantId(), $violation->getViolationId(), $restaurantViolationCompliance, $restaurantViolationDate, $restaurantViolationMemo, $restaurantViolationResults);
 							$violationId[] = $restaurantViolationId;
