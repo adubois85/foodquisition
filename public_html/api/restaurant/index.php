@@ -59,7 +59,7 @@ try {
 		// The two-word form will not work, however, in the alternative syntax for control structures
 
 		// get restaurants by their name; this should return an array of matches
-		} else if(empty($restaurantName) !== false) {
+		} else if(empty($restaurantName) === false) {
 			$restaurants = Restaurant::getRestaurantByName($pdo, $restaurantName)->toArray();
 			if($restaurants !== null) {
 				$reply->data = $restaurants;
