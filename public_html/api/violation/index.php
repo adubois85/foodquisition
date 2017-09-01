@@ -3,11 +3,11 @@ require_once dirname(__DIR__, 3) . "/php/classes/autoload.php";
 require_once dirname(__DIR__, 3) . "/php/lib/xsrf.php";
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\Foodquisition\Category;
+use Edu\Cnm\Foodquisition\Violation;
 
-// we only use the category class for testing purposes
+// we only use the violation class for testing purposes
 /**
- * api for the Category class
+ * api for the Violation class
  *
  * @author {} <dannielle.bojorquez@gmail.com>
  *
@@ -26,14 +26,14 @@ try {
 
 	// mock a logged in user by mocking the session and assigning a specific user to it.
 	// this is only for testing purposes and should not be in the live code.
-	//$_SESSION["category"] = Category::getCategoryByCategoryId($pdo, 732);
+	//$_SESSION["violation"] = Violation::getViolationByViolationId($pdo, 732);
 
 	//determine which HTTP method was used
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//sanitize input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$categoryId = filter_input(INPUT_GET, "categoryId", FILTER_VALIDATE_INT);
+	$violationId = filter_input(INPUT_GET, "violationId", FILTER_VALIDATE_INT);
 
 	//make sure the id is valid for methods that require it
 	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
@@ -43,16 +43,16 @@ try {
 		//set XSRF cookie
 		setXsrfCookie();
 
-		//get a specific category based on arguments provided or all the categories and update reply
+		//get a specific violation based on arguments provided or all the violations and update reply
 		if(empty($id) === false) {
-			$category = Category::getCategoryByCategoryId($pdo, $id);
-			if($category !== null) {
-				$reply->data = $category;
+			$violation = Violation::getViolationByViolationId($pdo, $id);
+			if($violation !== null) {
+				$reply->data = $violation;
 			}
 		} else {
-			$categories = Category::getAllCategories($pdo)->toArray();
-			if($categories !== null) {
-				$reply->data = $categories;
+			$violations = Violation::getAllViolations($pdo)->toArray();
+			if($violations !== null) {
+				$reply->data = $violations;
 			}
 		}
 	} else {
