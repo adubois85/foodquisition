@@ -4,11 +4,12 @@ require_once (dirname(__DIR__,3) . "/php/lib/xsrf.php");
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 $config = readConfig("/etc/apache2/capstone-mysql/foodquisition.ini");
-
 // $config["google"] now exists
-
+// Set the Google API key for the package
+$googlePlaces = new PlacesApi($config);
 
 use Edu\Cnm\Foodquisition\Restaurant;
+use SKAgarwal\GoogleApi\PlacesApi;
 
 /*
  * API for Restaurant class
@@ -42,7 +43,8 @@ try {
 	// Can't trust end users, so sanitize the inputs
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$restaurantName = filter_input(INPUT_GET, "restaurantName", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$restaurantAddress = filter_input(INPUT_GET, "restaurantAddress", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$restaurantGoogleId = filter_input(INPUT_GET, "restaurantGoogleId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+
 
 	// Handler for GET requests (this should be the only type for this class);
 	if($method === 'GET') {
@@ -64,7 +66,13 @@ try {
 			if($restaurants !== null) {
 				$reply->data = $restaurants;
 			}
-		}
+		// get a restaurant by its Google ID if it has one
+		} else if(empty($restaurantGoogleId) === false) {
+			$restaurant  = Restaurant::getRestaurantByGoogleId($pdo, $restaurantGoogleId);
+			if($restaurant !== null) {
+				$reply->data = $restaurant;
+			}
+ 		}
 	}
 	// catch errors and update the reply variable with the HTTP status code and its associated message
 } catch(\Exception | \TypeError $exception) {
