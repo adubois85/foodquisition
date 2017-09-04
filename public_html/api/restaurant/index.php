@@ -61,7 +61,7 @@ try {
 				// Check if the restaurant has a Google Id, query google for one if it doesn't
 				if($googleId === null) {
 					// set up the Google Places call
-					$googlePlaces = new PlacesApi('$googleKey');
+					$googlePlaces = new PlacesApi("$googleKey");
 					// we need to be specific when searching Google's database so we don't get similarly named places back
 					$query = $restaurant->getRestaurantName() . $restaurant->getRestaurantAddress1() . $restaurant->getRestaurantCity();
 					$response = json_decode(($googlePlaces->textSearch('$query')), true);
