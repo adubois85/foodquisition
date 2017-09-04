@@ -6,9 +6,6 @@ require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 use Edu\Cnm\Foodquisition\Restaurant;
 use SKAgarwal\GoogleApi\PlacesApi;
 
-$config = readConfig("/etc/apache2/capstone-mysql/foodquisition.ini");
-// $config["google"] now exists
-
 /*
  * API for Restaurant class
  *
@@ -34,6 +31,15 @@ try {
 	// grab the mySQL connection
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/foodquisition.ini");
 
+	$config = readConfig("/etc/apache2/capstone-mysql/foodquisition.ini");
+
+	// $config["google"] now exists
+	$config = ($config['google']);
+	var_dump($config);
+
+	// set up the Google Places call
+	$googlePlaces = new PlacesApi($config);
+
 	// Check the SERVER superglobal for the type of HTTP method used; use the ternary operator to set based upon whether
 	// it already exists or not
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
@@ -56,12 +62,12 @@ try {
 				$reply->data = $restaurant;
 				// Check if the restaurant has a Google Id, query google for one if it doesn't
 				if($restaurant->getRestaurantGoogleId() === null) {
-					$googlePlaces = new PlacesApi($config);
+
 					// we need to be specific when searching Google's database so we don't get similarly named places back
-					$query = $this->getRestaurantName() . $this->getRestaurantAddress1() . $this->getRestaurantCity();
+					$query = $restaurant->getRestaurantName() . $restaurant->getRestaurantAddress1() . $restaurant->getRestaurantCity();
 					$response = $googlePlaces->textSearch("$query");
 					json_decode($response, true);
-					$this->setRestaurantGoogleId($response['results'][0]['place_id']);
+					$restaurant->setRestaurantGoogleId($response['results'][0]['place_id']);
 				}
 			}
 
