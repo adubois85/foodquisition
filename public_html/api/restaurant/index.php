@@ -34,7 +34,7 @@ try {
 	$config = readConfig("/etc/apache2/capstone-mysql/foodquisition.ini");
 
 	// $config["google"] now exists
-	$config = ($config['google']);
+	$googleKey = ($config['google']);
 	//var_dump($config);
 
 	// Check the SERVER superglobal for the type of HTTP method used; use the ternary operator to set based upon whether
@@ -61,7 +61,7 @@ try {
 				// Check if the restaurant has a Google Id, query google for one if it doesn't
 				if($googleId === null) {
 					// set up the Google Places call
-					$googlePlaces = new PlacesApi('$config');
+					$googlePlaces = new PlacesApi('$googleKey');
 					// we need to be specific when searching Google's database so we don't get similarly named places back
 					$query = $restaurant->getRestaurantName() . $restaurant->getRestaurantAddress1() . $restaurant->getRestaurantCity();
 					$response = json_decode(($googlePlaces->textSearch('$query')), true);
