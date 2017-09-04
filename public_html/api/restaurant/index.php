@@ -1,5 +1,6 @@
 <?php
-require_once(dirname(__DIR__,3) . "/php/classes/autoload.php");
+require_once (dirname(__DIR__,3) . "/php/classes/autoload.php");
+require_once (dirname(__DIR__,3) . "/vendor/autoload.php");
 require_once (dirname(__DIR__,3) . "/php/lib/xsrf.php");
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
@@ -63,8 +64,11 @@ try {
 					// set up the Google Places call
 					$googlePlaces = new PlacesApi("$googleKey");
 					// we need to be specific when searching Google's database so we don't get similarly named places back
-					$query = $restaurant->getRestaurantName() . $restaurant->getRestaurantAddress1() . $restaurant->getRestaurantCity();
-					$response = json_decode(($googlePlaces->textSearch('$query')), true);
+					$query = $restaurant->getRestaurantName() ."+". $restaurant->getRestaurantAddress1() ."+".
+					$restaurant->getRestaurantCity();
+//					var_dump($query);
+					$response = json_decode(($googlePlaces->textSearch("$query")), true);
+//					var_dump($response);
 					$restaurant->setRestaurantGoogleId($response['results'][0]['place_id']);
 				}
 			}
