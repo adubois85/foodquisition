@@ -600,7 +600,7 @@ public static function getRestaurantViolationByRestaurantViolationMemo(\PDO $pdo
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
-		// buils an array of the restaurant violations
+		// builds an array of the restaurant violations
 		$restaurantViolations = new \SplFixedArray($statement->rowCount());
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch())!== false) {
