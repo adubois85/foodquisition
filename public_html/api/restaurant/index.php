@@ -35,10 +35,7 @@ try {
 
 	// $config["google"] now exists
 	$config = ($config['google']);
-	var_dump($config);
-
-	// set up the Google Places call
-	$googlePlaces = new PlacesApi($config);
+	//var_dump($config);
 
 	// Check the SERVER superglobal for the type of HTTP method used; use the ternary operator to set based upon whether
 	// it already exists or not
@@ -60,13 +57,14 @@ try {
 			$restaurant = Restaurant::getRestaurantByRestaurantId($pdo, $id);
 			if($restaurant !== null) {
 				$reply->data = $restaurant;
+				$googleId = $restaurant->getRestaurantGoogleId();
 				// Check if the restaurant has a Google Id, query google for one if it doesn't
-				if($restaurant->getRestaurantGoogleId() === null) {
-
+				if($googleId === null) {
+					// set up the Google Places call
+					$googlePlaces = new PlacesApi('$config');
 					// we need to be specific when searching Google's database so we don't get similarly named places back
 					$query = $restaurant->getRestaurantName() . $restaurant->getRestaurantAddress1() . $restaurant->getRestaurantCity();
-					$response = $googlePlaces->textSearch("$query");
-					json_decode($response, true);
+					$response = json_decode(($googlePlaces->textSearch('$query')), true);
 					$restaurant->setRestaurantGoogleId($response['results'][0]['place_id']);
 				}
 			}

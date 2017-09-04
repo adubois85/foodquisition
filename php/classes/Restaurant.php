@@ -294,7 +294,7 @@ class Restaurant implements \JsonSerializable {
 	 *
 	 * @return string value of restaurantGoogleId
 	 */
-	public function getRestaurantGoogleId() : string {
+	public function getRestaurantGoogleId() : ?string {
 		return($this->restaurantGoogleId);
 	}
 	/**
