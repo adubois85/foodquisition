@@ -2,7 +2,7 @@ import {Component} from "@angular/core";
 
 @Component({
 	selector: "foodquisition",
-	templateUrl: "./templates/foodquisition.php"
+	templateUrl: "./templates/foodquisition-app.php"
 })
 
 export class AppComponent {}
