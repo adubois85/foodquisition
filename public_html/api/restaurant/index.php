@@ -3,13 +3,11 @@ require_once(dirname(__DIR__,3) . "/php/classes/autoload.php");
 require_once (dirname(__DIR__,3) . "/php/lib/xsrf.php");
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-$config = readConfig("/etc/apache2/capstone-mysql/foodquisition.ini");
-// $config["google"] now exists
-// Set the Google API key for the package
-$googlePlaces = new PlacesApi($config);
-
 use Edu\Cnm\Foodquisition\Restaurant;
 use SKAgarwal\GoogleApi\PlacesApi;
+
+$config = readConfig("/etc/apache2/capstone-mysql/foodquisition.ini");
+// $config["google"] now exists
 
 /*
  * API for Restaurant class
@@ -56,7 +54,17 @@ try {
 			$restaurant = Restaurant::getRestaurantByRestaurantId($pdo, $id);
 			if($restaurant !== null) {
 				$reply->data = $restaurant;
+				// Check if the restaurant has a Google Id, query google for one if it doesn't
+				if($restaurant->getRestaurantGoogleId() === null) {
+					$googlePlaces = new PlacesApi($config);
+					// we need to be specific when searching Google's database so we don't get similarly named places back
+					$query = $this->getRestaurantName() . $this->getRestaurantAddress1() . $this->getRestaurantCity();
+					$response = $googlePlaces->textSearch("$query");
+					json_decode($response, true);
+					$this->setRestaurantGoogleId($response['results'][0]['place_id']);
+				}
 			}
+
 		// Personal note -- in PHP, elseif and else if (two words) are treated identically in these if/else blocks
 		// The two-word form will not work, however, in the alternative syntax for control structures
 
