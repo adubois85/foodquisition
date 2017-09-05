@@ -3,7 +3,7 @@
 	<div class="sfooter-content">
 
 		<!-- insert header and navbar -->
-		<!--		--><?php //require_once("lib/header.php");?>
+		<?php //require_once("lib/header.php");?>
 
 		<main class="search">
 			<div class="container">

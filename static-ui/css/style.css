@@ -23,3 +23,16 @@ main .panel {
 main p {
 	text-align: center;
 }
+/********* search card css ***************/
+.card {
+	padding:15%;
+}
+.fa {
+	font-size: large;
+}
+ul {
+	padding-bottom: 25%;
+}
+img {
+
+}
