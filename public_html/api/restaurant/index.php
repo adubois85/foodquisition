@@ -6,7 +6,6 @@ require_once (dirname(__DIR__,3) . "/php/lib/google-places.php");
 require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\Foodquisition\Restaurant;
-use SKAgarwal\GoogleApi\PlacesApi;
 
 /*
  * API for Restaurant class
@@ -62,19 +61,8 @@ try {
 			if($restaurant !== null) {
 				$reply->data = $restaurant;
 				$googleId = $restaurant->getRestaurantGoogleId();
-				googleIdCheck($restaurant, $googleId);
-				// Check if the restaurant has a Google Id, query google for one if it doesn't
-//				if($googleId === null) {
-//					// set up the Google Places call
-//					$googlePlaces = new PlacesApi("$googleKey");
-//					// we need to be specific when searching Google's database so we don't get similarly named places back
-//					$query = $restaurant->getRestaurantName() ."+". $restaurant->getRestaurantAddress1() ."+".
-//					$restaurant->getRestaurantCity();
-////					var_dump($query);
-//					$response = json_decode(($googlePlaces->textSearch("$query")), true);
-////					var_dump($response);
-//					$restaurant->setRestaurantGoogleId($response['results'][0]['place_id']);
-//				}
+//				googleIdCheck($restaurant, $googleId);
+				googlePictureSearch($restaurant, $googleId);
 			}
 
 		// Personal note -- in PHP, elseif and else if (two words) are treated identically in these if/else blocks

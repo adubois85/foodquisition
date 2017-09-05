@@ -2,10 +2,9 @@
 /*
  * Functions for handling Google Places API calls
  */
+use SKAgarwal\GoogleApi\PlacesApi;
 
-
-
-
+// Check if the restaurant has a Google Id, query google for one if it doesn't
 function googleIdCheck($restaurant, $googleId) {
 	$config = readConfig("/etc/apache2/capstone-mysql/foodquisition.ini");
 	// $config["google"] now exists
@@ -25,10 +24,26 @@ function googleIdCheck($restaurant, $googleId) {
 	} else {
 		$oldGoogleId = $googleId;
 		$googlePlaces = new PlacesApi("$googleKey");
-		$response = json_decode(($googlePlaces->placeDetails("$oldGoogleId")));
-		$newGoogleId = $response['results'][0]['place_id'];
+		$response = json_decode(($googlePlaces->placeDetails("$oldGoogleId")), true);
+		$newGoogleId = $response['result']['place_id'];
 		if ($oldGoogleId !== $newGoogleId) {
 			$restaurant->setRestaurantGoogleId($newGoogleId);
 		}
+	}
+}
+
+function googlePictureSearch($restaurant, $googleId) {
+	$config = readConfig("/etc/apache2/capstone-mysql/foodquisition.ini");
+	// $config["google"] now exists
+	$googleKey = ($config['google']);
+
+	if($googleId === null) {
+		echo("No Google ID [Should probably return a placeholder image]");
+	} else {
+		// set up the Google Places call
+		$googlePlaces = new PlacesApi("$googleKey");
+		$response = json_decode($googlePlaces->placeDetails("$googleId"), true);
+		$photoId = $response['result']['photos'][0]['photo_reference'];
+		return("https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photoreference="."$photoId"."&key="."$googleKey");
 	}
 }
