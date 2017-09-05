@@ -22,28 +22,8 @@
 		<title>Foodquisition search cards</title>
 	</head>
 	<body class="background">
-		<div class="card">
-			<!--Card image-->
-			<div class="view overlay hm-white-slight">
-				<img src="images/food.jpg" class="card image" alt="">
-				<a>
-					<div class="mask"></div>
-				</a>
-			</div>
-			<!--/.Card image-->
-			<!--Card content-->
-			<div class="card-body">
-				<!--Title-->
-				<h4 class="card-title">Card title</h4>
-				<hr>
-				<!--Text-->
-				<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-				<a href="#" class="black-text d-flex flex-row-reverse">
-					<h5 class="waves-effect p-2">Read more <i class="fa fa-chevron-right"></i></h5>
-				</a>
-			</div>
-			<!--/.Card content-->
-		</div>
+
+
 
 	</body>
 </html>
