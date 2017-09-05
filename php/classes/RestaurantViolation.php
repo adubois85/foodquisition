@@ -30,7 +30,7 @@ class RestaurantViolation implements \JsonSerializable {
 	private $restaurantViolationViolationId;
 	/**
 	 * id of the restaurant violation compliance
-	 * @var int $restaurantViolationCompliance
+	 * @var string $restaurantViolationCompliance
 	 **/
 	private $restaurantViolationCompliance;
 	/**
@@ -67,7 +67,7 @@ class RestaurantViolation implements \JsonSerializable {
 	 * @throws \Exception if some other exception occurs
 	 * @Documentation https://php.net/manual/en/language.oop5.decon.php
 	 **/
-	public function __construct(?int $newRestaurantViolationId, int $newRestaurantViolationRestaurantId, ?int $newRestaurantViolationViolationId, $restaurantViolationCompliance,$newRestaurantViolationDate = null, ?string $newRestaurantViolationMemo, string $newRestaurantViolationResults) {
+	public function __construct(?int $newRestaurantViolationId, int $newRestaurantViolationRestaurantId, ?int $newRestaurantViolationViolationId,  $restaurantViolationCompliance, $newRestaurantViolationDate = null, string $newRestaurantViolationMemo, string $newRestaurantViolationResults) {
 				try {
 					$this->setRestaurantViolationId($newRestaurantViolationId);
 			$this->setRestaurantViolationRestaurantId($newRestaurantViolationRestaurantId);
@@ -150,8 +150,8 @@ class RestaurantViolation implements \JsonSerializable {
 	 **/
 	public function setRestaurantViolationViolationId(int $newRestaurantViolationViolationId) : void {
 		//verify the restaurant violation violation id is positive
-		if($newRestaurantViolationViolationId <= 0) {
-			throw(new \RangeException("restaurant violation violation id is not positive"));
+		if($newRestaurantViolationViolationId < 0) {
+			throw(new \RangeException("restaurant violation violation id is not positive " . $newRestaurantViolationViolationId));
 		}
 		//convert and store the restaurant violation violation id
 		$this->restaurantViolationViolationId = $newRestaurantViolationViolationId;
@@ -173,13 +173,13 @@ class RestaurantViolation implements \JsonSerializable {
 	 *@throws \RangeException if $newRestaurantViolationCompliance is > 17 characters
 	 *@throws \TypeError if $newRestaurantViolationCompliance is not a string
 	 **/
-	public function setRestaurantViolationCompliance(string $newRestaurantViolationCompliance) : void {
+	public function setRestaurantViolationCompliance(?string $newRestaurantViolationCompliance) : void {
 		// verify the restaurant violation compliance is secure
 		$newRestaurantViolationCompliance = trim($newRestaurantViolationCompliance);
 		$newRestaurantViolationCompliance = filter_var($newRestaurantViolationCompliance, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-		if(empty($newRestaurantViolationCompliance) === true) {
-			throw(new \InvalidArgumentException("restaurant violation compliance is empty or insecure"));
-		}
+//		if(empty($newRestaurantViolationCompliance) === true) {
+//			throw(new \InvalidArgumentException("restaurant violation compliance is empty or insecure"));
+//		}
 		// verify the restaurant violation compliance will fit in the database
 		if(strlen($newRestaurantViolationCompliance) > 17) {
 			throw(new \RangeException("restaurant violation compliance too large"));
@@ -247,7 +247,7 @@ class RestaurantViolation implements \JsonSerializable {
 //			throw(new \InvalidArgumentException("restaurant violation memo is empty or insecure"));
 //		}
 		// verify the restaurant violation memo will fit in the database
-		if(strlen($newRestaurantViolationMemo) > 255) {
+		if(strlen($newRestaurantViolationMemo) > 700) {
 			throw(new \RangeException("restaurant violation memo is too large"));
 		}
 		//store the restaurant violation memo
@@ -276,7 +276,7 @@ class RestaurantViolation implements \JsonSerializable {
 			throw(new \InvalidArgumentException("restaurant violation results is empty or insecure"));
 		}
 		// verify the restaurant violation results will fit in the database
-		if(strlen($newRestaurantViolationResults) > 32) {
+		if(strlen($newRestaurantViolationResults) > 40) {
 			throw(new \RangeException("restaurant violation results too large"));
 		}
 		// store the restaurant violation results
@@ -295,12 +295,12 @@ class RestaurantViolation implements \JsonSerializable {
 			throw(new \PDOException("not a new restaurant violation id"));
 		}
 		// create query template
-		$query = "INSERT INTO restaurantViolation(restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationCompliance, restaurantViolationDate,restaurantViolationMemo, restaurantViolationResults) VALUES(:restaurantViolationId, :restaurantViolationRestaurantId, :restaurantViolationViolationId,:restaurantViolationCompliance, :restaurantViolationDate, :restaurantViolationMemo, :restaurantViolationResults)";
+		$query = "INSERT INTO restaurantViolation(restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationCompliance, restaurantViolationDate,restaurantViolationMemo, restaurantViolationResults) VALUES(:restaurantViolationRestaurantId, :restaurantViolationViolationId,:restaurantViolationCompliance, :restaurantViolationDate, :restaurantViolationMemo, :restaurantViolationResults)";
 		$statement = $pdo->prepare($query);
 
 		// bind the member variables in the place holder template
 		$formattedDate = $this->restaurantViolationDate->format("Y-m-d");
-		$parameters = ["restaurantViolationId" => $this->restaurantViolationId, "restaurantViolationRestaurantId" => $this->restaurantViolationRestaurantId, "restaurantViolationViolationId" => $this->restaurantViolationViolationId, "restaurantViolationCompliance" => $this->restaurantViolationCompliance, "restaurantViolationDate" => $formattedDate, "restaurantViolationMemo" => $this->restaurantViolationMemo, "restaurantViolationResults" => $this->restaurantViolationResults];
+		$parameters = ["restaurantViolationRestaurantId" => $this->restaurantViolationRestaurantId, "restaurantViolationViolationId" => $this->restaurantViolationViolationId, "restaurantViolationCompliance" => $this->restaurantViolationCompliance, "restaurantViolationDate" => $formattedDate, "restaurantViolationMemo" => $this->restaurantViolationMemo, "restaurantViolationResults" => $this->restaurantViolationResults];
 		$statement->execute($parameters);
 		// update the null restaurantViolationId with what mySQL just gave us
 		$this->restaurantViolationId = intval($pdo->lastInsertId());

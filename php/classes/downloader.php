@@ -29,7 +29,7 @@ class DataDownloader {
 	 * Gets the metadata from a file url
 	 *
 	 * @param string $url url to grab from
-	 * @param \0 $redirect whether to redirect or not
+	 * @param \int $redirect whether to redirect or not
 	 * @return mixed stream data
 	 * @throws \Exception if file doesn't exist
 	 */
@@ -41,7 +41,7 @@ class DataDownloader {
 
 
 	/**
-	 * Deletes a file or files fom a directory
+	 * Deletes a file or files from a directory
 	 *
 	 * @param string $path path to file
 	 * @param string $name filename
@@ -110,6 +110,7 @@ class DataDownloader {
 				fgetcsv($fd, 0, ",");
 				$facilityKeys = [];
 				$violationId = [];
+				$restaurantViolation = [];
 				while((($data = fgetcsv($fd, 0, ",")) !== false) && feof($fd) === false) {
 					$restaurantId = null;
 					$restaurantAddress1 = substr($data[2], 0, 128);
@@ -123,19 +124,22 @@ class DataDownloader {
 					$restaurantType = $data[15];
 					$restaurantZip = $data[5];
 					$restaurantViolationId = null;
+					$restaurantViolationRestaurantId = $data[1];
 					$restaurantViolationViolationId = substr($data[24], -2, 2);
-					$restaurantViolationCode = $data[24];
 					$restaurantViolationCompliance = $data[25];
 					$restaurantViolationDate = \DateTime::createFromFormat("Y-m-d", $data[16]);
 					$restaurantViolationMemo = $data[27];
 					$restaurantViolationResults = $data[23];
-//					$googleId = "";
-					var_dump($restaurantViolationMemo);
-					if($restaurantViolationViolationId !== null) {
+//					var_dump($restaurantViolationMemo);
+					if(substr($restaurantViolationViolationId, -2, 1) == "S") {
+
 						$restaurantViolationViolationId = substr($restaurantViolationViolationId, -1, 1);
-						var_dump($restaurantViolationViolationId);
 						$restaurantViolationViolationId = (int) $restaurantViolationViolationId;
-						var_dump($restaurantViolationViolationId);
+					} else {
+						$restaurantViolationViolationId = (int) $restaurantViolationViolationId;
+						if ($restaurantViolationViolationId == 0) {
+							$restaurantViolationViolationId = 59;
+						}
 					}
 
 					if(in_array($restaurantFacilityKey, $facilityKeys) === false) {
@@ -144,10 +148,9 @@ class DataDownloader {
 							$restaurant = new Restaurant($restaurantId, $restaurantAddress1, $restaurantAddress2, $restaurantCity, $restaurantFacilityKey, $restaurantGoogleId, $restaurantName, $restaurantPhoneNumber, $restaurantState, $restaurantType, $restaurantZip);
 							$facilityKeys[] = $restaurantFacilityKey;
 							$restaurant->insert($pdo);
-							var_dump($restaurant);
+//							var_dump($restaurant);
 						} catch(\PDOException $pdoException) {
 							$sqlStateCode = "23000";
-
 
 							$errorInfo = $pdoException->errorInfo;
 							if($errorInfo[0] === $sqlStateCode) {
@@ -159,21 +162,22 @@ class DataDownloader {
 							throw(new \Exception($exception->getMessage(), 0, $exception));
 						}
 					}
-					if(in_array($restaurantViolationId, $violationId) === false) {
+//					if(in_array($restaurantViolationId, $violationId) === false) {
 
 						try {
-							//echo intval(substr($restaurantViolationCode, 0, strpos($restaurantViolationCode, "S")));
 
 							$restaurant = Restaurant::getRestaurantByFacilityKey($pdo, $restaurantFacilityKey);
-							$violation = $violation ?? Violation::getViolationByViolationId($pdo, $restaurantViolationViolationId);
-							var_dump($restaurantViolationDate);
-							$restaurantViolation = new RestaurantViolation($restaurantViolationId, $restaurant->getRestaurantId(), $violation->getViolationId(), $restaurantViolationCompliance, $restaurantViolationDate, $restaurantViolationMemo, $restaurantViolationResults);
+//							$violation = $violation ?? Violation::getViolationByViolationId($pdo, $restaurantViolationViolationId);
+
+//							var_dump($restaurantViolationViolationId);
+							$restaurantViolation = new RestaurantViolation(null, $restaurant->getRestaurantId(), $restaurantViolationViolationId, $restaurantViolationCompliance, $restaurantViolationDate, $restaurantViolationMemo, $restaurantViolationResults);
+//							$restaurantViolation = $restaurantViolation ?? $restaurantViolation::getRestaurantViolationByViolationId($pdo, $restaurantViolation);
 							$violationId[] = $restaurantViolationId;
+							$restaurantViolationId[] = $restaurantViolation;
 							$restaurantViolation->insert($pdo);
 						} catch(\PDOException $pdoException) {
 							$sqlStateCode = "23000";
 
-
 							$errorInfo = $pdoException->errorInfo;
 							if($errorInfo[0] === $sqlStateCode) {
 								//echo "<p>Duplicate</p>";
@@ -183,7 +187,7 @@ class DataDownloader {
 						} catch(\Exception $exception) {
 							throw(new \Exception($exception->getMessage(), 0, $exception));
 						}
-					}
+//					}
 				}
 				fclose($fd);
 			}

@@ -225,3 +225,6 @@ VALUES (57, 18, "57", "Violation(s) and associated correction action(s) are list
 
 INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
 VALUES (58, 18, "58", "Evidence was observed to substantiate complaint.");
+
+INSERT INTO violation (violationId, violationCategoryId, violationCode, violationCodeDescription)
+VALUES (59, 18, "00", "No Violations Found");
