@@ -29,21 +29,37 @@ function googleIdCheck($restaurant, $googleId) {
 		if ($oldGoogleId !== $newGoogleId) {
 			$restaurant->setRestaurantGoogleId($newGoogleId);
 		}
+		$photoId = $response['result']['photos'][0]['photo_reference'];
+		var_dump($photoId);
+		return('https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photoreference='."$photoId".'&key='."$googleKey");
 	}
 }
 
-function googlePictureSearch($restaurant, $googleId) {
+function googlePictureSearch($googleId) {
 	$config = readConfig("/etc/apache2/capstone-mysql/foodquisition.ini");
 	// $config["google"] now exists
 	$googleKey = ($config['google']);
 
-	if($googleId === null) {
-		echo("No Google ID [Should probably return a placeholder image]");
-	} else {
+//	if($googleId === null) {
+//		echo("No Google ID [Should probably return a placeholder image]");
+//	} else {
 		// set up the Google Places call
 		$googlePlaces = new PlacesApi("$googleKey");
 		$response = json_decode($googlePlaces->placeDetails("$googleId"), true);
 		$photoId = $response['result']['photos'][0]['photo_reference'];
-		return("https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photoreference="."$photoId"."&key="."$googleKey");
-	}
+		var_dump($photoId);
+		return('https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photoreference='."$photoId".'&key='."$googleKey");
+}
+
+function testFunction($googleId) {
+	$config = readConfig("/etc/apache2/capstone-mysql/foodquisition.ini");
+	// $config["google"] now exists
+	$googleKey = ($config['google']);
+	$oldGoogleId = $googleId;
+	$googlePlaces = new PlacesApi("$googleKey");
+	$response = json_decode(($googlePlaces->placeDetails("$oldGoogleId")), true);
+//	return($response);
+	$photoId = $response['result']['photos'][0]['photo_reference'];
+	var_dump($photoId);
+	return('https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photoreference='."$photoId".'&key='."$googleKey");
 }

@@ -62,7 +62,8 @@ try {
 				$reply->data = $restaurant;
 				$googleId = $restaurant->getRestaurantGoogleId();
 //				googleIdCheck($restaurant, $googleId);
-				googlePictureSearch($restaurant, $googleId);
+//				googlePictureSearch($googleId);
+				//testFunction($googleId);
 			}
 
 		// Personal note -- in PHP, elseif and else if (two words) are treated identically in these if/else blocks
