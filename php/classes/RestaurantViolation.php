@@ -97,7 +97,7 @@ class RestaurantViolation implements \JsonSerializable {
 	 * mutator method for restaurant violation id
 	 * @param int /null $newRestaurantViolationId new value of restaurant violation id
 	 * @throws \RangeException if $newRestaurantViolationId is not positive
-	 * @throws \TypeError if $newRestaurantViolationId is not an integ
+	 * @throws \TypeError if $newRestaurantViolationId is not an integer
 	 **/
 	public function setRestaurantViolationId(?int $newRestaurantViolationId): void {
 		//if restaurant Violation id is null immediately return it
@@ -181,7 +181,7 @@ class RestaurantViolation implements \JsonSerializable {
 			throw(new \InvalidArgumentException("restaurant violation compliance is empty or insecure"));
 		}
 		// verify the restaurant violation compliance will fit in the database
-		if(strlen($newRestaurantViolationCompliance) > 255) {
+		if(strlen($newRestaurantViolationCompliance) > 17) {
 			throw(new \RangeException("restaurant violation compliance too large"));
 		}
 		//store the restaurant violation compliance
@@ -192,9 +192,6 @@ class RestaurantViolation implements \JsonSerializable {
  *
  * @return \DateTime value of restaurant violation date
  **/
-	/**
-	 * @return \DateTime
-	 */
 	public function getRestaurantViolationDate() : \DateTime {
 		return($this->restaurantViolationDate);
 	}

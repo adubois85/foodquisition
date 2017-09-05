@@ -1,25 +1,29 @@
-/****************************
-* Home Page
-*****************************/
-
-body {
-	background-image: url("../images/restaurant.jpg");
-	background-attachment: fixed;
+.background {
 	background-size: cover;
+	background-attachment: fixed;
+	background-image: url(../images/food1.jpg);
+	background-position: center;
+	background-repeat: no-repeat;
+	height: 100%;
 }
-
-.search {
-	padding-top: 15rem;
-}
-
-main .jumbotron {
-	background: transparent;
-}
-
-main .panel {
-	opacity: 0.90;
-}
-
-main p {
+h1{
 	text-align: center;
+	font-size: 6rem;
+	color: whitesmoke;
+	text-shadow: 2px 2px #629f6b;
+}
+.search-bar form {
+	margin: auto;
+	text-align: center;
+
+
+}
+.search-input{
+	padding: 5px;
+	border-radius: 50px;
+	height: 40px;
+	width: 450px;
+}
+.card{
+
 }
