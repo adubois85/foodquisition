@@ -1,0 +1,25 @@
+/****************************
+* Home Page
+*****************************/
+
+body {
+	background-image: url("../images/restaurant.jpg");
+	background-attachment: fixed;
+	background-size: cover;
+}
+
+.search {
+	padding-top: 15rem;
+}
+
+main .jumbotron {
+	background: transparent;
+}
+
+main .panel {
+	opacity: 0.90;
+}
+
+main p {
+	text-align: center;
+}
