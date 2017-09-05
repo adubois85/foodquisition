@@ -21,7 +21,31 @@
 		<link type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" />
 		<title>Foodquisition search cards</title>
 	</head>
+
 	<body class="background">
+		<div class="col-md-6">
+			<!--Image Card-->
+			<div class="card hoverable">
+				<div class="card-image">
+					<div class="view overlay hm-white-slight z-depth-1">
+						<img src="images/food.jpg" class="img-responsive" alt="">
+						<a href="#">
+							<div class="mask waves-effect"></div>
+						</a>
+					</div>
+				</div>
+				<div class="card-content">
+					<h5>Taco Bell</h5>
+					<p>2345 larry ln ne </p>
+				</div>
+				<!--Buttons-->
+				<div class="card-btn text-center">
+					<a href="#" class="btn btn-primary btn-md waves-effect waves-light">Read more</a>
+				</div>
+				<!--/.Buttons-->
+			</div>
+			<!--Image Card-->
+		</div>
 
 
 
