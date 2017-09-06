@@ -1,3 +1,3 @@
-export class Post {
+export class Restaurant {
 	constructor(public restaurantId: number, public restaurantAddress1: string, public restaurantAddress2: string, public restaurantCity: string, public restaurantFacilityKey: string, public restaurantGoogleId: string, public restaurantName: string, public restaurantPhoneNumber: string, public restaurantState: string, public restaurantType: string, public restaurantZip: string) {}
 }
