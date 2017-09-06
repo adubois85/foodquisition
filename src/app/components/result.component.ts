@@ -3,7 +3,7 @@ import {ActivatedRoute, Params} from "@angular/router";
 import {Observable} from "rxjs";
 
 @Component({
-	templateUrl: "./templates/card.html"
+	templateUrl: "./templates/result.html"
 })
 
-export class CardComponent {}
+export class HomeComponent {}
