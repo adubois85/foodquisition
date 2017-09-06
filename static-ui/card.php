@@ -1,4 +1,4 @@
-<?php require_once("lib/head-utils.html"); ?>
+<?php require_once("lib/head-utils.php"); ?>
 	<body class="card">
 		<div class="panel panel-default">
 			<div class="panel-body row" >
