@@ -19,8 +19,8 @@ export class RestaurantService extends BaseService {
 			.catch(this.handleError));
 	}
 
-	getRestaurantByName(RestaurantId : number) : Observable<Restaurant> {
-		return(this.http.get(this.restaurantUrl + RestaurantId)
+	getRestaurantByName(restauarantName: string) : Observable<Restaurant> {
+		return(this.http.get(this.restaurantUrl + restauarantName)
 			.map(this.extractData)
 			.catch(this.handleError));
 	}

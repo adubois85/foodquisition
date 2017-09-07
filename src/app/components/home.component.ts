@@ -11,12 +11,19 @@ import {Status} from "../classes/status";
 
 export class HomeComponent {
 
-	resstaurants : Restaurant[] = [];
-	status : Status = null;
+	restaurantName: string = ""; // search term for restaurant-search
+	restaurantResults: Restaurant[] = [];
+	status: Status = null;
 
 	constructor(protected restaurantService: RestaurantService) {}
 
-	ngOnInit() : void {
-		this.getRestaurant();
+	ngOnInit(): void {
+		this.getRestaurantByName();
+	}
+
+	getRestaurantByName(): void {
+
+		this.restaurantService.getRestaurantByName(this.restaurantName).subscribe(restaurants=>this.restaurantResults=restaurant);
 	}
 }
+

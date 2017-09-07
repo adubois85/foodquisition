@@ -11,5 +11,8 @@ import {Status} from "../classes/status";
 @Component({
 	templateUrl: "./templates/result.html"
 })
-export class
+export class ResultComponent implements OnInit {
+	status: Status = null;
+
+}
 
