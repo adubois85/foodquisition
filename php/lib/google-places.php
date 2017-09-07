@@ -84,11 +84,20 @@ function testFunction($restaurant, $googleId) {
 	return($image);
 }
 
-function googleSingle($restaurant, $googleId) {
+/**
+ * Google Places API calls
+ *
+ * @param $restaurant the restaurant object that we are getting information about
+ * @param $googleId the Google Places ID of the restaurant; it is possibly null, either because we haven't queried
+ * 		  Google for it yet or because Google can't find it.
+ * @return mixed -- Will update a restaurant's google ID in the database if it can; will give the first image associated
+ *			   with that place from Google if it can (as raw data for Angular front-end)
+ */
+
+function googleSingle($restaurant, $googleId, $position = 0) {
 	$config = readConfig("/etc/apache2/capstone-mysql/foodquisition.ini");
 	// $config["google"] now exists
 	$googleKey = ($config['google']);
-	$photoId = "";
 	// set up the Google Places call
 	$googlePlaces = new PlacesApi("$googleKey");
 	// if a Restaurant doesn't have a Google ID, then try to find one and add it
@@ -101,14 +110,22 @@ function googleSingle($restaurant, $googleId) {
 		// we'll assume that the first returned result is the correct one
 		if($response['status'] === 'OK') {
 			$restaurant->setRestaurantGoogleId($response['results'][0]['place_id']);
-			$photoId = $response['results']['photos'][0];
+			$this->update($restaurant);
+			$attribution = $response['results'][$position]['photos'][0]['html_attributions'][0];
+			$photoId = $response['results'][$position]['photos'][0]['photo_reference'];
+			return $photoId & $attribution;
 		}
 	} else {
-		$response = json_decode(($googlePlaces->placeDetails("$oldGoogleId")), true);
+		$response = json_decode(($googlePlaces->placeDetails("$googleId")), true);
+		if($response['status'] === 'OK') {
+			$attribution = $response['result']['photos'][0]['html_attributions'][0];
+			$photoId = $response['result']['photos'][0];
+			return $photoId;
+		}
+	}
+	if($photoId === null) {
+		// [TODO: Alex -- should return a placeholder image if it couldn't get one from Google]
+	} else {
 
 	}
-
-
-
-
 }

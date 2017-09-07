@@ -64,7 +64,7 @@ try {
 //				googleIdCheck($restaurant, $googleId);
 //				googlePictureSearch($googleId);
 //				testFunction($restaurant, $googleId);
-				googleSingle($restaurant, $googleId);
+//				googleSingle($restaurant, $googleId);
 			}
 
 		// Personal note -- in PHP, elseif and else if (two words) are treated identically in these if/else blocks
