@@ -1,4 +1,7 @@
 <?php require_once("lib/head-utils.php"); ?>
+<!-- insert header and navbar -->
+<?php require_once("lib/header.php");?>
+
 <body class="card">
 	<div class="panel panel-default">
 		<div class="panel-body row" >

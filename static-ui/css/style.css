@@ -1,11 +1,57 @@
+
+/** Back button ****/
+.button {
+	border-radius: 4px;
+	background-color: #337ab7;
+	border: none;
+	color: #FFFFFF;
+	text-align: center;
+	font-size: 28px;
+	padding: 10px;
+	width: 15rem;
+	transition: all 0.5s;
+	cursor: pointer;
+	margin: 5px;
+	padding-left:16px
+}
+.button:hover {
+	background-color: #286090;
+}
+
+.button span {
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	transition: 0.5s;
+}
+
+.button span:after {
+	content: '\00ab';
+	position: absolute;
+	opacity: 0;
+	top: 0;
+	left: -20px;
+	transition: 0.5s;
+}
+
+.button:hover span {
+	padding-left: 25px;
+}
+
+.button:hover span:after {
+	opacity: 1;
+	left: 0;
+}
 /****************************
 * Home Page
 *****************************/
 
 body {
 	background-image: url("../images/restaurant.jpg");
-	background-attachment: fixed;
+	/*background-attachment: fixed;*/
 	background-size: cover;
+	background-repeat: no-repeat;
+
 }
 
 .search {
@@ -36,4 +82,9 @@ ul {
 /********* Result Panel *****************/
 .center {
 	text-align: center;
+}
+ /****** Navbar *******/
+.navbar-default {
+	background-color: rgba(0,0,0,0);
+	border-color: rgba(0,0,0,0);
 }
