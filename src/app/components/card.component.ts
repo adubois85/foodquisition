@@ -1,8 +1,9 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Observable} from "rxjs";
-import {RestaurantService} from "../services/restaurant.service"
-import {Restaurant} from "../classes/restaurant"
+import {RestaurantService} from "../services/restaurant.service";
+import {Restaurant} from "../classes/restaurant";
+import {RestaurantViolation} from "../classes/restaurantViolation";
 import {Status} from "../classes/status";
 
 @Component({
@@ -24,5 +25,8 @@ export class CardComponent {
 	getRestaurantByName(): void {
 
 		this.restaurantService.getRestaurantByName(this.restaurantName).subscribe(restaurants=>this.restaurantResults=restaurants);
+	}
+	getRestaurantViolationCompliance(): void{
+
 	}
 }
