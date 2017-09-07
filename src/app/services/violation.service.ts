@@ -24,10 +24,4 @@ export class ViolationService extends BaseService {
 			.map(this.extractData)
 			.catch(this.handleError));
 	}
-
-	createPost(violation : Violation) : Observable<Status> {
-		return(this.http.post(this.violationUrl, violation)
-			.map(this.extractMessage)
-			.catch(this.handleError));
-	}
 }

@@ -25,9 +25,4 @@ export class CategoryService extends BaseService {
 			.catch(this.handleError));
 	}
 
-	createCategory(category : Category) : Observable<Status> {
-		return(this.http.post(this.categoryUrl, category)
-			.map(this.extractMessage)
-			.catch(this.handleError));
-	}
 }

@@ -24,10 +24,4 @@ export class RestaurantViolationService extends BaseService {
 			.map(this.extractData)
 			.catch(this.handleError));
 	}
-
-	createRestaurantViolation(restaurantViolation : RestaurantViolation) : Observable<Status> {
-		return(this.http.post(this.restaurantViolationUrl, restaurantViolation)
-			.map(this.extractMessage)
-			.catch(this.handleError));
-	}
 }

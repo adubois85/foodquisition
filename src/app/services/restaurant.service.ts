@@ -25,9 +25,4 @@ export class RestaurantService extends BaseService {
 			.catch(this.handleError));
 	}
 
-	createPost(post : Restaurant) : Observable<Status> {
-		return(this.http.post(this.postUrl, post)
-			.map(this.extractMessage)
-			.catch(this.handleError));
-	}
 }
