@@ -23,7 +23,7 @@ export class HomeComponent {
 
 	getRestaurantByName(): void {
 
-		this.restaurantService.getRestaurantByName(this.restaurantName).subscribe(restaurants=>this.restaurantResults=restaurant);
+		this.restaurantService.getRestaurantByName(this.restaurantName).subscribe(restaurants=>this.restaurantResults=restaurants);
 	}
 }
 
