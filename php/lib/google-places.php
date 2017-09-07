@@ -3,6 +3,7 @@
  * Functions for handling Google Places API calls
  */
 use SKAgarwal\GoogleApi\PlacesApi;
+/*
 
 // Check if the restaurant has a Google Id, query google for one if it doesn't
 function googleIdCheck($restaurant, $googleId) {
@@ -83,11 +84,11 @@ function testFunction($restaurant, $googleId) {
 	var_dump($image);
 	return($image);
 }
-
+*/
 /**
  * Google Places API calls
  *
- * @param $restaurant Restaurant object that we are getting information about
+ * @param $restaurant /Restaurant object that we are getting information about
  * @param $googleId restaurantGoogleId of the restaurant; it is possibly null, either because we haven't queried
  * 		  Google for it yet or because Google can't find it.
  * @param $position array position of the passed object; if it is only a single restaurant object, it will be the 0 position
@@ -96,6 +97,9 @@ function testFunction($restaurant, $googleId) {
  */
 
 function googleSingle($restaurant, $googleId, $position = 0) {
+	// grab the mySQL connection
+	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/foodquisition.ini");
+
 	$config = readConfig("/etc/apache2/capstone-mysql/foodquisition.ini");
 	// $config["google"] now exists
 	$googleKey = ($config['google']);
@@ -111,7 +115,7 @@ function googleSingle($restaurant, $googleId, $position = 0) {
 		// we'll assume that the first returned result is the correct one
 		if($response['status'] === 'OK') {
 			$restaurant->setRestaurantGoogleId($response['results'][0]['place_id']);
-			$this->update($restaurant);
+			$restaurant->update($pdo);
 			$attribution = $response['results'][$position]['photos'][0]['html_attributions'][0];
 			$photoId = $response['results'][$position]['photos'][0]['photo_reference'];
 			return $photoId & $attribution;
@@ -121,7 +125,6 @@ function googleSingle($restaurant, $googleId, $position = 0) {
 		if($response['status'] === 'OK') {
 			$attribution = $response['result']['photos'][0]['html_attributions'][0];
 			$photoId = $response['result']['photos'][0];
-			return $photoId;
 		}
 	}
 	if($photoId === null) {
@@ -130,7 +133,6 @@ function googleSingle($restaurant, $googleId, $position = 0) {
 	} else {
 		// Search Google for the image ID we found above, encode it into raw data to pass off to the front-end (Angular)
 		$image = base64_encode(file_get_contents("https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photoreference=$photoId&key=$googleKey"));
-		return $image;
 	}
 	return $image & $attribution;
 }
