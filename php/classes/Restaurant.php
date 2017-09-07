@@ -520,7 +520,7 @@ class Restaurant implements \JsonSerializable {
 	public function update(\PDO $pdoUpdate) : void {
 		// first check if the restaurantId is null -- that is, don't update a restaurnt that hasn't been insterted yet
 		if ($this->restaurantId === null) {
-			throw(new \PDOException("Unable to update a restaurant that does not exist."))
+			throw(new \PDOException("Unable to update a restaurant that does not exist."));
 		}
 		// next we prep the command to be passed to the database
 		$queryUpdate = "UPDATE restaurant SET restaurantAddress1 = :restaurantAddress1, restaurantAddress2 =  :restaurantAddress2, restaurantCity = :restaurantCity, restaurantFacilityKey = :restaurantFacilityKey, restaurantGoogleId = :restaurantGoogleId, restaurantName = :restaurantName, restaurantPhoneNumber =  :restaurantPhoneNumber, restaurantState = :restaurantState, restaurantType = :restaurantType, restaurantZip = :restaurantZip WHERE restaurantId = :restaurantId";
