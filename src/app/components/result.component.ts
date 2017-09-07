@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, Input, OnInit} from "@angular/core";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Observable} from "rxjs";
 import {Restaurant} from "../classes/restaurant";
@@ -12,7 +12,7 @@ import {Status} from "../classes/status";
 	templateUrl: "./templates/result.html"
 })
 export class ResultComponent implements OnInit {
-	status: Status = null;
+	@Input() result:
 
 }
 
