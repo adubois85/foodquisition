@@ -162,6 +162,16 @@ class RestaurantTest extends FoodquisitionTest{
 		$this->assertEquals($pdoRestaurant->getRestaurantZip(), $this->VALID_RESTAURANT_ZIP);
 	}
 
+	/**
+	 * A test that attempts to update a restaurant that does not exist
+	 *
+	 * @expectedException \PDOException
+	 */
+	public function testUpdateInvalidRestaurant() : void {
+		// create a restaurant entity and try to update it without inserting it first; it should fail
+		$restaurant = new Restaurant(null, $this->VALID_RESTAURANT_ADDRESS1, $this->VALID_RESTAURANT_ADDRESS2, $this->VALID_RESTAURANT_CITY, $this->VALID_RESTAURANT_FACILITY_KEY, $this->VALID_RESTAURANT_GOOGLE_ID, $this->VALID_RESTAURANT_NAME, $this->VALID_RESTAURANT_PHONE_NUMBER, $this->VALID_RESTAURANT_STATE, $this->VALID_RESTAURANT_TYPE, $this->VALID_RESTAURANT_ZIP);
+		$restaurant->update($this->getPDO());
+	}
 
 	/**
 	 * A test that inserts a valid new restaurant entity into the database, then verifies
