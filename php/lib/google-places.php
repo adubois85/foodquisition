@@ -118,7 +118,6 @@ function googleSingle($restaurant, $googleId, $position = 0) {
 			$restaurant->update($pdo);
 			$attribution = $response['results'][$position]['photos'][0]['html_attributions'][0];
 			$photoId = $response['results'][$position]['photos'][0]['photo_reference'];
-			return $photoId & $attribution;
 		}
 	} else {
 		$response = json_decode(($googlePlaces->placeDetails("$googleId")), true);
@@ -134,5 +133,8 @@ function googleSingle($restaurant, $googleId, $position = 0) {
 		// Search Google for the image ID we found above, encode it into raw data to pass off to the front-end (Angular)
 		$image = base64_encode(file_get_contents("https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photoreference=$photoId&key=$googleKey"));
 	}
-	return $image & $attribution;
+	$googleImage = new stdClass();
+	$googleImage->image = $image;
+	$googleImage->attribution = $attribution;
+	return $googleImage;
 }
