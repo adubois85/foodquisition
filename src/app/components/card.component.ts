@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, OnInit, ViewChild} from "@angular/core";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Observable} from "rxjs";
 import {RestaurantService} from "../services/restaurant.service"
@@ -9,8 +9,8 @@ import {Status} from "../classes/status";
 	templateUrl: "./templates/home.html"
 })
 
-export class HomeComponent {
-
+export class CardComponent {
+	@ViewChild("cardForm") cardForm : any;
 	restaurantName: string = ""; // search term for restaurant-search
 	restaurantResults: Restaurant[] = [];
 	status: Status = null;
