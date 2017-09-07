@@ -87,9 +87,10 @@ function testFunction($restaurant, $googleId) {
 /**
  * Google Places API calls
  *
- * @param $restaurant the restaurant object that we are getting information about
- * @param $googleId the Google Places ID of the restaurant; it is possibly null, either because we haven't queried
+ * @param $restaurant Restaurant object that we are getting information about
+ * @param $googleId restaurantGoogleId of the restaurant; it is possibly null, either because we haven't queried
  * 		  Google for it yet or because Google can't find it.
+ * @param $position array position of the passed object; if it is only a single restaurant object, it will be the 0 position
  * @return mixed -- Will update a restaurant's google ID in the database if it can; will give the first image associated
  *			   with that place from Google if it can (as raw data for Angular front-end)
  */
@@ -125,7 +126,11 @@ function googleSingle($restaurant, $googleId, $position = 0) {
 	}
 	if($photoId === null) {
 		// [TODO: Alex -- should return a placeholder image if it couldn't get one from Google]
+		echo("No Image available");
 	} else {
-
+		// Search Google for the image ID we found above, encode it into raw data to pass off to the front-end (Angular)
+		$image = base64_encode(file_get_contents("https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photoreference=$photoId&key=$googleKey"));
+		return $image;
 	}
+	return $image & $attribution;
 }
