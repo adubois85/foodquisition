@@ -88,7 +88,7 @@ function googleSingle($restaurant, $googleId) {
 	$config = readConfig("/etc/apache2/capstone-mysql/foodquisition.ini");
 	// $config["google"] now exists
 	$googleKey = ($config['google']);
-	$photoId = ;
+	$photoId = "";
 	// set up the Google Places call
 	$googlePlaces = new PlacesApi("$googleKey");
 	// if a Restaurant doesn't have a Google ID, then try to find one and add it
@@ -101,7 +101,7 @@ function googleSingle($restaurant, $googleId) {
 		// we'll assume that the first returned result is the correct one
 		if($response['status'] === 'OK') {
 			$restaurant->setRestaurantGoogleId($response['results'][0]['place_id']);
-			$photoId = $response['results']['photos'][0]
+			$photoId = $response['results']['photos'][0];
 		}
 	} else {
 		$response = json_decode(($googlePlaces->placeDetails("$oldGoogleId")), true);

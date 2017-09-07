@@ -511,6 +511,28 @@ class Restaurant implements \JsonSerializable {
 	}
 
 	/**
+	 * Method to update this restaurant in the database
+	 *
+	 * @param \PDO $pdoUpdate the PDO connection object
+	 * @throws \PDOException due to mySQL related issues
+	 * @throws \TypeError if $pdoUpdate is not a PDO connection object
+	 **/
+	public function update(\PDO $pdoUpdate) : void {
+		// first check if the restaurantId is null -- that is, don't update a restaurnt that hasn't been insterted yet
+		if ($this->restaurantId === null) {
+			throw(new \PDOException("Unable to update a restaurant that does not exist."))
+		}
+		// next we prep the command to be passed to the database
+		$queryUpdate = "UPDATE restaurant SET restaurantAddress1 = :restaurantAddress1, restaurantAddress2 =  :restaurantAddress2, restaurantCity = :restaurantCity, restaurantFacilityKey = :restaurantFacilityKey, restaurantGoogleId = :restaurantGoogleId, restaurantName = :restaurantName, restaurantPhoneNumber =  :restaurantPhoneNumber, restaurantState = :restaurantState, restaurantType = :restaurantType, restaurantZip = :restaurantZip WHERE restaurantId = :restaurantId";
+		$preppedUpdate = $pdoUpdate->prepare($queryUpdate);
+
+
+		// we have to sub out the placeholder values beofre submitting
+		$parameters = ["restaurantId" => $this->restaurantId, "restaurantAddress1" => $this->restaurantAddress1, "restaurantAddress2" => $this->restaurantAddress2, "restaurantCity" => $this->restaurantCity, "restaurantFacilityKey" => $this->restaurantFacilityKey, "restaurantGoogleId" => $this->restaurantGoogleId, "restaurantName" => $this->restaurantName, "restaurantPhoneNumber" => $this->restaurantPhoneNumber, "restaurantState" => $this->restaurantState, "restaurantType" => $this->restaurantType, "restaurantZip" => $this->restaurantZip];
+		$preppedUpdate->execute($parameters);
+	}
+
+	/**
 	 * Method for getting a restaurant entity by its restaurantId (primary key)
 	 *
 	 * @param \PDO $pdo the PDO connection object
