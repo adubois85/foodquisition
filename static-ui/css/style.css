@@ -16,9 +16,9 @@ main .jumbotron {
 	background: transparent;
 }
 
-main .panel {
-	opacity: 0.90;
-}
+/*main .panel {*/
+	/*opacity: 0.90;*/
+/*}*/
 
 main p {
 	text-align: center;

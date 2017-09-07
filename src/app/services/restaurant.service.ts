@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
-import {BaseService} from "./base-service";
+import {BaseService} from "./base.service";
 import {Restaurant} from "../classes/restaurant";
 import {Status} from "../classes/status";
 
@@ -11,16 +11,16 @@ export class RestaurantService extends BaseService {
 		super(http);
 	}
 
-	private postUrl = "apis/post/";
+	private restaurantUrl = "apis/restaurant/";
 
 	getAllRestaurants() : Observable<Restaurant[]> {
-		return(this.http.get(this.postUrl)
+		return(this.http.get(this.restaurantUrl)
 			.map(this.extractData)
 			.catch(this.handleError));
 	}
 
-	getRestaurantByRestaurantName(RestaurantId : number) : Observable<Restaurant> {
-		return(this.http.get(this.postUrl + RestaurantId)
+	getRestaurantByName(RestaurantId : number) : Observable<Restaurant> {
+		return(this.http.get(this.restaurantUrl + RestaurantId)
 			.map(this.extractData)
 			.catch(this.handleError));
 	}
