@@ -67,7 +67,7 @@ function testFunction($restaurant, $googleId) {
 	$query = str_replace(" ", "+",$restaurant->getRestaurantName() ."+". $restaurant->getRestaurantAddress1() ."+". $restaurant->getRestaurantCity());
 //	var_dump($query);
 	$response = json_decode(($googlePlaces->textSearch("$query")), true);
-//	var_dump($response);
+	var_dump($response);
 	$restaurant->setRestaurantGoogleId($response['results'][0]['place_id']);
 
 	$oldGoogleId = $restaurant->getRestaurantGoogleId();
@@ -84,24 +84,29 @@ function testFunction($restaurant, $googleId) {
 	return($image);
 }
 
-function googleOmni($restaurant, $googleId) {
+function googleSingle($restaurant, $googleId) {
 	$config = readConfig("/etc/apache2/capstone-mysql/foodquisition.ini");
 	// $config["google"] now exists
 	$googleKey = ($config['google']);
-
+	$photoId = ;
 	// set up the Google Places call
 	$googlePlaces = new PlacesApi("$googleKey");
 	// if a Restaurant doesn't have a Google ID, then try to find one and add it
 	if($googleId === null) {
 		// we need to be specific when searching Google's database so we don't get similarly named places back
-		$query = str_replace(" ", "+",$restaurant->getRestaurantName() ."+". $restaurant->getRestaurantAddress1() ."+". $restaurant->getRestaurantCity());
+		$query = str_replace(" ", "+", $restaurant->getRestaurantName() . "+" . $restaurant->getRestaurantAddress1() . "+" . $restaurant->getRestaurantCity());
 		$response = json_decode(($googlePlaces->textSearch("$query")), true);
 		//var_dump($response);
 		// check if the response came back from Google OK and set the place ID, otherwise do nothing
-		if($response['status'] === 'OK'){
+		// we'll assume that the first returned result is the correct one
+		if($response['status'] === 'OK') {
 			$restaurant->setRestaurantGoogleId($response['results'][0]['place_id']);
+			$photoId = $response['results']['photos'][0]
 		}
+	} else {
+		$response = json_decode(($googlePlaces->placeDetails("$oldGoogleId")), true);
 
+	}
 
 
 
