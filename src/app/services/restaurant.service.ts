@@ -19,6 +19,8 @@ export class RestaurantService extends BaseService {
 			.catch(this.handleError));
 	}
 
+	//public_html/api/restaurant/?restaurantName=tacobell
+
 
 
 }

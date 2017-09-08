@@ -23,15 +23,13 @@ export class CardComponent {
 
 	ngOnInit(): void {
 		this.getRestaurantByName();
-		this.getRestaurantViolationCompliance()
+
 	}
 
 	getRestaurantByName(): void {
 
 		this.restaurantService.getRestaurantByName(this.restaurantName).subscribe(restaurants=>this.restaurantResults=restaurants);
 	}
-	getRestaurantViolationCompliance(): void{
 
-		this.restaurantViolationService.getRestaurantViolationCompliance(this.restaurantViolationResults).subscribe(restaurantViolation=>this.)
-	}
+
 }
