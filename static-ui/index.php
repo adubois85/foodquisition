@@ -15,7 +15,7 @@
 									<form class="">
 										<div class="form-group">
 											<label class="sr-only">Search</label>
-											<p class="">Foodquisition: Where Can We Eat Tonight</p>
+											<p class="">Foodquisition: Where Can We Eat Tonight?</p>
 										</div>
 										<div class="form-group">
 											<label for="restaurantSearch" class="sr-only">Restaurant</label>
