@@ -105,6 +105,7 @@ function googleSingle($restaurant, $googleId, $position = 0) {
 	$googleKey = ($config['google']);
 	// set up the Google Places call
 	$googlePlaces = new PlacesApi("$googleKey");
+	$googleImage = new stdClass();
 	// if a Restaurant doesn't have a Google ID, then try to find one and add it
 	if($googleId === null) {
 		// we need to be specific when searching Google's database so we don't get similarly named places back
@@ -117,24 +118,29 @@ function googleSingle($restaurant, $googleId, $position = 0) {
 			$restaurant->setRestaurantGoogleId($response['results'][0]['place_id']);
 			$restaurant->update($pdo);
 			$attribution = $response['results'][$position]['photos'][0]['html_attributions'][0];
+			$googleImage->attribution = $attribution;
 			$photoId = $response['results'][$position]['photos'][0]['photo_reference'];
+			$googleImage->photoId = $photoId;
 		}
 	} else {
 		$response = json_decode(($googlePlaces->placeDetails("$googleId")), true);
-		if($response['status'] === 'OK') {
+		if($response['status'] === 'OK' && isset($response['result']['photos'])) {
 			$attribution = $response['result']['photos'][0]['html_attributions'][0];
-			$photoId = $response['result']['photos'][0];
+			$googleImage->attribution = $attribution;
+			$photoId = $response['result']['photos'][0]['photo_reference'];
+			$googleImage->photoId = $photoId;
 		}
 	}
-	if($photoId === null) {
+	if(isset($googleImage->photoId) === false) {
 		// [TODO: Alex -- should return a placeholder image if it couldn't get one from Google]
 		echo("No Image available");
 	} else {
+		//	var_dump($array);
 		// Search Google for the image ID we found above, encode it into raw data to pass off to the front-end (Angular)
-		$image = base64_encode(file_get_contents("https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photoreference=$photoId&key=$googleKey"));
+		$image = base64_encode(file_get_contents("https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photoreference=$googleImage->photoId&key=$googleKey"));
+		$googleImage->image = $image;
+		$googleImage->attribution = $attribution;
 	}
-	$googleImage = new stdClass();
-	$googleImage->image = $image;
-	$googleImage->attribution = $attribution;
+	var_dump($googleImage);
 	return $googleImage;
 }
