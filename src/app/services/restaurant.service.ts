@@ -19,4 +19,6 @@ export class RestaurantService extends BaseService {
 			.catch(this.handleError));
 	}
 
+
+
 }
