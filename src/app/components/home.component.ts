@@ -15,7 +15,7 @@ export class HomeComponent {
 	restaurantResults: Restaurant[] = [];
 	status: Status = null;
 
-	constructor(protected restaurantService: RestaurantService) {}
+	constructor(private restaurantService: RestaurantService) {}
 
 	ngOnInit(): void {
 		this.getRestaurantByName();

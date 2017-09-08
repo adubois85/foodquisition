@@ -114,7 +114,7 @@ class DataDownloader {
 				while((($data = fgetcsv($fd, 0, ",")) !== false) && feof($fd) === false) {
 					$restaurantId = null;
 					$restaurantAddress1 = substr($data[2], 0, 128);
-					$restaurantAddress2 = $data[0];
+					$restaurantAddress2 = null;
 					$restaurantCity = $data[3];
 					$restaurantFacilityKey = $data[1];
 					$restaurantGoogleId = null;

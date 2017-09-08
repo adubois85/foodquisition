@@ -15,12 +15,15 @@ export class CardComponent {
 	@ViewChild("cardForm") cardForm : any;
 	restaurantName: string = ""; // search term for restaurant-search
 	restaurantResults: Restaurant[] = [];
+	restaurantViolationResults: RestaurantViolation[] = [];
+
 	status: Status = null;
 
-	constructor(protected restaurantService: RestaurantService) {}
+	constructor(private restaurantService: RestaurantService, private restaurantViolationService: RestaurantViolationService) {}
 
 	ngOnInit(): void {
 		this.getRestaurantByName();
+		this.getRestaurantViolationCompliance()
 	}
 
 	getRestaurantByName(): void {
@@ -29,5 +32,6 @@ export class CardComponent {
 	}
 	getRestaurantViolationCompliance(): void{
 
+		this.restaurantViolationService.getRestaurantViolationCompliance(this.restaurantViolationResults).subscribe(restaurantViolation=>this.)
 	}
 }
