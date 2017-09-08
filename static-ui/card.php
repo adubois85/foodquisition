@@ -10,7 +10,7 @@
 				</div>
 				<div class="col-md-4">
 					<h1>Taco Bell</h1>
-					<p>1524 West Elm st. SW ALbuquerque,NM 87104</p> <br>
+					<p>1524 West Elm St. SW Albuquerque, NM 87104</p> <br>
 					<p>Get all of your yummy food needs here</p>
 				</div>
 				<div class="col-md-4">
