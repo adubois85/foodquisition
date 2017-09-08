@@ -1,13 +1,14 @@
 import {Component, OnInit, ViewChild} from "@angular/core";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Observable} from "rxjs";
-import {RestaurantService} from "../services/restaurant.service";
+import {RestaurantService} from "../services/restaurant.service"
+import {RestaurantViolationService} from "../services/restaurantViolation.service"
 import {Restaurant} from "../classes/restaurant";
 import {RestaurantViolation} from "../classes/restaurantViolation";
 import {Status} from "../classes/status";
 
 @Component({
-	templateUrl: "./templates/home.html"
+	templateUrl: "./templates/card.html"
 })
 
 export class CardComponent {
