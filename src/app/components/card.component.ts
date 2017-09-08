@@ -7,7 +7,7 @@ import {RestaurantViolation} from "../classes/restaurantViolation";
 import {Status} from "../classes/status";
 
 @Component({
-	templateUrl: "./templates/home.html"
+	templateUrl: "./templates/card.html"
 })
 
 export class CardComponent {
