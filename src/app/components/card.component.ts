@@ -12,24 +12,24 @@ import {Status} from "../classes/status";
 })
 
 export class CardComponent {
-	@ViewChild("cardForm") cardForm : any;
-	restaurantName: string = ""; // search term for restaurant-search
-	restaurantResults: Restaurant[] = [];
-	restaurantViolationResults: RestaurantViolation[] = [];
-
-	status: Status = null;
-
-	constructor(private restaurantService: RestaurantService, private restaurantViolationService: RestaurantViolationService) {}
-
-	ngOnInit(): void {
-		this.getRestaurantByName();
-
-	}
-
-	getRestaurantByName(): void {
-
-		this.restaurantService.getRestaurantByName(this.restaurantName).subscribe(restaurants=>this.restaurantResults=restaurants);
-	}
+	// @ViewChild("cardForm") cardForm : any;
+	// restaurantName: string = ""; // search term for restaurant-search
+	// restaurantResults: Restaurant[] = [];
+	// restaurantViolationResults: RestaurantViolation[] = [];
+	//
+	// status: Status = null;
+	//
+	// constructor(private restaurantService: RestaurantService, private restaurantViolationService: RestaurantViolationService) {}
+	//
+	// ngOnInit(): void {
+	// 	this.getRestaurantByName();
+	//
+	// }
+	//
+	// getRestaurantByName(): void {
+	//
+	// 	this.restaurantService.getRestaurantByName(this.restaurantName).subscribe(restaurants=>this.restaurantResults=restaurants);
+	// }
 
 
 }

@@ -17,6 +17,6 @@ export const routes: Routes = [
 	{path: "**", redirectTo: ""}
 ];
 
-export const appRoutingProviders: any[] = [PostService];
+export const appRoutingProviders: any[] = [];
 
 export const routing = RouterModule.forRoot(routes);

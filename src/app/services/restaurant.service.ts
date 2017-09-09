@@ -14,7 +14,7 @@ export class RestaurantService extends BaseService {
 	private restaurantUrl = "apis/restaurant/";
 
 	getRestaurantByName(restauarantName: string) : Observable<Restaurant[]> {
-		return(this.http.get(this.restaurantUrl + restauarantName)
+		return(this.http.get(this.restaurantUrl + "? restaurantId=" + restauarantName)
 			.map(this.extractData)
 			.catch(this.handleError));
 	}
