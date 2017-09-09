@@ -10,20 +10,20 @@ import {Status} from "../classes/status";
 })
 
 export class HomeComponent {
-	//
-	// restaurantName: string = ""; // search term for restaurant-search
-	// restaurantResults: Restaurant[] = [];
-	// status: Status = null;
-	//
-	// constructor(private restaurantService: RestaurantService) {}
-	//
-	// ngOnInit(): void {
-	// 	this.getRestaurantByName();
-	// }
-	//
-	// getRestaurantByName(): void {
-	//
-	// 	this.restaurantService.getRestaurantByName(this.restaurantName).subscribe(restaurants=>this.restaurantResults=restaurants);
-	// }
+
+	restaurantName: string = ""; // search term for restaurant-search
+	restaurantResults: Restaurant[] = [];
+	status: Status = null;
+
+	constructor(private restaurantService: RestaurantService) {}
+
+	ngOnInit(): void {
+
+	}
+
+	getRestaurantByName(name : string): void {
+
+		this.restaurantService.getRestaurantByName(name).subscribe(restaurants=>this.restaurantResults=restaurants);
+	}
 }
 

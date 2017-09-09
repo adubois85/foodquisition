@@ -29,17 +29,17 @@
     "url": "https://github.com/adubois85/foodquisition"
   },
   "dependencies": {
-    "@angular/common": "~4.1.1",
-    "@angular/compiler": "~4.1.1",
-    "@angular/core": "~4.1.1",
-    "@angular/forms": "~4.1.1",
-    "@angular/http": "~4.1.1",
-    "@angular/platform-browser": "~4.1.0",
-    "@angular/platform-browser-dynamic": "~4.1.1",
-    "@angular/router": "~4.1.1",
+    "@angular/common": "~4.3.5",
+    "@angular/compiler": "~4.3.5",
+    "@angular/core": "~4.3.5",
+    "@angular/forms": "~4.3.5",
+    "@angular/http": "~4.3.5",
+    "@angular/platform-browser": "~4.3.5",
+    "@angular/platform-browser-dynamic": "~4.3.5",
+    "@angular/router": "~4.3.5",
     "angular-in-memory-web-api": "~0.3.2",
     "core-js": "^2.4.1",
-    "rxjs": "^5.3.1",
+    "rxjs": "^5.4.3",
     "jquery": "^3.2.1",
     "zone.js": "^0.8.10"
   },
@@ -67,9 +67,10 @@
     "rimraf": "^2.6.1",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.17.0",
-    "typescript": "^2.3.2",
+    "typescript": "^2.5.1",
     "url-loader": "^0.5.8",
     "webpack": "^2.5.1",
+    "webpack-dev-server": "2.4.5",
     "webpack-merge": "^4.1.0"
   }
 }

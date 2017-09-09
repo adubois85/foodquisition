@@ -1,1 +1,9 @@
 <h1>Home Template</h1>
+
+
+<form #search="ngForm" id="search" name="search" (submit)="getRestaurantByName(search.value.searchName)" >
+	<label for="searchName"></label>
+	<input id="searchName" class="form-control" name="searchName" [ngModel]="searchName" #searchName="ngModel">
+
+
+</form>
