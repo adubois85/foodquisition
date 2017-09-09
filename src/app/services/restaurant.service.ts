@@ -11,10 +11,10 @@ export class RestaurantService extends BaseService {
 		super(http);
 	}
 
-	private restaurantUrl = "apis/restaurant/";
+	private restaurantUrl = "api/restaurant/";
 
 	getRestaurantByName(restauarantName: string) : Observable<Restaurant[]> {
-		return(this.http.get(this.restaurantUrl + "? restaurantId=" + restauarantName)
+		return(this.http.get(this.restaurantUrl + "? restaurantName=" + restauarantName)
 			.map(this.extractData)
 			.catch(this.handleError));
 	}

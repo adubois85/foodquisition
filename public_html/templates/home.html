@@ -1,9 +1,12 @@
 <h1>Home Template</h1>
 
 
-<form #search="ngForm" id="search" name="searchName" (submit)="getRestaurantByName(search.value.searchName)" >
+<form #restaurantSearch="ngForm" id="restaurantSearch" name="search" (ngSubmit)="getRestaurantByName(restaurantSearch.value.searchName)" >
 	<label for="searchName"></label>
 	<input id="searchName" class="form-control" name="searchName" [ngModel]="searchName" #searchName="ngModel">
-
-
+	<button type="submit" id="submit" [disabled]="search.invalid">search</button>
 </form>
+
+<p *ngFor="let restaurantResult of restaurantResults">
+	{{ restaurantResult.restaurantName}}
+</p>
