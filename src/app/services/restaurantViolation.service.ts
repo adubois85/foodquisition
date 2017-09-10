@@ -12,7 +12,7 @@ export class RestaurantViolationService extends BaseService {
 		super(http);
 	}
 
-	private restaurantViolationUrl = "apis/restaurantViolation/";
+	private restaurantViolationUrl = "api/restaurantViolation/";
 
 	getAllRestaurantViolations(): Observable<RestaurantViolation[]> {
 		return (this.http.get(this.restaurantViolationUrl)

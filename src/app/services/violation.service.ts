@@ -11,7 +11,7 @@ export class ViolationService extends BaseService {
 		super(http);
 	}
 
-	private violationUrl = "apis/violation/";
+	private violationUrl = "api/violation/";
 
 	getAllViolations() : Observable<Violation[]> {
 		return(this.http.get(this.violationUrl)
