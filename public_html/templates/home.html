@@ -1,26 +1,46 @@
-<body class="sfooter">
-		<main class="search">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<div class="jumbotron">
-							<div class="panel panel-default">
-								<div class="panel-body lead">
-									<form #restaurantSearch="ngForm" id="restaurantSearch" name="search" (ngSubmit)="getRestaurantByName(restaurantSearch.value.searchName)" >
-										<label for="searchName"></label>
-										<p>Foodquisition:</p>
-										<input id="searchName" class="form-control" name="searchName" [ngModel]="searchName" #searchName="ngModel">
-										<button type="submit" id="submit" [disabled]="search.invalid">search</button>
-									</form>
 
-									<p *ngFor="let restaurantResult of restaurantResults">
-										{{ restaurantResult.restaurantName}}
-									</p>
-								</div>
+	<main class="search">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="jumbotron">
+						<div class="panel panel-default">
+							<div class="panel-body lead">
+								<form #restaurantSearch="ngForm" id="restaurantSearch" name="search"
+										(ngSubmit)="getRestaurantByName(restaurantSearch.value.searchName)">
+									<label for="searchName"></label>
+									<p>Foodquisition:</p>
+									<input id="searchName" class="form-control" name="searchName" [ngModel]="searchName"
+											 #searchName="ngModel">
+									<button type="submit" id="submit" [disabled]="restaurantSearch.invalid">search</button>
+								</form>
+
+
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</main>
-</body>
+			<div class="panel panel-default" *ngFor="let restaurantResult of restaurantResults">
+				<div class="panel-body row">
+					<div class="col-md-4">
+						<!--<img class="img-responsive" src="images/taco.jpg">-->
+					</div>
+					<div class="col-md-4">
+						<h1>{{restaurantResult.restaurantName}}</h1>
+						<p>{{restaurantResult.restaurantAddress1}}</p> <br>
+						<p>{{restaurantResult.restaurantCity}}, {{restaurantResult.restaurantState}} {{restaurantResult.restaurantZip}}
+						</p>
+					</div>
+					<div class="col-md-4">
+						<h2>Violations</h2>
+						<ul>
+							<li><i class="fa fa-hand-spock-o" aria-hidden="true"></i></li>
+							<li><i class="fa fa-cutlery" aria-hidden="true"></i></li>
+						</ul>
+						<button type="button" class="btn btn-primary active">Learn More</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
