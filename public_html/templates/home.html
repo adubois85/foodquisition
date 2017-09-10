@@ -6,15 +6,13 @@
 					<div class="jumbotron">
 						<div class="panel panel-default">
 							<div class="panel-body lead">
-								<form #restaurantSearch="ngForm" id="restaurantSearch" name="search"
+								<form #restaurantSearch="ngForm" id="restaurantSearch" name="restaurantSearch"
 										(ngSubmit)="getRestaurantByName(restaurantSearch.value.searchName)">
 									<label for="searchName"></label>
 									<p>Foodquisition:</p>
-									<input id="searchName" class="form-control" name="searchName" [ngModel]="searchName"
-											 #searchName="ngModel">
+									<input id="searchName" class="form-control" name="searchName" [(ngModel)]="searchName">
 									<button type="submit" id="submit" [disabled]="restaurantSearch.invalid">search</button>
 								</form>
-
 
 							</div>
 						</div>
