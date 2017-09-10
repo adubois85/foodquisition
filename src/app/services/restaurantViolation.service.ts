@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {Http} from "@angular/http";
 import {Observable} from "rxjs/Observable";
 import {BaseService} from "./base.service";
-import {RestaurantViolation} from "../classes/RestaurantViolation";
+import {RestaurantViolation} from "../classes/restaurantViolation";
 import {Status} from "../classes/status";
 
 
