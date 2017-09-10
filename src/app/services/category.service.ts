@@ -11,7 +11,7 @@ export class CategoryService extends BaseService {
 		super(http);
 	}
 
-	private categoryUrl = "apis/category/";
+	private categoryUrl = "api/category/";
 
 	getAllCategories() : Observable<Category[]> {
 		return(this.http.get(this.categoryUrl)
