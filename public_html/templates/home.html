@@ -1,16 +1,26 @@
+<body class="sfooter">
+		<main class="search">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="jumbotron">
+							<div class="panel panel-default">
+								<div class="panel-body lead">
+									<form #restaurantSearch="ngForm" id="restaurantSearch" name="search" (ngSubmit)="getRestaurantByName(restaurantSearch.value.searchName)" >
+										<label for="searchName"></label>
+										<p>Foodquisition:</p>
+										<input id="searchName" class="form-control" name="searchName" [ngModel]="searchName" #searchName="ngModel">
+										<button type="submit" id="submit" [disabled]="search.invalid">search</button>
+									</form>
 
-
-<h1>Home Template</h1>
-
-
-<form #restaurantSearch="ngForm" id="restaurantSearch" name="search" (ngSubmit)="getRestaurantByName(restaurantSearch.value.searchName)" >
-	<label for="searchName"></label>
-	<input id="searchName" class="form-control" name="searchName" [ngModel]="searchName" #searchName="ngModel">
-	<button type="submit" id="submit" [disabled]="search.invalid">search</button>
-</form>
-
-<p *ngFor="let restaurantResult of restaurantResults">
-	{{ restaurantResult.restaurantName}}
-	{{restaurantResult.restaurantAddress1}}
-	{{restaurantResult.restaurantPhoneNumber}}
-</p>
+									<p *ngFor="let restaurantResult of restaurantResults">
+										{{ restaurantResult.restaurantName}}
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</main>
+</body>

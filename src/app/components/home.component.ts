@@ -11,7 +11,7 @@ import {Status} from "../classes/status";
 
 export class HomeComponent {
 
-	restaurantName: string = ""; // search term for restaurant-search
+	name: string = ""; // search term for restaurant-search
 	restaurantResults: Restaurant[] = [];
 	status: Status = null;
 
