@@ -47,7 +47,7 @@
 *****************************/
 
 body {
-	background-image: url("../images/glasses.jpg");
+	background-image: url("../../public_html/images/glasses.jpg");
 	/*background-attachment: fixed;*/
 	background-size: cover;
 	background-repeat: no-repeat;
