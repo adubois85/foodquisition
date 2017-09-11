@@ -34,16 +34,20 @@ function googlePlacesSingle($restaurant, $googleId) {
 		// check if the response came back from Google OK and set the place ID, otherwise do nothing
 		// we'll assume that the first returned result is the correct one
 		if($response['status'] === 'OK') {
-			// get the Google place_id and set it in our
+			// get the Google place_id and set it in our database
 			$restaurant->setRestaurantGoogleId($response['results'][0]['place_id']);
 			$restaurant->update($pdo);
-			$attribution = $response['results'][0]['photos'][0]['html_attributions'][0];
-			$googleImage->attribution = $attribution;
-			$photoId = $response['results'][0]['photos'][0]['photo_reference'];
-			$googleImage->photoId = $photoId;
+			// make sure Google actually has a photo for the place, else it will error out
+			if(isset($response['results'][0]['photos'])) {
+				$attribution = $response['results'][0]['photos'][0]['html_attributions'][0];
+				$googleImage->attribution = $attribution;
+				$photoId = $response['results'][0]['photos'][0]['photo_reference'];
+				$googleImage->photoId = $photoId;
+			}
 		}
 	} else {
 		$response = json_decode(($googlePlaces->placeDetails("$googleId")), true);
+		// make sure Google actually has a photo for the place, else it will error out
 		if($response['status'] === 'OK' && isset($response['result']['photos'])) {
 			$attribution = $response['result']['photos'][0]['html_attributions'][0];
 			$googleImage->attribution = $attribution;
@@ -51,8 +55,9 @@ function googlePlacesSingle($restaurant, $googleId) {
 			$googleImage->photoId = $photoId;
 		}
 	}
+	// if a photoID hasn't been set at this point, Google probably doesn't have a photo for the place, so give a placeholder instead
 	if(isset($googleImage->photoId) === false) {
-		// [TODO: Alex -- should return a placeholder image if it couldn't get one from Google]
+		// [TODO: Alex -- should return a placeholder image if it couldn't get one from Google; replace the echo]
 		echo("No Image available");
 	} else {
 		//	var_dump($array);
