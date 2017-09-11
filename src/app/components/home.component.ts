@@ -2,6 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Observable} from "rxjs";
 import {RestaurantService} from "../services/restaurant.service"
+import {RestaurantViolationService} from "../services/restaurantViolation.service"
 import {Restaurant} from "../classes/restaurant"
 import {Status} from "../classes/status";
 import {Subject} from "rxjs/Subject";

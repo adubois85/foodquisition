@@ -21,6 +21,4 @@ export class RestaurantService extends BaseService {
 
 	//public_html/api/restaurant/?restaurantName=tacobell
 
-
-
 }

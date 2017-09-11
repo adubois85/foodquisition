@@ -14,25 +14,7 @@ import {Status} from "../classes/status";
 @Component({
 	templateUrl: "./templates/result.html"
 })
-export class ResultComponent {}//implements OnInit {
-	// @ViewChild("cardForm") cardForm : any;
-	// restaurantName: string = ""; // search term for restaurant-search
-	// restaurantResults: Restaurant[] = [];
-	// status: Status = null;
-	//
-	// constructor(protected restaurantService: RestaurantService) {}
-	//
-	// ngOnInit(): void {
-	// 	this.getRestaurantByName();
-	// }
-	//
-	// getRestaurantByName(): void {
-	//
-	// 	this.restaurantService.getRestaurantByName(this.restaurantName).subscribe(restaurants=>this.restaurantResults=restaurants);
-	// }
-	// getRestaurantViolationCompliance(): void{
-	//
-	// }
+export class ResultComponent {}
 
 
 
