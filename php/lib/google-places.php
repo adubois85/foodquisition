@@ -2,6 +2,7 @@
 /*
  * Functions for handling Google Places API calls
  */
+use Edu\Cnm\Foodquisition\JsonObjectStorage;
 use SKAgarwal\GoogleApi\PlacesApi;
 
 
@@ -10,7 +11,7 @@ use SKAgarwal\GoogleApi\PlacesApi;
  *
  * @param $restaurant /Restaurant object that we are getting information about
  * @param $googleId restaurantGoogleId of the restaurant; it is possibly null, either because we haven't queried
- * 		  Google for it yet or because Google can't find it.
+ * 		  Google for it yet or because Google can't find it
  * @return mixed -- Will update a restaurant's google ID in the database if it can; will give the first image associated
  *			   with that place from Google if it can (as raw data for Angular front-end), and that image's html attribution
  */
@@ -75,9 +76,10 @@ function googlePlacesSingle($restaurant, $googleId) : stdClass {
  *
  * @param $restaurants array of Restaurant objects that we are getting information about
  * @param $googleId restaurantGoogleId of the restaurant; it is possibly null, either because we haven't queried
- * 		  Google for it yet or because Google can't find it.
+ * 		  Google for it yet or because Google can't find it
  * @return mixed -- Will update a restaurant's google ID in the database if it can; will give the first image associated
  *			   with each place from Google if it can (as raw data for Angular front-end), and that image's html attribution
+ * 			as an array of values
  */
 
 function googlePlacesArray(array $restaurants) : array {
@@ -92,6 +94,7 @@ function googlePlacesArray(array $restaurants) : array {
 	$googleImages = [];
 	foreach($restaurants as $restaurant) {
 		$googleId = $restaurant->getRestaurantGoogleId();
+		$googleImage = new stdClass();
 		// if a Restaurant doesn't have a Google ID, then try to find one and add it
 		if($googleId === null) {
 			// we need to be specific when searching Google's database so we don't get similarly named places back
@@ -124,16 +127,15 @@ function googlePlacesArray(array $restaurants) : array {
 		}
 		// if a photoID hasn't been set at this point, Google probably doesn't have a photo for the place, so give a placeholder instead
 		if(isset($googleImage->photoId) === false) {
-			// [TODO: Alex -- should return a placeholder image if it couldn't get one from Google; replace the echo]
+			// [TODO: Alex -- should return a placeholder image if it couldn't get one from Google; replace the echo.]
 			echo("No Image available");
 		} else {
-			//	var_dump($array);
 			// Search Google for the image ID we found above, encode it into raw data to pass off to the front-end (Angular)
 			$image = base64_encode(file_get_contents("https://maps.googleapis.com/maps/api/place/photo?maxwidth=300&photoreference=$googleImage->photoId&key=$googleKey"));
 			$googleImage->image = $image;
 			$googleImage->attribution = $attribution;
 		}
+		$googleImages[] = $googleImage;
 	}
-	var_dump($googleImage);
-	return $googleImage;
+	return $googleImages;
 }
