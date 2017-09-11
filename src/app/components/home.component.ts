@@ -17,7 +17,7 @@ export class HomeComponent {
 	searchName: string = ""; // search term for restaurant-search
 	restaurantResults: Restaurant[] = [];
 	status: Status = null;
-	restaurant : Restaurant = new Restaurant(null, null, null, null, null, null, null, null, null, null, null)
+	// restaurant : Restaurant = new Restaurant(null, null, null, null, null, null, null, null, null, null, null)
 
 	constructor(private restaurantService: RestaurantService, private router: Router) {
 		this.searchNameStream.subscribe(name=>this.getRestaurantByName(name));
@@ -26,9 +26,9 @@ export class HomeComponent {
 	ngOnInit(): void {
 
 	}
-	switchRestaurant(restaurant: Restaurant): void {
-		this.router.navigate(["/restaurant-details/", restaurant.restaurantId]);
-	}
+	// switchRestaurant(restaurant: Restaurant): void {
+	// 	this.router.navigate(["/restaurant-details/", restaurant.restaurantId]);
+	// }
 
 	getRestaurantByName(name : string): void {
 

@@ -72,7 +72,7 @@ try {
 			$restaurants = Restaurant::getRestaurantByName($pdo, $restaurantName)->toArray();
 			if($restaurants !== null) {
 				$reply->data = $restaurants;
-				googlePlacesArray($restaurants);
+//				googlePlacesArray($restaurants);
 			}
 		// get a restaurant by its Google ID if it has one
 		} else if(empty($restaurantGoogleId) === false) {
