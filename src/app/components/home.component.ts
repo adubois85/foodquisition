@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params} from "@angular/router";
+import {ActivatedRoute, Params, Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {RestaurantService} from "../services/restaurant.service"
 import {RestaurantViolationService} from "../services/restaurantViolation.service"
@@ -17,13 +17,17 @@ export class HomeComponent {
 	searchName: string = ""; // search term for restaurant-search
 	restaurantResults: Restaurant[] = [];
 	status: Status = null;
+	restaurant : Restaurant = new Restaurant(null, null, null, null, null, null, null, null, null, null, null)
 
-	constructor(private restaurantService: RestaurantService) {
+	constructor(private restaurantService: RestaurantService, private router: Router) {
 		this.searchNameStream.subscribe(name=>this.getRestaurantByName(name));
 	}
 
 	ngOnInit(): void {
 
+	}
+	switchRestaurant(restaurant: Restaurant): void {
+		this.router.navigate(["/restaurant-details/", restaurant.restaurantId]);
 	}
 
 	getRestaurantByName(name : string): void {
