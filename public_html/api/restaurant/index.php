@@ -61,7 +61,7 @@ try {
 			if($restaurant !== null) {
 				$reply->data = $restaurant;
 				$googleId = $restaurant->getRestaurantGoogleId();
-				googleSingle($restaurant, $googleId);
+				googlePlacesSingle($restaurant, $googleId);
 			}
 
 		// Personal note -- in PHP, elseif and else if (two words) are treated identically in these if/else blocks
@@ -72,12 +72,14 @@ try {
 			$restaurants = Restaurant::getRestaurantByName($pdo, $restaurantName)->toArray();
 			if($restaurants !== null) {
 				$reply->data = $restaurants;
+				googlePlacesArray($restaurants);
 			}
 		// get a restaurant by its Google ID if it has one
 		} else if(empty($restaurantGoogleId) === false) {
 			$restaurant  = Restaurant::getRestaurantByGoogleId($pdo, $restaurantGoogleId);
 			if($restaurant !== null) {
 				$reply->data = $restaurant;
+				googlePlacesSingle($restaurant);
 			}
  		}
 	}
