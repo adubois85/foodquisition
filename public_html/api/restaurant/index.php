@@ -79,7 +79,7 @@ try {
 			$restaurant  = Restaurant::getRestaurantByGoogleId($pdo, $restaurantGoogleId);
 			if($restaurant !== null) {
 				$reply->data = $restaurant;
-				googlePlacesSingle($restaurant);
+				googlePlacesSingle($restaurant, $googleId);
 			}
  		}
 	}

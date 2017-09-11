@@ -15,7 +15,7 @@ use SKAgarwal\GoogleApi\PlacesApi;
  *			   with that place from Google if it can (as raw data for Angular front-end), and that image's html attribution
  */
 
-function googlePlacesSingle($restaurant, $googleId) {
+function googlePlacesSingle($restaurant, $googleId) : stdClass {
 	// grab the mySQL connection
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/foodquisition.ini");
 
@@ -80,7 +80,7 @@ function googlePlacesSingle($restaurant, $googleId) {
  *			   with each place from Google if it can (as raw data for Angular front-end), and that image's html attribution
  */
 
-function googlePlacesArray($restaurants) {
+function googlePlacesArray(array $restaurants) : array {
 	// grab the mySQL connection
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/foodquisition.ini");
 
@@ -89,7 +89,7 @@ function googlePlacesArray($restaurants) {
 	$googleKey = ($config['google']);
 	// set up the Google Places call
 	$googlePlaces = new PlacesApi("$googleKey");
-	$googleImage = new stdClass();
+	$googleImages = [];
 	foreach($restaurants as $restaurant) {
 		$googleId = $restaurant->getRestaurantGoogleId();
 		// if a Restaurant doesn't have a Google ID, then try to find one and add it
@@ -133,7 +133,7 @@ function googlePlacesArray($restaurants) {
 			$googleImage->image = $image;
 			$googleImage->attribution = $attribution;
 		}
-		var_dump($googleImage);
-		return $googleImage;
 	}
+	var_dump($googleImage);
+	return $googleImage;
 }
