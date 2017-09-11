@@ -61,9 +61,6 @@ try {
 			if($restaurant !== null) {
 				$reply->data = $restaurant;
 				$googleId = $restaurant->getRestaurantGoogleId();
-//				googleIdCheck($restaurant, $googleId);
-//				googlePictureSearch($googleId);
-//				testFunction($restaurant, $googleId);
 				googleSingle($restaurant, $googleId);
 			}
 
