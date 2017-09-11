@@ -16,7 +16,7 @@ export const allAppComponents = [
 ];
 
 export const routes: Routes = [
-	{path: "result", component:ResultComponent},
+	{path: "result/:id", component:ResultComponent},
 	{path: "card", component:CardComponent},
 	{path: "", component: HomeComponent},
 	{path: "**", redirectTo: ""}
