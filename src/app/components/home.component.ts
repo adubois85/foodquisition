@@ -29,9 +29,9 @@ export class HomeComponent {
 	ngOnInit(): void {
 
 	}
-	// switchRestaurant(restaurant: Restaurant): void {
-	// 	this.router.navigate(["/restaurant-details/", restaurant.restaurantId]);
-	// }
+	switchRestaurant(restaurant: Restaurant): void {
+		this.router.navigate(["/result/", restaurant.restaurantId]);
+	}
 
 	getRestaurantByName(name : string): void {
 

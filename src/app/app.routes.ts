@@ -24,4 +24,4 @@ export const routes: Routes = [
 
 export const appRoutingProviders: any[] = [RestaurantService, CategoryService, RestaurantViolationService, ViolationService];
 
-export const routing = RouterModule.forRoot(routes);
+export const routing = RouterModule.forRoot(routes); 
