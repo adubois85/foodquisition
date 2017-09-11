@@ -17,30 +17,25 @@ export class HomeComponent {
 	searchName: string = ""; // search term for restaurant-search
 	restaurantResults: Restaurant[] = [];
 	status: Status = null;
-	restaurant : Restaurant = new Restaurant(null, null, null, null, null, null, null, null, null, null, null);
+	// restaurant : Restaurant = new Restaurant(null, null, null, null, null, null, null, null, null, null, null)
 
-	constructor(private restaurantService: RestaurantService, private router: Router, private route: ActivatedRoute) {
-		this.searchNameStream.subscribe(name=>this.getRestaurantByName(name));
+	constructor(private restaurantService: RestaurantService, private router: Router) {
+		this.searchNameStream
+			.debounceTime(1000)
+			.distinctUntilChanged()
+			.subscribe(name=>this.getRestaurantByName(name));
 	}
 
 	ngOnInit(): void {
 
 	}
-	switchRestaurant(restaurant: Restaurant): void {
-		this.router.navigate(["result/", restaurant.restaurantId]);
-	}
-	// getRestaurant(restaurantId: number) : void {
-	// 	console.log(restaurantId);
-	// 	this.route.params
-	// 		.switchMap((params : Params) => this.restaurantService.getRestaurantByRestaurantId(+params["id"]))
-	// 		.subscribe(reply => this.restaurant = reply);
+	// switchRestaurant(restaurant: Restaurant): void {
+	// 	this.router.navigate(["/restaurant-details/", restaurant.restaurantId]);
 	// }
 
 	getRestaurantByName(name : string): void {
 
 		this.restaurantService.getRestaurantByName(name)
-			.debounceTime(5000)
-			.distinctUntilChanged()
 			.subscribe(restaurants=>this.restaurantResults=restaurants);
 	}
 }

@@ -3,25 +3,25 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
-					<div class="jumbotron">
+
 						<div class="panel panel-default">
 							<div class="panel-body lead">
 								<form #restaurantSearch="ngForm" id="restaurantSearch" name="restaurantSearch">
 									<label for="searchName"></label>
-									<h1 class="homeh1">Foodquisition:</h1>
+									<h1 class="homeh1">
+										Foodquisition
+										<i class="fa fa-search fa-rotate-90"></i>
+									</h1>
 									<p>A website that tells Albuquerque residents of the inspection results at their
 										favorite restaurants. Allowing them to make better informed dining choices</p>
-									<input  id="searchName" class="form-control" name="searchName" (input)="searchNameStream.next($event.target.value)">
-
+									<input id="searchName" class="form-control" name="searchName" (input)="searchNameStream.next($event.target.value)">
 								</form>
-
 							</div>
 						</div>
-					</div>
 				</div>
 			</div>
 			<div class="panel panel-default" *ngFor="let restaurantResult of restaurantResults">
-				<div class="panel-body row">
+				<div class="panel-body">
 					<div class="col-md-3">
 						<!--<img class="img-responsive" src="images/taco.jpg">-->
 					</div>
@@ -34,7 +34,6 @@
 					<div class="col-md-2 col2">
 						<pre>{{restaurantResult.restaurantId}}</pre>
 						<button (click)="switchRestaurant(restaurantResult)" class="btn btn-primary active">Inspection Results</button>
-
 					</div>
 				</div>
 			</div>
