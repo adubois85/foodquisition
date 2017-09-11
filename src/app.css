@@ -50,7 +50,7 @@
 *****************************/
 
 body {
-	background-image: url("app/images/redbrick.jpg");
+	background-image: url("app/images/brick.jpg");
 	background-attachment: fixed;
 	background-size: cover;
 	background-repeat: no-repeat;
@@ -64,9 +64,9 @@ main .jumbotron {
 	background: transparent;
 }
 
-/*main .panel {*/
-/*opacity: 0.90;*/
-/*}*/
+main .panel {
+opacity: 0.90;
+}
 .homeh1 {
 	text-align: center;
 }

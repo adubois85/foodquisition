@@ -6,7 +6,7 @@
 	<div class="panel panel-default">
 		<div class="panel-body row" >
 			<div class="col-md-4">
-				<img class="img-responsive" src="images/taco.jpg">
+				<img class="img-responsive" src="../src/app/images/taco.jpg">
 			</div>
 			<div class="col-md-6">
 				<h1>Taco Bell</h1>
