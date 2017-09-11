@@ -67,7 +67,7 @@ function googlePlacesSingle($restaurant, $googleId) : stdClass {
 		$googleImage->image = $image;
 		$googleImage->attribution = $attribution;
 	}
-	var_dump($googleImage);
+//	var_dump($googleImage);
 	return $googleImage;
 }
 
