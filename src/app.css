@@ -50,11 +50,10 @@
 *****************************/
 
 body {
-	background-image: url("../public_html/images/glasses.jpg");
+	background-image: url("app/images/redbrick.jpg");
 	background-attachment: fixed;
 	background-size: cover;
 	background-repeat: no-repeat;
-
 }
 
 .search {
