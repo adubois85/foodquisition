@@ -6,6 +6,7 @@ import {RestaurantViolationService} from "../services/restaurantViolation.servic
 import {Restaurant} from "../classes/restaurant"
 import {Status} from "../classes/status";
 import {Subject} from "rxjs/Subject";
+import {Image} from "../classes/image";
 
 @Component({
 	templateUrl: "./templates/home.html"
@@ -15,6 +16,7 @@ export class HomeComponent {
 
 	searchNameStream = new Subject <string>();
 	searchName: string = ""; // search term for restaurant-search
+	imageResults: Image[] = [];
 	restaurantResults: Restaurant[] = [];
 	status: Status = null;
 	// restaurant : Restaurant = new Restaurant(null, null, null, null, null, null, null, null, null, null, null)
@@ -34,8 +36,17 @@ export class HomeComponent {
 	}
 
 	getRestaurantByName(name : string): void {
+		console.log("search: " + name);
 		this.restaurantService.getRestaurantByName(name)
-			.subscribe(restaurants=>this.restaurantResults=restaurants);
+			.subscribe(restaurants => {
+				console.log(restaurants);
+				this.imageResults = [];
+				this.restaurantResults = [];
+				restaurants.map(result => {
+					this.imageResults.push(result.image);
+					this.restaurantResults.push(result.restaurant);
+				});
+			});
 	}
 }
 

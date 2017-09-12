@@ -145,6 +145,6 @@ function googlePlacesArray(array $restaurants) : array {
 		}
 		$googleImages[] = $googleImage;
 	}
-	var_dump($googleImages);
+//	var_dump($googleImages);
 	return $googleImages;
 }
