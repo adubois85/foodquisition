@@ -23,10 +23,10 @@
 		</div>
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
-				<div class="panel panel-default" *ngFor="let restaurantResult of restaurantResults">
+				<div class="panel panel-default" *ngFor="let restaurantResult of restaurantResults; let i = index">
 					<div class="panel-body">
 						<div class="col-md-2">
-							<!--<img class="img-responsive" src="images/taco.jpg">-->
+							<img class="img-responsive" [src]="'data:image/jpg;base64,' + imageResults[i].image">
 						</div>
 						<div class="col-md-7">
 							<h1>{{restaurantResult.restaurantName}}</h1>

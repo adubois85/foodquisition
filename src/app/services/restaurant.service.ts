@@ -13,7 +13,7 @@ export class RestaurantService extends BaseService {
 
 	private restaurantUrl = "api/restaurant/";
 
-	getRestaurantByName(restaurantName: string): Observable<Restaurant[]> {
+	getRestaurantByName(restaurantName: string): Observable<any[]> {
 		return (this.http.get(this.restaurantUrl + "?restaurantName=" + restaurantName)
 			.map(this.extractData)
 			.catch(this.handleError));
