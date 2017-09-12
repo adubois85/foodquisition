@@ -59,10 +59,13 @@ try {
 		if(empty($id) === false) {
 			$restaurant = Restaurant::getRestaurantByRestaurantId($pdo, $id);
 			if($restaurant !== null) {
+
 				$reply->data = $restaurant;
 				$googleId = $restaurant->getRestaurantGoogleId();
 				googlePlacesSingle($restaurant, $googleId);
+
 			}
+
 
 		// Personal note -- in PHP, elseif and else if (two words) are treated identically in these if/else blocks
 		// The two-word form will not work, however, in the alternative syntax for control structures
