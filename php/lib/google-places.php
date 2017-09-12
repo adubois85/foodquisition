@@ -60,8 +60,9 @@ function googlePlacesSingle($restaurant, $googleId) : stdClass {
 		}
 		// if a photoID hasn't been set at this point, Google probably doesn't have a photo for the place, so give a placeholder instead
 		if(isset($googleImage->photoId) === false) {
-			// [TODO: Alex -- should return a placeholder image if it couldn't get one from Google; replace the echo]
-			echo("No Image available");
+			$image = base64_encode(file_get_contents(dirname(__DIR__, 2) . "/public_html/images/placeholder.jpg"));
+			$googleImage->image = $image;
+			$googleImage->attribution = null;
 		} else {
 			//	var_dump($array);
 			// Search Google for the image ID we found above, encode it into raw data to pass off to the front-end (Angular)
