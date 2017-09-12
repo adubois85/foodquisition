@@ -59,12 +59,15 @@ try {
 		if(empty($id) === false) {
 			$restaurant = Restaurant::getRestaurantByRestaurantId($pdo, $id);
 			if($restaurant !== null) {
-				$googleId = $restaurant->getRestaurantGoogleId();
-				$image = googlePlacesSingle($restaurant, $googleId);
-				$reply->data = (object)[
+				//$googleId = $restaurant->getRestaurantGoogleId();
+				//$image = googlePlacesSingle($restaurant, $googleId);
+				$reply->data = $restaurant;
+
+
+					/*(object)[
 					"restaurant" => $restaurant,
 					"image" => $image
-				];
+				]; */
 			}
 
 		// Personal note -- in PHP, elseif and else if (two words) are treated identically in these if/else blocks
