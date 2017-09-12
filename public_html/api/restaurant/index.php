@@ -59,13 +59,13 @@ try {
 		if(empty($id) === false) {
 			$restaurant = Restaurant::getRestaurantByRestaurantId($pdo, $id);
 			if($restaurant !== null) {
-
-				$reply->data = $restaurant;
 				$googleId = $restaurant->getRestaurantGoogleId();
-				googlePlacesSingle($restaurant, $googleId);
-
+				$image = googlePlacesSingle($restaurant, $googleId);
+				$reply->data = (object)[
+					"restaurant" => $restaurant,
+					"image" => $image
+				];
 			}
-
 
 		// Personal note -- in PHP, elseif and else if (two words) are treated identically in these if/else blocks
 		// The two-word form will not work, however, in the alternative syntax for control structures
@@ -74,15 +74,25 @@ try {
 		} else if(empty($restaurantName) === false) {
 			$restaurants = Restaurant::getRestaurantByName($pdo, $restaurantName)->toArray();
 			if($restaurants !== null) {
-				$reply->data = $restaurants;
-//				googlePlacesArray($restaurants);
+				$data = [];
+				foreach($restaurants as $restaurant) {
+					$image = googlePlacesSingle($restaurant, $restaurant->getRestaurantGoogleId());
+					$data[] = (object)[
+						"restaurant" => $restaurant,
+						"image" => $image
+					];
+				}
+				$reply->data = $data;
 			}
 		// get a restaurant by its Google ID if it has one
 		} else if(empty($restaurantGoogleId) === false) {
 			$restaurant  = Restaurant::getRestaurantByGoogleId($pdo, $restaurantGoogleId);
 			if($restaurant !== null) {
-				$reply->data = $restaurant;
-				googlePlacesSingle($restaurant, $googleId);
+				$image = googlePlacesSingle($restaurant, $restaurantGoogleId);
+				$reply->data = (object)[
+					"restaurant" => $restaurant,
+					"image" => $image
+				];
 			}
  		}
 	}
