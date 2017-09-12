@@ -6,6 +6,7 @@ import {RestaurantService} from "./services/restaurant.service";
 import {CategoryService} from "./services/category.service";
 import {RestaurantViolationService} from "./services/restaurantViolation.service";
 import {ViolationService} from "./services/violation.service";
+import {APP_BASE_HREF} from "@angular/common";
 
 
 
@@ -22,6 +23,7 @@ export const routes: Routes = [
 	{path: "**", redirectTo: ""}
 ];
 
-export const appRoutingProviders: any[] = [RestaurantService, CategoryService, RestaurantViolationService, ViolationService];
+export const appRoutingProviders: any[] = [{provide: APP_BASE_HREF, useValue: window["_base_href"]}, RestaurantService, CategoryService, RestaurantViolationService, ViolationService
+];
 
 export const routing = RouterModule.forRoot(routes); 
