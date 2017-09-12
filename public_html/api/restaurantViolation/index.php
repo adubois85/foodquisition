@@ -45,7 +45,7 @@ try {
 
 		//get a specific category based on arguments provided or all the category and update reply
 		if(empty($id) === false) {
-			$restaurant = RestaurantViolation::getrestaurantViolationByRestaurantViolationRestaurantId($pdo, $id)->toArray();
+			$restaurant = RestaurantViolation::getRestaurantViolationByRestaurantViolationRestaurantId($pdo, $id)->toArray();
 			if($restaurant !== null) {
 				$reply->data = $restaurant;
 			}

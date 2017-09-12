@@ -395,12 +395,17 @@ public static function  getRestaurantViolationByRestaurantViolationRestaurantId(
 	if($restaurantViolationRestaurantId <= 0 ) {
 		throw(new \RangeException("restaurant violation restaurant id"));
 	}
+
+	$restaurantViolationRestaurantId = str_replace("_", "\\_", str_replace("%", "\\%", $restaurantViolationRestaurantId));
+
+
 	// create query template
-	$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationCompliance, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationRestaurantId";
+	$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationCompliance, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation WHERE restaurantViolationRestaurantId = :restaurantViolationRestaurantId";
 	$statement = $pdo->prepare($query);
 	//bind the restaurant Violation Restaurant Id to the place holder in the template
 	$parameters = ["restaurantViolationRestaurantId" => $restaurantViolationRestaurantId];
 	$statement->execute($parameters);
+	var_dump($statement);
 	// build an array of restaurant violations
 	$restaurantViolations = new \SplFixedArray($statement->rowCount());
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);
@@ -584,34 +589,7 @@ public static function getRestaurantViolationByRestaurantViolationMemo(\PDO $pdo
 		}
 		return($restaurantViolations);
 	}
-	/**
-	 * gets all restaurant violations
-	 * @param \PDO $pdo PDO connection object
-	 * @return \SplFixedArray of restaurant violation found or null if not found
-	 * @throws \PDOException when mySQL related errors occur
-	 * @throws \TypeError when variables are not the correct data type
-	 **/
-	public static function getAllRestaurantViolations(\PDO $pdo) : \SPLFixedArray {
-		// create query template
-		$query = "SELECT restaurantViolationId, restaurantViolationRestaurantId, restaurantViolationViolationId, restaurantViolationCompliance, restaurantViolationDate, restaurantViolationMemo, restaurantViolationResults FROM restaurantViolation";
-		$statement = $pdo->prepare($query);
-		$statement->execute();
 
-		// builds an array of the restaurant violations
-		$restaurantViolations = new \SplFixedArray($statement->rowCount());
-		$statement->setFetchMode(\PDO::FETCH_ASSOC);
-		while(($row = $statement->fetch())!== false) {
-			try {
-				$restaurantViolation = new RestaurantViolation($row["restaurantViolationId"], $row["restaurantViolationRestaurantId"], $row["restaurantViolationViolationId"], $row["restaurantViolationCompliance"], $row["restaurantViolationDate"], $row["restaurantViolationMemo"],$row["restaurantViolationResults"]);
-				$restaurantViolations[$restaurantViolations->key()] = $restaurantViolation;
-				$restaurantViolations->next();
-			} catch(\Exception $exception){
-				// if the new row couldn't be converted, rethrow it
-				throw(new \PDOException($exception->getMessage(), 0, $exception));
-			}
-		}
-		return ($restaurantViolations);
-	}
 	/**
 	 * formats the state variables for JSON serialization
 	 * @return array resulting state variables to serialize
