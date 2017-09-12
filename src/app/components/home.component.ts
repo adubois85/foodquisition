@@ -34,7 +34,6 @@ export class HomeComponent {
 	}
 
 	getRestaurantByName(name : string): void {
-
 		this.restaurantService.getRestaurantByName(name)
 			.subscribe(restaurants=>this.restaurantResults=restaurants);
 	}

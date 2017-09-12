@@ -405,7 +405,7 @@ public static function  getRestaurantViolationByRestaurantViolationRestaurantId(
 	//bind the restaurant Violation Restaurant Id to the place holder in the template
 	$parameters = ["restaurantViolationRestaurantId" => $restaurantViolationRestaurantId];
 	$statement->execute($parameters);
-	var_dump($statement);
+//	var_dump($statement);
 	// build an array of restaurant violations
 	$restaurantViolations = new \SplFixedArray($statement->rowCount());
 	$statement->setFetchMode(\PDO::FETCH_ASSOC);

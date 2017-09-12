@@ -17,8 +17,8 @@
 					<h1 class="homeh1">{{restaurant.restaurantName}}</h1>
 					<h2 class="resulth2">Violations</h2>
 				</div>
-				<div class="col-md-2-right">
-					<P>Date of last Inspection<br>r</P>
+				<div class="col-md-2-right" *ngFor="let restaurantViolation of restaurantViolations">
+					<P>Date of last Inspection<br>{{restaurantViolation.restaurantViolationDate}}</P>
 				</div>
 			</div>
 		</div>
