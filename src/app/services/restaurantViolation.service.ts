@@ -20,6 +20,12 @@ export class RestaurantViolationService extends BaseService {
 			.catch(this.handleError));
 	}
 
+	getRestaurantViolationByRestaurantId(id: number) : Observable<RestaurantViolation[]> {
+		return(this.http.get( this.restaurantViolationUrl + id)
+			.map(this.extractData)
+			.catch(this.handleError));
+	}
+
 	getRestaurantViolationComplianceByRestaurantName(restaurantViolationCompliance: string): Observable<RestaurantViolation[]> {
 		return (this.http.get(this.restaurantViolationUrl + "? restaurantViolationCompliance" + restaurantViolationCompliance)
 			.map(this.extractData)
