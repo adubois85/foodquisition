@@ -14,6 +14,7 @@ import {Image} from "../classes/image";
 
 export class HomeComponent {
 
+	loading : boolean = false;
 	searchNameStream = new Subject <string>();
 	searchName: string = ""; // search term for restaurant-search
 	imageResults: Image[] = [];
@@ -36,16 +37,16 @@ export class HomeComponent {
 	}
 
 	getRestaurantByName(name : string): void {
-		console.log("search: " + name);
+		this.loading = true;
 		this.restaurantService.getRestaurantByName(name)
 			.subscribe(restaurants => {
-				console.log(restaurants);
 				this.imageResults = [];
 				this.restaurantResults = [];
 				restaurants.map(result => {
 					this.imageResults.push(result.image);
 					this.restaurantResults.push(result.restaurant);
 				});
+				this.loading = false;
 			});
 	}
 }

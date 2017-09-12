@@ -13,7 +13,7 @@
 							<p>Searchable results from the City of Albuquerque restaurant inspections</p>
 							<div class="input-group">
 								<input id="searchName" class="form-control input-lg" name="searchName"
-										 (input)="searchNameStream.next($event.target.value)">
+										[disabled]="loading" (input)="searchNameStream.next($event.target.value)">
 								<div class="input-group-addon"><i class="fa fa-search"></i></div>
 							</div>
 						</form>
@@ -23,6 +23,10 @@
 		</div>
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
+				<div *ngIf="loading" class="alert alert-info">
+					<h4><i class="fa fa-spin fa-spinner"></i> Loading</h4>
+					<p>Finding an awesome, safe place to eat.</p>
+				</div>
 				<div class="panel panel-default" *ngFor="let restaurantResult of restaurantResults; let i = index">
 					<div class="panel-body">
 						<div class="col-md-2">
