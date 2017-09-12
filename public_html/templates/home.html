@@ -24,7 +24,7 @@
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				<div *ngIf="loading" class="alert alert-info">
-					<h4><i class="fa fa-spin fa-spinner"></i> Loading</h4>
+					<h4 class="text-center">Loading <i class="fa fa-refresh fa-spin"></i></h4>
 					<p>Finding an awesome, safe place to eat.</p>
 				</div>
 				<div class="panel panel-default" *ngFor="let restaurantResult of restaurantResults; let i = index">
