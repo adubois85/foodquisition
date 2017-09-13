@@ -24,7 +24,7 @@ export class HomeComponent {
 
 	constructor(private restaurantService: RestaurantService, private router: Router) {
 		this.searchNameStream
-			.debounceTime(1000)
+			.debounceTime(2000)
 			.distinctUntilChanged()
 			.subscribe(name=>this.getRestaurantByName(name));
 	}
