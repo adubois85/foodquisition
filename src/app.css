@@ -64,8 +64,8 @@ main .jumbotron {
 	background: transparent;
 }
 
-main .panel {
-	opacity: 0.90;
+.panel {
+	opacity: 0.9;
 }
 
 .resulth2 {
@@ -96,6 +96,12 @@ ul {
 .center {
 	text-align: center;
 }
+
+#inspectionDate {
+	padding-left: 2rem;
+	padding-top: 2rem;
+}
+
 /****** Navbar *******/
 .navbar-default {
 	background-color: rgba(0,0,0,0);
