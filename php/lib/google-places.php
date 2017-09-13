@@ -5,8 +5,8 @@
 use Edu\Cnm\Foodquisition\JsonObjectStorage;
 use SKAgarwal\GoogleApi\PlacesApi;
 
-
-function GooglePlacesSingle($restaurant, $googleId) : stdClass {
+// a dummy function to switch out during testing so we don't hit the Google Places API call limits
+function GooglePlacesSingleDummy($restaurant, $googleId) : stdClass {
 	$googleImage = new stdClass();
 	$image = base64_encode(file_get_contents(dirname(__DIR__, 2) . "/public_html/images/placeholder.jpg"));
 	$googleImage->image = $image;
@@ -24,7 +24,7 @@ function GooglePlacesSingle($restaurant, $googleId) : stdClass {
  *			   with that place from Google if it can (as raw data for Angular front-end), and that image's html attribution
  */
 
-function googlePlacesSingleReal($restaurant, $googleId) : stdClass {
+function googlePlacesSingle($restaurant, $googleId) : stdClass {
 	// grab the mySQL connection
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/foodquisition.ini");
 
