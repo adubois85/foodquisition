@@ -55,6 +55,7 @@
 *****************************/
 
 body {
+	min-height: 100vh;
 	background-image: url("app/images/tableblur.jpg");
 	background-attachment: fixed;
 	background-size: cover;
