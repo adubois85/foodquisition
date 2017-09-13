@@ -18,8 +18,8 @@
 					<h2 class="resulth2">Violations</h2>
 				</div>
 				{{viol}}
-				<div class="col-md-2-right" *ngFor="let restaurantViolation of restaurantViolations">
-					<P>Date of last Inspection<br>{{restaurantViolation.restaurantViolationDate}}</P>
+				<div class="col-md-2-right" >
+					<P>Date of last Inspection<br>{{restaurantViolations[0].restaurantViolationDate | date: 'MM/dd/yyyy'}}</P>
 				</div>
 			</div>
 		</div>
@@ -28,7 +28,7 @@
 				<div class="col-xs-12">
 					<table class="table table-condensed table-striped">
 						<tr *ngFor="let restaurantViolation of restaurantViolations">
-							<td>{{restaurantViolation.restaurantViolationId}}</td>
+							<td>{{restaurantViolation.restaurantViolationMemo | lowercase}}</td>
 
 						</tr>
 					</table>
