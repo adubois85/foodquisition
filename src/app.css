@@ -60,6 +60,8 @@ body {
 	background-attachment: fixed;
 	background-repeat: no-repeat;
 	background-position: center center;
+	-webkit-background-size: auto;
+	background-size: auto;
 }
 
 .homeh1 {
