@@ -19,16 +19,19 @@
 				</div>
 				{{viol}}
 				<div class="col-md-2-right" *ngFor="let restaurantViolation of restaurantViolations">
-					<div *ngIf="restaurantViolation.restaurantViolationCompliance === fuck">
-						<p>hello world</p>
-					</div>
+					<P>Date of last Inspection<br>{{restaurantViolation.restaurantViolationDate}}</P>
 				</div>
 			</div>
 		</div>
 		<div class="panel-body">
 			<div class="row">
 				<div class="col-xs-12">
-
+					<table class="table table-condensed table-striped">
+						<tr *ngFor="let restaurantViolation of restaurantViolations">
+							<td>{{restaurantViolation.restaurantViolationId}}</td>
+							<td>{{}}</td>
+						</tr>
+					</table>
 				</div>
 			</div>
 			<div class="col-md-6">
