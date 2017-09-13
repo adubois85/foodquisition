@@ -1,4 +1,9 @@
 
+/*
+* Google Font
+ */
+@import url('https://fonts.googleapis.com/css?family=Merienda');
+
 /** Back button ****/
 .button {
 	border-radius: 4px;
@@ -54,6 +59,11 @@ body {
 	background-attachment: fixed;
 	background-size: cover;
 	background-repeat: no-repeat;
+}
+
+.homeh1 {
+	font-family: 'Merienda', cursive;
+	font-size: 5rem !important;
 }
 
 .search {
