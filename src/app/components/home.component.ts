@@ -40,6 +40,7 @@ export class HomeComponent {
 		this.loading = true;
 		this.restaurantService.getRestaurantByName(name)
 			.subscribe(restaurants => {
+				console.log(restaurants);
 				this.imageResults = [];
 				this.restaurantResults = [];
 				restaurants.map(result => {
