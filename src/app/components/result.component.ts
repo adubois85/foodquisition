@@ -50,9 +50,11 @@ export class ResultComponent implements OnInit{
 			this.restaurant = restaurant;
 
 			this.restaurantViolationService.getRestaurantViolationByRestaurantId(this.restaurant.restaurantId)
-				.subscribe(restaurantViolations => this.restaurantViolations = restaurantViolations)
-
-		})
+				.subscribe(restaurantViolations => this.restaurantViolations = restaurantViolations
+					.filter(violation => violation.restaurantViolationCompliance === "OUT OF COMPLIANCE")
+					.sort((left, right) => +right.restaurantViolationDate - +left.restaurantViolationDate)
+					.splice(0, 25));
+		});
 	}
 
 }

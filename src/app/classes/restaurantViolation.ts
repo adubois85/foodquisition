@@ -1,3 +1,3 @@
 export class RestaurantViolation {
-	constructor(public restaurantViolationId: number, restaurantViolationRestaurantId: number, restaurantViolationViolationId: number, restaurantViolationCompliance: string, restaurantViolationDate: Date, restaurantViolationMemo: string, restaurantViolationResults: string) {}
+	constructor(public restaurantViolationId: number, public restaurantViolationRestaurantId: number, public restaurantViolationViolationId: number, public restaurantViolationCompliance: string, public restaurantViolationDate: Date, public restaurantViolationMemo: string, public restaurantViolationResults: string) {}
 }
