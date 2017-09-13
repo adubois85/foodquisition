@@ -29,6 +29,7 @@
 					<table class="table table-condensed table-striped">
 						<tr *ngFor="let restaurantViolation of restaurantViolations">
 							<td>{{restaurantViolation.restaurantViolationMemo | lowercase}}</td>
+							<td>{{restaurantViolation.restaurantViolationCompliance}}</td>
 						</tr>
 					</table>
 				</div>
