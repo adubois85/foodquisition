@@ -15,7 +15,7 @@
 			<div class="row">
 				<div class="col-md-10">
 					<h1 class="text-center">{{restaurant.restaurantName}}</h1>
-					<h2 class="resulth2">Violations</h2>
+					<h2 class="resulth2">Out of Compliance Violations</h2>
 				</div>
 				{{viol}}
 				<div class="col-md-2-right" >
@@ -30,7 +30,7 @@
 						<tr *ngFor="let restaurantViolation of restaurantViolations">
 							<!--<td>{{restaurantViolation.restaurantViolationMemo | lowercase}}</td>-->
 							<td>{{ getRestaurantViolation(restaurantViolation) }}</td>
-							<td>{{restaurantViolation.restaurantViolationCompliance}}</td>
+							<td>{{restaurantViolation.restaurantViolationDate | date}}</td>
 						</tr>
 					</table>
 				</div>
