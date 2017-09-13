@@ -57,6 +57,10 @@ export class ResultComponent implements OnInit{
 		});
 	}
 
+	getRestaurantViolation(restaurantViolation: RestaurantViolation) : string {
+		return(this.violations.find(violation => violation.violationId === restaurantViolation.restaurantViolationViolationId).violationCodeDescription);
+	}
+
 }
 
 

@@ -1,3 +1,3 @@
 export class Violation {
-	constructor(public violationId: number, violationCategoryId: number, violationCode: string, violationCodeDescription: string) {}
+	constructor(public violationId: number, public violationCategoryId: number, public violationCode: string, public violationCodeDescription: string) {}
 }
