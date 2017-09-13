@@ -14,23 +14,21 @@
 		<div class="panel-heading">
 			<div class="row">
 				<div class="col-md-10">
-					<h1 class="homeh1">{{result.restaurantName}}</h1>
+					<h1 class="homeh1">{{restaurant.restaurantName}}</h1>
 					<h2 class="resulth2">Violations</h2>
 				</div>
 				{{viol}}
 				<div class="col-md-2-right" *ngFor="let restaurantViolation of restaurantViolations">
-					<P>Date of last Inspection<br>{{restaurantViolation.restaurantViolationDate}}</P>
+					<div *ngIf="restaurantViolation.restaurantViolationCompliance === fuck">
+						<p>hello world</p>
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="panel-body">
 			<div class="row">
 				<div class="col-xs-12">
-					<table class="table table-condensed table-striped">
-						<tr *ngFor="let restaurantViolation of restaurantViolations">
-							<td>{{restaurantViolation.restaurantViolationId}}</td>
-						</tr>
-					</table>
+
 				</div>
 			</div>
 			<div class="col-md-6">
