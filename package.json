@@ -61,7 +61,7 @@
     "html-webpack-plugin": "^2.28.0",
     "less": "^2.7.2",
     "less-loader": "^4.0.3",
-    "node-sass": "^4.5.2",
+    "node-sass": "^3.3.3",
     "null-loader": "^0.1.1",
     "raw-loader": "^0.5.1",
     "resolve-url-loader": "^2.0.2",

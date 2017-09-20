@@ -9,31 +9,33 @@
 	</div>
 </nav>
 
-<div class="card">
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<div class="row">
-				<div class="col-md-10">
-					<h1 class="text-left">{{restaurant.restaurantName}}</h1>
-				</div>
-				{{viol}}
-				<div class="col-md-2-right" id="inspectionDate">
-					<P>Date of last Inspection<br>{{restaurantViolations[0]?.restaurantViolationDate | date}}</P>
-				</div>
-				<div class="col-md-10">
-					<h2 class="resulth2">Out of Compliance Violations</h2>
+<div class="container">
+	<div class="card">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<div class="row">
+					<div class="col-md-10">
+						<h1 class="text-left">{{restaurant.restaurantName}}</h1>
+					</div>
+					{{viol}}
+					<div class="col-md-2-right" id="inspectionDate">
+						<P>Date of last Inspection<br>{{restaurantViolations[0]?.restaurantViolationDate | date}}</P>
+					</div>
+					<div class="col-md-10">
+						<h2 class="resulth2">Out of Compliance Violations</h2>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div class="panel-body">
-			<div class="row">
-				<div class="col-xs-12">
-					<table class="table table-condensed table-striped">
-						<tr *ngFor="let restaurantViolation of restaurantViolations">
-							<td>{{ getRestaurantViolation(restaurantViolation) }}</td>
-							<td>{{restaurantViolation.restaurantViolationDate | date}}</td>
-						</tr>
-					</table>
+			<div class="panel-body">
+				<div class="row">
+					<div class="col-xs-12">
+						<table class="table table-condensed table-striped">
+							<tr *ngFor="let restaurantViolation of restaurantViolations">
+								<td>{{ getRestaurantViolation(restaurantViolation) }}</td>
+								<td>{{restaurantViolation.restaurantViolationDate | date}}</td>
+							</tr>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>

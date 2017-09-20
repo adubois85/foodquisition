@@ -60,8 +60,13 @@ body {
 	background-attachment: fixed;
 	background-repeat: no-repeat;
 	background-position: center center;
-	-webkit-background-size: auto;
-	background-size: auto;
+	background-size: cover;
+}
+
+@media only screen and (min-width: 991px) {
+	body {
+		background-size: auto;
+	}
 }
 
 .homeh1 {
@@ -95,9 +100,9 @@ main p {
 	text-align: center;
 }
 /********* search card css ***************/
-.card {
-	padding:15%;
-}
+/*.card {*/
+	/*padding:15%;*/
+/*}*/
 
 .fa {
 	font-size: large;
